@@ -5,6 +5,7 @@ public class DBManager {
 
     DBManager(){
         FireBaseInitializer DB = new FireBaseInitializer();
+
     }
     FirebaseApp mFirebaseApp;
 

@@ -3,8 +3,8 @@ package it.unicam.cs.IDS.FidelityProgram;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
 import java.io.*;
 import java.util.List;
 import java.util.Objects;
@@ -26,32 +25,32 @@ import java.util.Objects;
 public class Address {
     private String street;
     private int number;
-    private int zipCode;
+    private String zipCode;
     private String city;
     private String province;
     private String country;
 
 
-    private static final String PATH = "/Users/kacperosicki/Desktop/IDSFidelityProgram/LoyalityPlatform/IDSFidelityProgram/app/src/main/resources/Comuni.json";
+    private static final String PATH = "app/src/main/resources/Comuni.json";
 
     private static final Gson gson = new Gson();
-    private static final JsonObject jsonObject;
+    private static final JsonArray jsonArray;
 
     static {
         // Load JSON file as a resource
         try {
-            jsonObject = gson.fromJson(new FileReader(PATH), JsonObject.class);
+            jsonArray = gson.fromJson(new FileReader(PATH), JsonArray.class);
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
     }
 
-    private final String path = "/Users/kacperosicki/Desktop/IDSFidelityProgram/LoyalityPlatform/IDSFidelityProgram/app/src/main/resources/Comuni.json";
 
 
 
 
-    public Address(String street, int number, int zipCode, String city, String country, String province) {
+
+    public Address(String street, int number, String zipCode, String city, String country, String province) throws FileNotFoundException {
         Objects.requireNonNull(street);
         Objects.requireNonNull(city);
         Objects.requireNonNull(country);
@@ -71,17 +70,34 @@ public class Address {
         Gson gson = new Gson();
         InputStream inputStream = getClass().getResourceAsStream("/Comuni.json");
         InputStreamReader reader = new InputStreamReader(inputStream);
-        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-        JsonArray comuniArray = jsonObject.getAsJsonArray("comuni");
+        JsonArray comuniArray = gson.fromJson(new FileReader(PATH), JsonArray.class);
 
-        for (JsonElement comuneElement : comuniArray) {
-            JsonObject comuneObject = comuneElement.getAsJsonObject();
+        List<JsonObject> comuniList = gson.fromJson(comuniArray, new TypeToken<List<JsonObject>>() {}.getType());
+
+        int n = 0;
+        System.out.println(comuniList.get(141).get("cap").toString());
+        for (JsonObject comuneObject : comuniList) {
             String nomeComune = comuneObject.get("nome").getAsString();
-            String provincia = comuneObject.get("provincia").getAsString();
-            String cap = comuneObject.get("cap").getAsString();
-            Comune comune = new Comune(provincia, cap);
-            comuniMap.put(nomeComune, comune);
+
+            String provincia = comuneObject.get("provincia").getAsJsonObject().get("nome").getAsString();
+
+
+
+            if(comuneObject.get("cap") instanceof JsonArray){
+                JsonArray arr = comuneObject.get("cap").getAsJsonArray();
+                String cap = arr.get(0).getAsString();
+                Comune comune = new Comune(provincia, cap);
+                comuniMap.put(nomeComune, comune);
+            }
+            else{
+                String cap =comuneObject.get("cap").getAsString();
+                Comune comune = new Comune(provincia, cap);
+                comuniMap.put(nomeComune, comune);
+            }
+
+
         }
+
 
         // Verifica che il CAP sia corretto per la provincia e il comune specificati
         Comune comune = comuniMap.get(city);
@@ -90,7 +106,7 @@ public class Address {
             this.city = city;
             this.province = province;
         } else {
-            System.out.println();
+            System.out.println("Wrong credencial");
         }
     }
 
@@ -112,11 +128,11 @@ public class Address {
         this.number = number;
     }
 
-    public int getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(int zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 

@@ -6,6 +6,7 @@ package it.unicam.cs.IDS.FidelityProgram;
 
 
 import it.unicam.cs.IDS.FireBase.FireBaseInitializer;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         System.out.println(new App().getGreeting());
-        FireBaseInitializer db = new FireBaseInitializer();
+       Address prova = new Address("Via giulia piccolomini cicarelli",92,"62032","Camerino","Italy","Macerata");
 
     }
 
