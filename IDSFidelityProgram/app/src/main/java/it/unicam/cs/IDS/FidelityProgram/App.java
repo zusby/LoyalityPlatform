@@ -3,12 +3,19 @@
  */
 package it.unicam.cs.IDS.FidelityProgram;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException, ParseException {
         System.out.println(new App().getGreeting());
+
+        Address a = new Address("Via girolamo di giovanni",1,"63900","Camerino","Italy","MC");
     }
 }
