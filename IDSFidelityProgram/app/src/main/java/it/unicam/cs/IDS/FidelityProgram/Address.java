@@ -1,13 +1,12 @@
 package it.unicam.cs.IDS.FidelityProgram;
 
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
+
+
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,8 +14,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import 
+
+import javax.xml.namespace.QName;
+import java.io.*;
+import java.util.List;
+
 /**
  * Simple class to store an address
  *
@@ -29,6 +31,7 @@ public class Address {
     private String city;
     private String province;
     private String country;
+
 
     private static final String PATH = "/Users/kacperosicki/Desktop/IDSFidelityProgram/LoyalityPlatform/IDSFidelityProgram/app/src/main/resources/Comuni.json";
     private static final JSONParser parser = new JSONParser();
@@ -44,6 +47,11 @@ public class Address {
         }
     }
 
+    private final String path = "/Users/kacperosicki/Desktop/IDSFidelityProgram/LoyalityPlatform/IDSFidelityProgram/app/src/main/resources/Comuni.json";
+
+
+
+
     public Address(String street, int number, int zipCode, String city, String country, String province) throws IOException, ParseException {
         Objects.requireNonNull(street);
         Objects.requireNonNull(city);
@@ -55,7 +63,9 @@ public class Address {
         }
         if (number < 1000) {
             this.number = number;
+
         }
+
 
         // Leggi il file JSON dei comuni e crea una mappa con il nome del comune come chiave e l'oggetto Comune come valore
         Map<String, Comune> comuniMap = new HashMap<>();
@@ -83,6 +93,26 @@ public class Address {
         }else{
             System.out.println();
         }
+
+
+
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+
     }
 
 

@@ -3,7 +3,9 @@
  */
 package it.unicam.cs.IDS.FidelityProgram;
 
-import org.json.simple.parser.ParseException;
+
+
+import it.unicam.cs.IDS.FireBase.FireBaseInitializer;
 
 import java.io.IOException;
 
@@ -13,9 +15,10 @@ public class App {
     }
 
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException {
         System.out.println(new App().getGreeting());
+        FireBaseInitializer db = new FireBaseInitializer();
 
-        Address a = new Address("Via girolamo di giovanni",1,"63900","Camerino","Italy","MC");
     }
+
 }
