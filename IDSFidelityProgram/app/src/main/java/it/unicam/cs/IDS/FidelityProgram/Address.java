@@ -1,15 +1,14 @@
 package it.unicam.cs.IDS.FidelityProgram;
 
 
+import com.google.gson.JsonObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.xml.namespace.QName;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,18 +28,6 @@ public class Address {
 
     private final String path = "/Users/kacperosicki/Desktop/IDSFidelityProgram/LoyalityPlatform/IDSFidelityProgram/app/src/main/resources/Comuni.json";
 
-    Gson gson = new Gson();
-
-    // Leggi il file JSON come risorsa del tuo progetto
-    InputStream inputStream = getResourceAsStream("resources/Comuni.json");
-    InputStreamReader reader = new InputStreamReader(inputStream);
-
-    // Converte il file JSON in un oggetto JsonObject
-    JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
-    List<String> capList = new ArrayList<>();    JSONParser parser = new JSONParser();
-    private final Object comuni = parser.parse(new FileReader(path));
-    JSONArray zip =  (JSONArray)comuni;
 
 
     public Address(String street, int number, String zipCode, String city, String country, String province) throws IOException, ParseException {
@@ -52,11 +39,6 @@ public class Address {
             this.street=street;
         }if(number<1000) {
             this.number = number;
-        }
-        for(Object s : zip){
-        }pa
-            if(zip.contains(zipCode)){
-                System.out.println("ci sono!");
 
 
         }if(!city.isBlank() ||  city.length()>3 ){
@@ -66,10 +48,6 @@ public class Address {
         }if (province.length()<3){
             this.province = province;
         }
-
-
-
-
 
     }
 
