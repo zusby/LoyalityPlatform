@@ -4,9 +4,7 @@ package it.unicam.cs.IDS.FidelityProgram;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
-
-
+import com.google.gson.JsonObject;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,6 +16,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import java.io.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Simple class to store an address
@@ -34,7 +33,7 @@ public class Address {
 
 
     private static final String PATH = "/Users/kacperosicki/Desktop/IDSFidelityProgram/LoyalityPlatform/IDSFidelityProgram/app/src/main/resources/Comuni.json";
-    private static final JSONParser parser = new JSONParser();
+
     private static final Gson gson = new Gson();
     private static final JsonObject jsonObject;
 
@@ -52,7 +51,7 @@ public class Address {
 
 
 
-    public Address(String street, int number, int zipCode, String city, String country, String province) throws IOException, ParseException {
+    public Address(String street, int number, int zipCode, String city, String country, String province) {
         Objects.requireNonNull(street);
         Objects.requireNonNull(city);
         Objects.requireNonNull(country);
@@ -90,30 +89,11 @@ public class Address {
             this.zipCode = zipCode;
             this.city = city;
             this.province = province;
-        }else{
+        } else {
             System.out.println();
         }
-
-
-
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-
-    }
 
 
     public String getStreet() {
