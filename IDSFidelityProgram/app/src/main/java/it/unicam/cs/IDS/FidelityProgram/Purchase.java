@@ -7,27 +7,28 @@
 package it.unicam.cs.IDS.FidelityProgram;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class Purchase {
-    private final int ID;
-    private final Date purchaseDate;
+    private final String ID;
+    private final GregorianCalendar purchaseDate;
     private final Integer price;
-    private final User user;
+    private final String userID;
 
 
-    public Purchase(Integer ID, Date date, Integer currency, User user){
+    public Purchase(String ID, GregorianCalendar date, Integer currency, String user){
         this.ID=Objects.requireNonNull(ID);
         this.purchaseDate=Objects.requireNonNull(date);
         this.price = Objects.requireNonNull(currency);
-        this.user = Objects.requireNonNull(user);
+        this.userID = Objects.requireNonNull(user);
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public Date getPurchaseDate() {
+    public GregorianCalendar getPurchaseDate() {
         return purchaseDate;
     }
 
@@ -35,7 +36,7 @@ public class Purchase {
         return price;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserID() {
+        return userID;
     }
 }

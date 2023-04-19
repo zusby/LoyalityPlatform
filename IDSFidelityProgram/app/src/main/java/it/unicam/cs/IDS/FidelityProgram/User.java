@@ -2,14 +2,14 @@
 package it.unicam.cs.IDS.FidelityProgram;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-/*
+/**
  * The User Interface represents a phisical person's profile with its attributes
  * @Authors Kacper Henryk Osicki, Anthony Eleuteri, Yuri Orsili
  */
 public interface User {
-
 
     /**
      * The function returns a String representing a person's first name
@@ -29,14 +29,14 @@ public interface User {
      *
      * @return A `Date` object representing the birth date of someone or something.
      */
-    Date getBirthDate();
+    GregorianCalendar getBirthDate();
 
     /**
      * The function "getTelephoneNumber" returns an integer value.
      *
      * @return An integer value representing a telephone number is being returned.
      */
-    int getTelephoneNumber();
+    String getTelephoneNumber();
 
     /**
      * This function returns a string representing an email address.

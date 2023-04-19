@@ -5,10 +5,16 @@ package it.unicam.cs.IDS.FidelityProgram;
 
 
 
+import com.google.firebase.auth.FirebaseAuthException;
+import it.unicam.cs.IDS.Authentication.AuthenticationController;
+import it.unicam.cs.IDS.FireBase.DBManager;
 import it.unicam.cs.IDS.FireBase.FireBaseInitializer;
 import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class App {
     public String getGreeting() {
@@ -16,9 +22,22 @@ public class App {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(new App().getGreeting());
-       Address prova = new Address("Via giulia piccolomini cicarelli",92,"62032","Camerino","Italy","Macerata");
+    public static void main(String[] args) throws IOException, FirebaseAuthException {
+
+
+        Client kacper = new Client("3332222173Ga!","Kacper","Osicki","+393349417779","gaspareosicki@gmail.com",
+                new Address("Via giulia piccolomini cicarelli",92,"62032","Camerino","Italy","Macerata"),
+                12345,
+                new GregorianCalendar(1999,9,24));
+
+        AuthenticationController s = new AuthenticationController();
+        FireBaseInitializer db = new FireBaseInitializer();
+
+
+
+
+
+
 
     }
 
