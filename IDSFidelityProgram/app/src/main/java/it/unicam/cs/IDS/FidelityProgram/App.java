@@ -44,6 +44,8 @@ public class App {
         System.out.println("Zubyr");
         purchases.stream().forEach(System.out::println);
 
+        s.resetPassword("gaspareosicki@gmail.com");
+
 
 
 

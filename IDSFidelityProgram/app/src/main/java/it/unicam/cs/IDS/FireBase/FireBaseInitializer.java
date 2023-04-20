@@ -15,9 +15,5 @@ public class FireBaseInitializer {
         } catch (FileNotFoundException e) {
             System.out.println("Could not find FireBase settings");
         }
-
-
     }
-
-
 }

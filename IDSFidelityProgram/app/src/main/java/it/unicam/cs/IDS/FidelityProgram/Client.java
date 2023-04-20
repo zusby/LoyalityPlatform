@@ -19,7 +19,7 @@ public class Client implements User{
         this.surname = surname;
         this.telephoneNumber = telephoneNumber;
         this.email = email;
-        ID = id;
+        this.ID = id;
     }
 
     @Override
