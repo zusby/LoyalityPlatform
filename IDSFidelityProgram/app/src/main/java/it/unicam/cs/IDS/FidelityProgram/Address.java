@@ -75,7 +75,7 @@ public class Address {
         List<JsonObject> comuniList = gson.fromJson(comuniArray, new TypeToken<List<JsonObject>>() {}.getType());
 
         int n = 0;
-        System.out.println(comuniList.get(141).get("cap").toString());
+
         for (JsonObject comuneObject : comuniList) {
             String nomeComune = comuneObject.get("nome").getAsString();
 

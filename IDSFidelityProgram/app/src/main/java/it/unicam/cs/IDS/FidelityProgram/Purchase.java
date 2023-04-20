@@ -6,37 +6,55 @@
 
 package it.unicam.cs.IDS.FidelityProgram;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class Purchase {
-    private final String ID;
-    private final GregorianCalendar purchaseDate;
-    private final Integer price;
-    private final String userID;
+    private String id;
+    private GregorianCalendar purchaseDate;
+    private Long price;
+    private String user;
+    private String item;
 
 
-    public Purchase(String ID, GregorianCalendar date, Integer currency, String user){
-        this.ID=Objects.requireNonNull(ID);
+    public Purchase(String id, GregorianCalendar date, Long currency, String user, String item){
+        this.id=Objects.requireNonNull(id);
+        this.item = Objects.requireNonNull(item);
         this.purchaseDate=Objects.requireNonNull(date);
         this.price = Objects.requireNonNull(currency);
-        this.userID = Objects.requireNonNull(user);
+        this.user = Objects.requireNonNull(user);
     }
+
 
     public String getID() {
-        return ID;
+        return id;
     }
 
-    public GregorianCalendar getPurchaseDate() {
-        return purchaseDate;
+    public com.google.cloud.Timestamp getPurchaseDate() {
+        return com.google.cloud.Timestamp.of(purchaseDate.getTime());
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUser() {
+        return user;
+    }
+    public String getItem(){
+        return this.item;
+    }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "id='" + id + '\'' +
+                ", purchaseDate=" + purchaseDate.getTime() +
+                ", price=" + price +
+                ", user='" + user + '\'' +
+                ", item='" + item + '\'' +
+                '}';
     }
 }

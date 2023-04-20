@@ -12,9 +12,8 @@ import it.unicam.cs.IDS.FireBase.FireBaseInitializer;
 import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class App {
     public String getGreeting() {
@@ -22,7 +21,7 @@ public class App {
     }
 
 
-    public static void main(String[] args) throws IOException, FirebaseAuthException {
+    public static void main(String[] args) throws IOException, FirebaseAuthException, ExecutionException, InterruptedException {
 
 
         Client kacper = new Client("3332222173Ga!","Kacper","Osicki","+393349417779","gaspareosicki@gmail.com",
@@ -30,8 +29,21 @@ public class App {
                 12345,
                 new GregorianCalendar(1999,9,24));
 
+        Client Alex = new Client("prova123!","Alessandro","Bombagi","+393396986707","alex72545@libero.it",new Address("Baldo degli ubaldi st",42,"63012","Rome","Italy","Rome"),72545,new GregorianCalendar(1999,0,20));
+
         AuthenticationController s = new AuthenticationController();
-        FireBaseInitializer db = new FireBaseInitializer();
+
+        DBManager db = new DBManager();
+      //  db.registerPurchase(new Purchase("gewshiu9ogf", new GregorianCalendar(),(long) 1648,db.getUser("alex72545@libero.it"),"3080ti"));
+
+
+       List<Purchase> purchase =db.getPurchases(db.getUser("alex72545@libero.it"));
+       List<Purchase> purchases =db.getPurchases(db.getUser("gaspareosicki@gmail.com"));
+        System.out.println("Alex:");
+        purchase.stream().forEach(System.out::println);
+        System.out.println("Zubyr");
+        purchases.stream().forEach(System.out::println);
+
 
 
 
