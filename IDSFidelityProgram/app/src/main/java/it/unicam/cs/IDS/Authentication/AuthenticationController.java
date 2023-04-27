@@ -7,19 +7,18 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.google.firebase.cloud.FirestoreClient;
-import it.unicam.cs.IDS.FidelityProgram.Client;
+import it.unicam.cs.IDS.FidelityProgram.Customer;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class AuthenticationController implements Authenticator {
+
     private FirebaseAuth mAuth;
     private FirebaseOptions fbo;
     private FileInputStream serviceAccount;
 
-
-    public AuthenticationController() throws FirebaseAuthException, IOException {
+    public AuthenticationController() throws IOException {
         initialize();
         mAuth = FirebaseAuth.getInstance();
 
@@ -40,19 +39,19 @@ public class AuthenticationController implements Authenticator {
      * This function registers a new user by creating a user record with their email, password, phone number, display
      * name, and photo URL using Firebase Authentication.
      *
-     * @param client The parameter "client" is an object of the class "Client" which contains information about a user such
+     * @param customer The parameter "client" is an object of the class "Customer" which contains information about a user such
      * as their email, password, telephone number, name, and surname. This method is using the information from the
      * "client" object to create a new user record in Firebase Authentication.
      */
     @Override
-    public void register(Client client){
+    public void register(Customer customer){
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setEmail(client.getEmail())
+                .setEmail(customer.getEmail())
                 .setEmailVerified(false)
-                .setPassword(client.getPassowrd())
-                .setPhoneNumber(client.getTelephoneNumber())
-                .setDisplayName(client.getName()+" "+client.getSurname())
-                .setPhotoUrl("https://media.discordapp.net/attachments/228510346715856896/1096835946760114296/image.png")
+                .setPassword(customer.getPassowrd())
+                .setPhoneNumber(customer.getTelephoneNumber())
+                .setDisplayName(customer.getName()+" "+customer.getSurname())
+                .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
                 .setDisabled(false);
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);

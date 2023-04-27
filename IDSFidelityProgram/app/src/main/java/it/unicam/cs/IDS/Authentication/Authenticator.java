@@ -1,9 +1,9 @@
 package it.unicam.cs.IDS.Authentication;
 
-import it.unicam.cs.IDS.FidelityProgram.Client;
+import it.unicam.cs.IDS.FidelityProgram.Customer;
 
 public interface Authenticator {
 
-    void register(Client client);
+    void register(Customer client);
 
 }

@@ -1,20 +1,6 @@
 package it.unicam.cs.IDS.FidelityProgram;
 
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-
-import java.io.*;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,86 +16,15 @@ public class Address {
     private String province;
     private String country;
 
+    public Address(String street, int number, String zipCode, String city, String country, String province) {
+        this.street=Objects.requireNonNull(street);
+        this.city =Objects.requireNonNull(city);
+        this.country=Objects.requireNonNull(country);
+        this.province= Objects.requireNonNull(province);
+        this.number=Objects.requireNonNull(number);
+        this.zipCode = Objects.requireNonNull(zipCode);
 
-    private static final String PATH = "app/src/main/resources/Comuni.json";
-
-    private static final Gson gson = new Gson();
-    private static final JsonArray jsonArray;
-
-    static {
-        // Load JSON file as a resource
-        try {
-            jsonArray = gson.fromJson(new FileReader(PATH), JsonArray.class);
-        } catch (IOException e) {
-            throw new ExceptionInInitializerError(e);
-        }
     }
-
-
-
-
-
-
-    public Address(String street, int number, String zipCode, String city, String country, String province) throws FileNotFoundException {
-        Objects.requireNonNull(street);
-        Objects.requireNonNull(city);
-        Objects.requireNonNull(country);
-        Objects.requireNonNull(province);
-
-        if (street.length() < 50) {
-            this.street = street;
-        }
-        if (number < 1000) {
-            this.number = number;
-
-        }
-
-
-        // Leggi il file JSON dei comuni e crea una mappa con il nome del comune come chiave e l'oggetto Comune come valore
-        Map<String, Comune> comuniMap = new HashMap<>();
-        Gson gson = new Gson();
-        InputStream inputStream = getClass().getResourceAsStream("/Comuni.json");
-        InputStreamReader reader = new InputStreamReader(inputStream);
-        JsonArray comuniArray = gson.fromJson(new FileReader(PATH), JsonArray.class);
-
-        List<JsonObject> comuniList = gson.fromJson(comuniArray, new TypeToken<List<JsonObject>>() {}.getType());
-
-        int n = 0;
-
-        for (JsonObject comuneObject : comuniList) {
-            String nomeComune = comuneObject.get("nome").getAsString();
-
-            String provincia = comuneObject.get("provincia").getAsJsonObject().get("nome").getAsString();
-
-
-
-            if(comuneObject.get("cap") instanceof JsonArray){
-                JsonArray arr = comuneObject.get("cap").getAsJsonArray();
-                String cap = arr.get(0).getAsString();
-                Comune comune = new Comune(provincia, cap);
-                comuniMap.put(nomeComune, comune);
-            }
-            else{
-                String cap =comuneObject.get("cap").getAsString();
-                Comune comune = new Comune(provincia, cap);
-                comuniMap.put(nomeComune, comune);
-            }
-
-
-        }
-
-
-        // Verifica che il CAP sia corretto per la provincia e il comune specificati
-        Comune comune = comuniMap.get(city);
-        if (comune != null && comune.getProvince().equals(province) && comune.getZipcode().equals(String.valueOf(zipCode))) {
-            this.zipCode = zipCode;
-            this.city = city;
-            this.province = province;
-        } else {
-            System.out.println("Wrong credencial");
-        }
-    }
-
 
 
     public String getStreet() {

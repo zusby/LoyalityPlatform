@@ -1,17 +1,17 @@
 package it.unicam.cs.IDS.FidelityProgram;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.UUID;
 
-public class Client implements User{
+public class Customer implements User{
 
     private final String password,name,surname,telephoneNumber,email;
     private final Address address;
     private final GregorianCalendar birthDate;
-    private final int ID;
+    private final UUID ID;
 
-    public Client(String password, String name, String surname, String telephoneNumber, String email, Address address, int id, GregorianCalendar date) {
+    public Customer(String password, String name, String surname, String telephoneNumber, String email, Address address, UUID id, GregorianCalendar date) {
         this.password = password;
         this.address = address;
         this.birthDate=date;
@@ -58,7 +58,7 @@ public class Client implements User{
     }
 
     @Override
-    public int getID() {
+    public UUID getID() {
         return this.ID;
     }
 

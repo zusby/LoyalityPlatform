@@ -1,9 +1,9 @@
 
 package it.unicam.cs.IDS.FidelityProgram;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The User Interface represents a phisical person's profile with its attributes
@@ -64,7 +64,7 @@ public interface User {
      *
      * @return an integer value, which is the ID.
      */
-    int getID();
+    UUID getID();
 
 
 

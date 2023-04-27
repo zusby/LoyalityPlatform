@@ -6,9 +6,8 @@
 
 package it.unicam.cs.IDS.FidelityProgram;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Objects;
 
 public class Purchase {
@@ -16,12 +15,12 @@ public class Purchase {
     private GregorianCalendar purchaseDate;
     private Long price;
     private String user;
-    private String item;
+    private List<Item> items;
 
 
-    public Purchase(String id, GregorianCalendar date, Long currency, String user, String item){
+    public Purchase(String id, GregorianCalendar date, Long currency, String user, List<Item> items){
         this.id=Objects.requireNonNull(id);
-        this.item = Objects.requireNonNull(item);
+        this.items = Objects.requireNonNull(items);
         this.purchaseDate=Objects.requireNonNull(date);
         this.price = Objects.requireNonNull(currency);
         this.user = Objects.requireNonNull(user);
@@ -43,8 +42,8 @@ public class Purchase {
     public String getUser() {
         return user;
     }
-    public String getItem(){
-        return this.item;
+    public List<Item> getItem(){
+        return this.items;
     }
 
     @Override
@@ -54,7 +53,7 @@ public class Purchase {
                 ", purchaseDate=" + purchaseDate.getTime() +
                 ", price=" + price +
                 ", user='" + user + '\'' +
-                ", item='" + item + '\'' +
+                ", item='" + items + '\'' +
                 '}';
     }
 }

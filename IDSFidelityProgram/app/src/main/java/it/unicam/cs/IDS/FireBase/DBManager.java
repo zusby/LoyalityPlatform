@@ -4,9 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
-import it.unicam.cs.IDS.FidelityProgram.Client;
 import it.unicam.cs.IDS.FidelityProgram.Purchase;
 
 import java.io.IOException;
@@ -16,8 +14,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class DBManager extends FireBaseInitializer{
+
     private final Firestore db;
     private final FirebaseAuth auth;
+
     public DBManager() throws IOException {
         db = FirestoreClient.getFirestore();
         auth = FirebaseAuth.getInstance();
@@ -43,7 +43,7 @@ public class DBManager extends FireBaseInitializer{
                             date,
                             (Long) document.get("price"),
                             document.get("user").toString(),
-                            document.get("item").toString()));
+                            new ArrayList<>()));
         }
         return purchases;
     }
@@ -56,10 +56,8 @@ public class DBManager extends FireBaseInitializer{
      * purchase made by a customer. It is being passed as an argument to the method "registerPurchase".
      */
     public void registerPurchase(Purchase purchase) {
-        DocumentReference purchaseRef = db.collection("Purchases").document(purchase.getID());
         CollectionReference purchases = db.collection("Purchases");
         List<ApiFuture<WriteResult>> futurePurchases = new ArrayList<>();
-
         futurePurchases.add(purchases.document(purchase.getID()).create(purchase));
     }
 
