@@ -9,20 +9,22 @@ import java.util.Objects;
  * @Authors Kacper Henryk Osicki, Anthony Eleuteri, Yuri Orsili
  */
 public class Address {
-    private String street, zipCode,city,province;
+
+    private String street, zipCode, city, province;
+
+    /**
+     * avoid using, used to populate an address when parsing from an API call
+     */
     @Deprecated
-    public Address(){
+    public Address() {
 
     }
+
     public Address(String street, String zipCode, String city, String province) {
-        this.street=Objects.requireNonNull(street);
-        this.city =Objects.requireNonNull(city);
-        this.province= Objects.requireNonNull(province);
+        this.street = Objects.requireNonNull(street);
+        this.city = Objects.requireNonNull(city);
+        this.province = Objects.requireNonNull(province);
         this.zipCode = Objects.requireNonNull(zipCode);
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
     }
 
     public void setZipCode(String zipCode) {
@@ -39,6 +41,10 @@ public class Address {
 
     public String getStreet() {
         return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getZipCode() {
@@ -61,5 +67,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", province='" + province + '\'' +
                 '}';
+
     }
 }
+
