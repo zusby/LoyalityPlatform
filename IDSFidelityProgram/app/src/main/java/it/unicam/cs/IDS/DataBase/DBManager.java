@@ -1,16 +1,19 @@
-package it.unicam.cs.IDS.FireBase;
+package it.unicam.cs.IDS.DataBase;
 
 import com.google.api.core.ApiFuture;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
-import it.unicam.cs.IDS.FidelityProgram.Purchase;
+import it.unicam.cs.IDS.Model.Address;
+import it.unicam.cs.IDS.Model.Customer;
+import it.unicam.cs.IDS.Model.Purchase;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class DBManager extends FireBaseInitializer{
@@ -19,8 +22,8 @@ public class DBManager extends FireBaseInitializer{
     private final FirebaseAuth auth;
 
     public DBManager() throws IOException {
-        db = FirestoreClient.getFirestore();
-        auth = FirebaseAuth.getInstance();
+        this.db = FirestoreClient.getFirestore();
+        this.auth = FirebaseAuth.getInstance();
     }
 
 
@@ -39,7 +42,7 @@ public class DBManager extends FireBaseInitializer{
             GregorianCalendar date = new GregorianCalendar();
             date.setTimeInMillis(document.getDate("purchaseDate").getTime());
             purchases.add(
-                    new Purchase(document.getId(),
+                            new Purchase(document.getId(),
                             date,
                             (Long) document.get("price"),
                             document.get("user").toString(),
@@ -61,9 +64,17 @@ public class DBManager extends FireBaseInitializer{
         futurePurchases.add(purchases.document(purchase.getID()).create(purchase));
     }
 
-    public String getUser(String email) throws FirebaseAuthException {
-
-        return this.auth.getUserByEmail(email).getUid();
+    public void registerCustomer(Customer customer) {
+        CollectionReference purchases = db.collection("Clients");
+        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
+        futureCustomers.add(purchases.document(customer.getID().toString()).create(customer));
     }
 
+    public Customer getUser(String email) throws FirebaseAuthException, ExecutionException, InterruptedException {
+        UserRecord dbCustomer = this.auth.getUserByEmail(email);
+        ApiFuture<DocumentSnapshot> future = db.collection("Clients").document(dbCustomer.getUid()).get();
+        DocumentSnapshot document = future.get();
+        Customer customer =document.toObject(Customer.class);
+        return customer;
+    }
 }

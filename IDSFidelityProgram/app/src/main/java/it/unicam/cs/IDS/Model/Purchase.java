@@ -4,7 +4,9 @@
  * @Authors Kacper Henryk Osicki, Anthony Eleuteri, Yuri Orsili
  */
 
-package it.unicam.cs.IDS.FidelityProgram;
+package it.unicam.cs.IDS.Model;
+
+import com.google.cloud.Timestamp;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -31,8 +33,8 @@ public class Purchase {
         return id;
     }
 
-    public com.google.cloud.Timestamp getPurchaseDate() {
-        return com.google.cloud.Timestamp.of(purchaseDate.getTime());
+    public Timestamp getPurchaseDate() {
+        return Timestamp.of(purchaseDate.getTime());
     }
 
     public Long getPrice() {

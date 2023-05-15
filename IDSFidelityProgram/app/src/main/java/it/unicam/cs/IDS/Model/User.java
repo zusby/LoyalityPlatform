@@ -1,15 +1,16 @@
 
-package it.unicam.cs.IDS.FidelityProgram;
+package it.unicam.cs.IDS.Model;
 
-import java.util.GregorianCalendar;
+import com.google.cloud.Timestamp;
+
 import java.util.List;
-import java.util.UUID;
 
 /**
  * The User Interface represents a phisical person's profile with its attributes
  * @Authors Kacper Henryk Osicki, Anthony Eleuteri, Yuri Orsili
  */
 public interface User {
+
 
     /**
      * The function returns a String representing a person's first name
@@ -29,7 +30,7 @@ public interface User {
      *
      * @return A `Date` object representing the birth date of someone or something.
      */
-    GregorianCalendar getBirthDate();
+    Timestamp getBirthDate();
 
     /**
      * The function "getTelephoneNumber" returns an integer value.
@@ -64,7 +65,7 @@ public interface User {
      *
      * @return an integer value, which is the ID.
      */
-    UUID getID();
+    String getID();
 
 
 

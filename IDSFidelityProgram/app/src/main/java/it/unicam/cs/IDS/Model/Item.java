@@ -1,4 +1,4 @@
-package it.unicam.cs.IDS.FidelityProgram;
+package it.unicam.cs.IDS.Model;
 
 import java.util.UUID;
 

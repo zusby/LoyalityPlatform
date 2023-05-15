@@ -1,4 +1,4 @@
-package it.unicam.cs.IDS.FireBase;
+package it.unicam.cs.IDS.DataBase;
 
 
 import java.io.FileInputStream;

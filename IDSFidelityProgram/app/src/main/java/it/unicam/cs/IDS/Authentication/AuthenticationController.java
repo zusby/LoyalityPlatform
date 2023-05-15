@@ -7,7 +7,8 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import it.unicam.cs.IDS.FidelityProgram.Customer;
+import it.unicam.cs.IDS.DataBase.DBManager;
+import it.unicam.cs.IDS.Model.Customer;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -48,11 +49,12 @@ public class AuthenticationController implements Authenticator {
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(customer.getEmail())
                 .setEmailVerified(false)
-                .setPassword(customer.getPassowrd())
+                .setPassword(customer.getPassword())
                 .setPhoneNumber(customer.getTelephoneNumber())
                 .setDisplayName(customer.getName()+" "+customer.getSurname())
                 .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-                .setDisabled(false);
+                .setDisabled(false)
+                .setUid(customer.getID());
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
             System.out.println("Succesfully created new User "+ userRecord.getUid());
