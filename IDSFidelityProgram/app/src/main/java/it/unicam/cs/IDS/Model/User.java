@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface User {
 
+    //metodi comuni a tutti gli utenti
+
 
     /**
      * The function returns a String representing a person's first name

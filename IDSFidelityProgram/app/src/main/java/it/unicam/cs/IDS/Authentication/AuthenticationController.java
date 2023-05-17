@@ -25,7 +25,6 @@ public class AuthenticationController implements Authenticator {
 
 
     }
-
     private void initialize() throws IOException {
         this.serviceAccount = new FileInputStream("serviceAccountKey.json");
         fbo = FirebaseOptions.builder()

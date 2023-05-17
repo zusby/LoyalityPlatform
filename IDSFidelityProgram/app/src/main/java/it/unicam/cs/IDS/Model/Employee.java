@@ -4,8 +4,9 @@ import com.google.cloud.Timestamp;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-public class ShopOwner implements User, AuthenticatedUser{
+public class Employee implements User, AuthenticatedUser {
 
     private String username;
     private boolean permission;
@@ -18,6 +19,9 @@ public class ShopOwner implements User, AuthenticatedUser{
     private List<Purchase> purchaseHistory;
     private String id;
     private Date lastLogin;
+
+
+
 
     @Override
     public String getName() {
@@ -81,6 +85,5 @@ public class ShopOwner implements User, AuthenticatedUser{
 
     @Override
     public void logout() {
-
     }
 }

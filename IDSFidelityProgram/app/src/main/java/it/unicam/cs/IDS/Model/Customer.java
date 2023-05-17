@@ -4,13 +4,10 @@ import com.google.cloud.Timestamp;
 import it.unicam.cs.IDS.DataBase.DBManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-public class Customer implements User{
+public class Customer implements User, AuthenticatedUser{
     private Role rank = Role.CUSTOMER;
     private final String name,surname,telephoneNumber,email;
     private final Address address;
@@ -113,8 +110,34 @@ public class Customer implements User{
     public String getPassword() {
         return this.password;
     }
+
     public Role getRank() {
         return rank;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public Date getLastLogin() {
+        return null;
+    }
+
+    @Override
+    public void changePassword(String newPassword) {
+
+    }
+
+    @Override
+    public boolean hasPermission(String permission) {
+        return false;
+    }
+
+    @Override
+    public void logout() {
+
     }
 
     @Override
@@ -130,4 +153,6 @@ public class Customer implements User{
                 ", ID=" + ID +
                 '}';
     }
+
+
 }
