@@ -21,7 +21,22 @@ public class Employee implements User, AuthenticatedUser {
     private Date lastLogin;
 
 
-
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "username='" + username + '\'' +
+                ", permission=" + permission +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthdate=" + birthdate +
+                ", telephoneNumber='" + telephoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", address=" + address +
+                ", purchaseHistory=" + purchaseHistory +
+                ", id='" + id + '\'' +
+                ", lastLogin=" + lastLogin +
+                '}';
+    }
 
     @Override
     public String getName() {
@@ -53,7 +68,6 @@ public class Employee implements User, AuthenticatedUser {
         return this.address;
     }
 
-    @Override
     public List<Purchase> getPurchaseHistory() {
         return this.purchaseHistory;
     }
@@ -73,10 +87,6 @@ public class Employee implements User, AuthenticatedUser {
         return this.lastLogin;
     }
 
-    @Override
-    public void changePassword(String newPassword) {
-
-    }
 
     @Override
     public boolean hasPermission(String permission) {

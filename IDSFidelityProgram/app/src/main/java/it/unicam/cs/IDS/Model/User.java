@@ -55,12 +55,7 @@ public interface User {
      */
     Address getAddress();
 
-    /**
-     * This function returns a list of purchase history.
-     *
-     * @return A list of Purchase objects representing the purchase history.
-     */
-    List<Purchase> getPurchaseHistory();
+
 
     /**
      * The function "getID()" returns an integer value.

@@ -12,8 +12,7 @@ public interface AuthenticatedUser{
     String getUsername();  // Restituisce il nome utente dell'utente autenticato
     Date getLastLogin();   // Restituisce la data dell'ultimo accesso
 
-    // Metodi
-    void changePassword(String newPassword);  // Cambia la password dell'utente
+
     boolean hasPermission(String permission); // Verifica se l'utente ha una determinata autorizzazione
     void logout();
 }

@@ -47,6 +47,7 @@ public class Customer implements User, AuthenticatedUser{
         this.ID = id;
     }
 
+
     @Override
     public String getName() {
         return this.name;
@@ -86,7 +87,7 @@ public class Customer implements User, AuthenticatedUser{
         }
     }
 
-    @Override
+
     public List<Purchase> getPurchaseHistory(){
         return this.purchaseHistory;
     }
@@ -107,9 +108,6 @@ public class Customer implements User, AuthenticatedUser{
         this.ID = UUID.fromString(ID);
     }
 
-    public String getPassword() {
-        return this.password;
-    }
 
     public Role getRank() {
         return rank;
@@ -125,10 +123,7 @@ public class Customer implements User, AuthenticatedUser{
         return null;
     }
 
-    @Override
-    public void changePassword(String newPassword) {
 
-    }
 
     @Override
     public boolean hasPermission(String permission) {

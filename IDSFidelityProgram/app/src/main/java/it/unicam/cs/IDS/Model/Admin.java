@@ -1,11 +1,14 @@
 package it.unicam.cs.IDS.Model;
 
 import com.google.cloud.Timestamp;
+import it.unicam.cs.IDS.DataBase.AuthenticationController;
+import it.unicam.cs.IDS.DataBase.DBManager;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class Admin implements User, AuthenticatedUser{
+public class Admin extends ShopOwner implements User, AuthenticatedUser{
 
     private String username;
     private boolean permission;
@@ -18,7 +21,6 @@ public class Admin implements User, AuthenticatedUser{
     private List<Purchase> purchaseHistory;
     private String id;
     private Date lastLogin;
-
 
     @Override
     public String getName() {
@@ -70,10 +72,6 @@ public class Admin implements User, AuthenticatedUser{
         return this.lastLogin;
     }
 
-    @Override
-    public void changePassword(String newPassword) {
-
-    }
 
     @Override
     public boolean hasPermission(String permission) {
@@ -83,5 +81,13 @@ public class Admin implements User, AuthenticatedUser{
     @Override
     public void logout() {
 
+    }
+    public boolean registerShopOwner(ShopOwner waiting) throws IOException {
+        String id = waiting.getID();
+        DBManager dbManager = new DBManager();
+        waiting.setRank(Role.SHOP_OWNER);
+        dbManager.registerShopOwner(waiting);
+
+        return dbManager.removeShopOwnerFromRegistrationAcceptance(id);
     }
 }

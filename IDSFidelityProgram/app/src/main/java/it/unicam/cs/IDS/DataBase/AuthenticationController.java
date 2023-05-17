@@ -1,5 +1,4 @@
-package it.unicam.cs.IDS.Authentication;
-
+package it.unicam.cs.IDS.DataBase;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -9,11 +8,13 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import it.unicam.cs.IDS.DataBase.DBManager;
 import it.unicam.cs.IDS.Model.Customer;
+import it.unicam.cs.IDS.Model.User;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.UUID;
 
-public class AuthenticationController implements Authenticator {
+public class AuthenticationController {
 
     private FirebaseAuth mAuth;
     private FirebaseOptions fbo;
@@ -35,25 +36,13 @@ public class AuthenticationController implements Authenticator {
     }
 
 
-    /**
-     * This function registers a new user by creating a user record with their email, password, phone number, display
-     * name, and photo URL using Firebase Authentication.
-     *
-     * @param customer The parameter "client" is an object of the class "Customer" which contains information about a user such
-     * as their email, password, telephone number, name, and surname. This method is using the information from the
-     * "client" object to create a new user record in Firebase Authentication.
-     */
-    @Override
-    public void register(Customer customer){
+
+
+    public static void registerNoPassword(String email){
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setEmail(customer.getEmail())
-                .setEmailVerified(false)
-                .setPassword(customer.getPassword())
-                .setPhoneNumber(customer.getTelephoneNumber())
-                .setDisplayName(customer.getName()+" "+customer.getSurname())
+                .setEmail(email)
                 .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-                .setDisabled(false)
-                .setUid(customer.getID());
+                .setUid(UUID.randomUUID().toString());
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
             System.out.println("Succesfully created new User "+ userRecord.getUid());
@@ -62,6 +51,31 @@ public class AuthenticationController implements Authenticator {
             System.out.println("Failed to register user");
         }
     }
+
+    /**
+     * This function registers a new user by creating a user record with their email, password, phone number, display
+     * name, and photo URL using Firebase Authentication.
+     *
+     * @param User The parameter "client" is an object of the class "Customer" which contains information about a user such
+     * as their email, password, telephone number, name, and surname. This method is using the information from the
+     * "client" object to create a new user record in Firebase Authentication.
+     */
+
+    public static void register(String email, String password){
+        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
+                .setEmail(email)
+                .setPassword(password)
+                .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+                .setUid(UUID.randomUUID().toString());
+        try {
+            UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
+            System.out.println("Succesfully created new User "+ userRecord.getUid());
+        }
+        catch(Exception e){
+            System.out.println("Failed to register user");
+        }
+    }
+
 
     /**
      * This function generates a password reset link for a user with the given email address, and prints an error message

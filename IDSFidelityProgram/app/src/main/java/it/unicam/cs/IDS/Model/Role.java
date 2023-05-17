@@ -4,6 +4,7 @@ public enum Role {
     CUSTOMER,
     EMPLOYEE,
     SHOP_OWNER,
+    UNACCEPTED_SHOP_OWNER,
     ADMINISTRATOR
 
 }

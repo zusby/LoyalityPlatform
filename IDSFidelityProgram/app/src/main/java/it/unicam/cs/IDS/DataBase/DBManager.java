@@ -7,9 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
-import it.unicam.cs.IDS.Model.Address;
-import it.unicam.cs.IDS.Model.Customer;
-import it.unicam.cs.IDS.Model.Purchase;
+import it.unicam.cs.IDS.Model.*;
 import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
@@ -20,6 +18,7 @@ public class DBManager extends FireBaseInitializer{
 
     private final Firestore db;
     private final FirebaseAuth auth;
+
 
     public DBManager() throws IOException {
         this.db = FirestoreClient.getFirestore();
@@ -38,6 +37,7 @@ public class DBManager extends FireBaseInitializer{
         ApiFuture<QuerySnapshot> future = db.collection("Purchases").whereEqualTo("user", clientID).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<Purchase> purchases = new ArrayList<>();
+
         for (DocumentSnapshot document : documents) {
             GregorianCalendar date = new GregorianCalendar();
             date.setTimeInMillis(document.getDate("purchaseDate").getTime());
@@ -64,17 +64,68 @@ public class DBManager extends FireBaseInitializer{
         futurePurchases.add(purchases.document(purchase.getID()).create(purchase));
     }
 
-    public void registerCustomer(Customer customer) {
+    public void registerCustomer(Customer customer, String password) {
         CollectionReference purchases = db.collection("Clients");
         List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
-        futureCustomers.add(purchases.document(customer.getID().toString()).create(customer));
+        futureCustomers.add(purchases.document(customer.getID()).create(customer));
+        AuthenticationController.register(customer.getEmail(),password);
+    }
+    public void registerCustomerNoPassword(Customer customer) {
+        CollectionReference purchases = db.collection("Clients");
+        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
+        futureCustomers.add(purchases.document(customer.getID()).create(customer));
+        AuthenticationController.registerNoPassword(customer.getEmail());
+    }
+    public void registerEmployee(Employee employee, String password) {
+        CollectionReference purchases = db.collection("Employee");
+        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
+        futureCustomers.add(purchases.document(employee.getID()).create(employee));
+        AuthenticationController.register(employee.getEmail(), password);
+    }
+
+
+
+    public void registerEmployeeNoPassword(Employee employee) {
+        CollectionReference purchases = db.collection("Employee");
+        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
+        futureCustomers.add(purchases.document(employee.getID()).create(employee));
+        AuthenticationController.registerNoPassword(employee.getEmail());
+    }
+
+
+    public void registerShopOwner(ShopOwner owner) {
+        CollectionReference purchases = db.collection("ShopOwners");
+        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
+        futureCustomers.add(purchases.document(owner.getID()).create(owner));
+
     }
 
     public Customer getUser(String email) throws FirebaseAuthException, ExecutionException, InterruptedException {
         UserRecord dbCustomer = this.auth.getUserByEmail(email);
         ApiFuture<DocumentSnapshot> future = db.collection("Clients").document(dbCustomer.getUid()).get();
         DocumentSnapshot document = future.get();
-        Customer customer =document.toObject(Customer.class);
-        return customer;
+        return document.toObject(Customer.class);
     }
+
+    public List<ShopOwner> getShopOwnerRegistrations() throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = db.collection("ShopOwnerAcceptanceList").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<ShopOwner> shopOwners = new ArrayList<>();
+
+        for (DocumentSnapshot document : documents) {
+            shopOwners.add(document.toObject(ShopOwner.class));
+        }
+        return shopOwners;
+    }
+
+
+    public boolean removeShopOwnerFromRegistrationAcceptance(String id){
+        ApiFuture<WriteResult> future = db.collection("ShopOwnerAcceptanceList").document(id).delete();
+        try{
+            future.get();
+            return true;}
+        catch(Exception e){return false;}
+    }
+
+
 }
