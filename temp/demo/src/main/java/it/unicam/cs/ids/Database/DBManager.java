@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-@Service
+
 public class DBManager extends FireBaseInitializer{
 
     private final Firestore db;
@@ -25,8 +25,9 @@ public class DBManager extends FireBaseInitializer{
 
 
     public DBManager() throws IOException {
-        this.db = FirestoreClient.getFirestore();
         this.auth = FirebaseAuth.getInstance();
+        this.db = FirestoreClient.getFirestore();
+
     }
 
 
@@ -53,6 +54,20 @@ public class DBManager extends FireBaseInitializer{
                             new ArrayList<>()));
         }
         return purchases;
+    }
+
+    public List<Customer> getCustomers() throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = db.collection("Clients").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<Customer> shopOwners = new ArrayList<>();
+
+        for (DocumentSnapshot document : documents) {
+            System.out.println(document.toString());
+            Customer s = document.toObject(Customer.class);
+            System.out.println(s);
+            shopOwners.add(s);
+        }
+        return shopOwners;
     }
 
 

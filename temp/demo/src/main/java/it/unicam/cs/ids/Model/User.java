@@ -1,9 +1,7 @@
 
 package it.unicam.cs.ids.Model;
 
-import com.google.cloud.Timestamp;
-
-import java.util.List;
+import java.util.Date;
 
 /**
  * The User Interface represents a phisical person's profile with its attributes
@@ -32,7 +30,7 @@ public interface User {
      *
      * @return A `Date` object representing the birth date of someone or something.
      */
-    Timestamp getBirthDate();
+    Date getBirthDate();
 
     /**
      * The function "getTelephoneNumber" returns an integer value.

@@ -13,7 +13,6 @@ public class Address {
     /**
      * avoid using, used to populate an address when parsing from an API call
      */
-    @Deprecated
     public Address() {
 
     }

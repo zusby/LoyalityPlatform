@@ -24,7 +24,7 @@ public class AuthenticationController {
 
     }
     private void initialize() throws IOException {
-        FileInputStream serviceAccount = new FileInputStream("google-services.json");
+        FileInputStream serviceAccount = new FileInputStream("serviceAccountKey.json");
         FirebaseOptions fbo = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setDatabaseUrl("https://IDS-FidelityProgram.firebaseio.com")
