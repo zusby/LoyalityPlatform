@@ -207,5 +207,70 @@ public class DBManager extends FireBaseInitializer{
         catch(Exception e){return false;}
     }
 
+    /**
+     * This function removes a shop owner from the Firestore collection.
+     *
+     * @param id The ID of the shop owner to be removed.
+     * @return A boolean value indicating whether the deletion operation was successful or not.
+     */
+    public boolean removeShopOwner(String id) {
+        ApiFuture<WriteResult> future = db.collection("ShopOwners").document(id).delete();
+        try {
+            future.get();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * This function removes an employee from the Firestore collection.
+     *
+     * @param id The ID of the employee to be removed.
+     * @return A boolean value indicating whether the deletion operation was successful or not.
+     */
+    public boolean removeEmployee(String id) {
+        ApiFuture<WriteResult> future = db.collection("Employees").document(id).delete();
+        try {
+            future.get();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * This function removes a customer from the Firestore collection.
+     *
+     * @param id The ID of the customer to be removed.
+     * @return A boolean value indicating whether the deletion operation was successful or not.
+     */
+    public boolean removeCustomer(String id) {
+        ApiFuture<WriteResult> future = db.collection("Clients").document(id).delete();
+        try {
+            future.get();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * This function removes a purchase from the Firestore collection.
+     *
+     * @param id The ID of the purchase to be removed.
+     * @return A boolean value indicating whether the deletion operation was successful or not.
+     */
+    public boolean removePurchase(String id) {
+        ApiFuture<WriteResult> future = db.collection("Purchases").document(id).delete();
+        try {
+            future.get();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
 
 }

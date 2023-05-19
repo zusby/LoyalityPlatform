@@ -47,7 +47,6 @@ public class AuthenticationController {
      * @param email The email address of the user being registered.
      */
     public static void registerNoPassword(String email, String id){
-
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
                 .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
