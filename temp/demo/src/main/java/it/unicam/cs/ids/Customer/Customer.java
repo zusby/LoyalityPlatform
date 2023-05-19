@@ -3,10 +3,12 @@ package it.unicam.cs.ids.Customer;
 import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Model.Address;
 import it.unicam.cs.ids.Model.User;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Component
 public class Customer implements User {
 
     private String name,surname,telephoneNumber,email;
@@ -104,4 +106,6 @@ public class Customer implements User {
                 ", ID=" + ID +
                 '}';
     }
+
+
 }

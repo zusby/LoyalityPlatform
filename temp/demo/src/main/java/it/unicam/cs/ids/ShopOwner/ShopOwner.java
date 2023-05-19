@@ -10,13 +10,11 @@ import java.io.IOException;
 import java.util.Date;
 
 
-public class ShopOwner extends Employee implements User, AuthenticatedUser {
+public class ShopOwner extends Employee implements User {
 
     private Role rank = Role.UNACCEPTED_SHOP_OWNER;
 
-
     public ShopOwner() {
-
     }
 
     public ShopOwner(String name, String surname, Timestamp bdt, String telephoneNumber, String email, String id, Address address) {
@@ -31,10 +29,11 @@ public class ShopOwner extends Employee implements User, AuthenticatedUser {
         this.rank = rank;
     }
 
-    public void addEmployee(Employee newEmployee) throws IOException {
-        DBManager db = new DBManager();
-        db.registerEmployeeNoPassword(newEmployee);
+
+    @Override
+    public String toString() {
+        return "ShopOwner{" +
+                "rank=" + rank +
+                "} " + super.toString();
     }
-
-
 }

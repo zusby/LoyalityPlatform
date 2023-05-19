@@ -4,7 +4,7 @@ package it.unicam.cs.ids.Database;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class FireBaseInitializer {
+public abstract class FireBaseInitializer {
     private FileInputStream serviceAccount;
 
 

@@ -9,7 +9,7 @@ import it.unicam.cs.ids.Model.Address;
 
 import java.util.Date;
 
-public class Admin extends ShopOwner implements User, AuthenticatedUser {
+public class Admin extends ShopOwner implements User {
 
     public Admin() {
 
@@ -23,8 +23,5 @@ public class Admin extends ShopOwner implements User, AuthenticatedUser {
 
 
 
-    @Override
-    public Date getLastLogin() {
-        return null;
-    }
+
 }

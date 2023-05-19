@@ -1,7 +1,10 @@
 package it.unicam.cs.ids.Database;
 
+import com.google.api.gax.rpc.NotFoundException;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.ErrorCode;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -21,8 +24,10 @@ public class AuthenticationController {
         initialize();
         mAuth = FirebaseAuth.getInstance();
 
-
     }
+    /**
+     * This function initializes a Firebase app with a service account key and a database URL.
+     */
     private void initialize() throws IOException {
         FileInputStream serviceAccount = new FileInputStream("serviceAccountKey.json");
         FirebaseOptions fbo = FirebaseOptions.builder()
@@ -35,35 +40,43 @@ public class AuthenticationController {
 
 
 
-    public static void registerNoPassword(String email){
+    /**
+     * This function creates a new user in Firebase Authentication without a password using their email and a randomly
+     * generated UID.
+     *
+     * @param email The email address of the user being registered.
+     */
+    public static void registerNoPassword(String email, String id){
+
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
                 .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-                .setUid(UUID.randomUUID().toString());
+                .setUid(id);
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
             System.out.println("Succesfully created new User "+ userRecord.getUid());
         }
-        catch(Exception e){
-            System.out.println("Failed to register user");
+        catch(FirebaseAuthException e){
+            e.printStackTrace();
         }
     }
 
-    /**
-     * This function registers a new user by creating a user record with their email, password, phone number, display
-     * name, and photo URL using Firebase Authentication.
-     *
-     * @param User The parameter "client" is an object of the class "Customer" which contains information about a user such
-     * as their email, password, telephone number, name, and surname. This method is using the information from the
-     * "client" object to create a new user record in Firebase Authentication.
-     */
 
-    public static void register(String email, String password){
+
+    /**
+     * This function registers a new user with a given email, password, and unique ID using Firebase Authentication in
+     * Java.
+     *
+     * @param email The email address of the user being registered.
+     * @param password The password parameter is a String variable that represents the password that the user wants to set
+     * for their account during registration.
+     */
+    public static void register(String email, String password, String id){
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
                 .setPassword(password)
                 .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-                .setUid(UUID.randomUUID().toString());
+                .setUid(id);
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
             System.out.println("Succesfully created new User "+ userRecord.getUid());

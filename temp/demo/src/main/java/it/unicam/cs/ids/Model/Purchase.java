@@ -16,7 +16,7 @@ public class Purchase {
     private String id;
     private GregorianCalendar purchaseDate;
     private Long price;
-    private String user;
+    private String userID;
     private List<Item> items;
 
 
@@ -25,7 +25,7 @@ public class Purchase {
         this.items = Objects.requireNonNull(items);
         this.purchaseDate=Objects.requireNonNull(date);
         this.price = Objects.requireNonNull(currency);
-        this.user = Objects.requireNonNull(user);
+        this.userID = Objects.requireNonNull(user);
     }
 
 
@@ -41,8 +41,8 @@ public class Purchase {
         return price;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserID() {
+        return userID;
     }
     public List<Item> getItem(){
         return this.items;
@@ -54,7 +54,7 @@ public class Purchase {
                 "id='" + id + '\'' +
                 ", purchaseDate=" + purchaseDate.getTime() +
                 ", price=" + price +
-                ", user='" + user + '\'' +
+                ", user='" + userID + '\'' +
                 ", item='" + items + '\'' +
                 '}';
     }

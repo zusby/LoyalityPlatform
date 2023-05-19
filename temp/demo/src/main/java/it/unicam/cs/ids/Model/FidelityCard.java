@@ -1,19 +1,25 @@
 package it.unicam.cs.ids.Model;
 
+import com.google.cloud.Timestamp;
+
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
 public class FidelityCard {
     private UUID id;
     private UUID cardOwner;
-    private GregorianCalendar dataDiScadenza;
+    private Timestamp dataDiScadenza;
     private int punti;
 
-    public FidelityCard(UUID id, UUID cardOwner, GregorianCalendar dataDiScadenza, int punti) {
+    public FidelityCard(UUID id, UUID cardOwner, Timestamp dataDiScadenza, int punti) {
         this.id = id;
         this.cardOwner = cardOwner;
         this.dataDiScadenza = dataDiScadenza;
         this.punti = punti;
+    }
+    public FidelityCard(){
+
     }
 
     public UUID getId() {
@@ -32,12 +38,13 @@ public class FidelityCard {
         this.cardOwner = cardOwner;
     }
 
-    public GregorianCalendar getDataDiScadenza() {
-        return dataDiScadenza;
+    public Date getExpireDate() {
+        return dataDiScadenza.toDate();
     }
 
-    public void setDataDiScadenza(GregorianCalendar dataDiScadenza) {
-        this.dataDiScadenza = dataDiScadenza;
+
+    public void setDataDiScadenza(Date dataDiScadenza) {
+        this.dataDiScadenza = Timestamp.of(dataDiScadenza);
     }
 
     public int getPunti() {

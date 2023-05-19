@@ -1,5 +1,9 @@
 package it.unicam.cs.ids.Model;
+
+import com.google.common.base.MoreObjects;
+
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Simple class to store an address
@@ -59,12 +63,11 @@ public class Address {
     @Override
     public String toString() {
         return "Address{" +
-                "street='" + street + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", city='" + city + '\'' +
+                "city='" + city + '\'' +
                 ", province='" + province + '\'' +
+                ", street='" + street + '\'' +
+                ", zipCode='" + zipCode + '\'' +
                 '}';
-
     }
 }
 
