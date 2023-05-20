@@ -13,12 +13,12 @@ public class EmployeeService {
     private final DBManager db;
 
     @Autowired
-    public EmployeeService(DBManager db) throws IOException {
+    public EmployeeService(DBManager db){
         this.db = db;
     }
 
 
-    public void registerCustomer(@RequestBody Customer customer){
+    public void registerCustomer(Customer customer){
         db.registerCustomerNoPassword(customer);
     }
 }

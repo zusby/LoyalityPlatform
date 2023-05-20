@@ -8,23 +8,25 @@ package it.unicam.cs.ids.Model;
 
 import com.google.cloud.Timestamp;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
 public class Purchase {
     private String id;
-    private GregorianCalendar purchaseDate;
-    private Long price;
+    private Timestamp purchaseDate;
+    private Double price;
     private String userID;
     private List<Item> items;
 
 
-    public Purchase(String id, GregorianCalendar date, Long currency, String user, List<Item> items){
+    public Purchase(String id, Timestamp date, String user, List<Item> items){
         this.id=Objects.requireNonNull(id);
         this.items = Objects.requireNonNull(items);
         this.purchaseDate=Objects.requireNonNull(date);
-        this.price = Objects.requireNonNull(currency);
+        this.price = calculateTotalPrice();
         this.userID = Objects.requireNonNull(user);
     }
 
@@ -33,11 +35,11 @@ public class Purchase {
         return id;
     }
 
-    public Timestamp getPurchaseDate() {
-        return Timestamp.of(purchaseDate.getTime());
+    public Date getPurchaseDate() {
+        return purchaseDate.toDate();
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -48,11 +50,15 @@ public class Purchase {
         return this.items;
     }
 
+    private Double calculateTotalPrice(){
+        return items.stream().mapToDouble(items->items.getCost()).sum();
+    }
+
     @Override
     public String toString() {
         return "Purchase{" +
                 "id='" + id + '\'' +
-                ", purchaseDate=" + purchaseDate.getTime() +
+                ", purchaseDate=" + purchaseDate.toDate() +
                 ", price=" + price +
                 ", user='" + userID + '\'' +
                 ", item='" + items + '\'' +

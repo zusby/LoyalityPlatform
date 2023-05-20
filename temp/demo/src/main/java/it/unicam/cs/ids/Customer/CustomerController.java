@@ -1,12 +1,10 @@
 package it.unicam.cs.ids.Customer;
 
+import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,18 +16,24 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerController(CustomerService service){
+    private CustomerController(CustomerService service){
         this.customerService = service;
     }
 
 
     @GetMapping("/")
-    public List<Customer> getCustomers(){
+    private List<Customer> getCustomers(){
        return customerService.getCustomers();
     }
     @GetMapping("/{id}")
-    public List<Purchase> getPurchases(@PathVariable String id){
+    private List<Purchase> getPurchases(@PathVariable String id){
         return customerService.getPurchases(id);
+    }
+
+
+    @PostMapping("{id}/getPurchase")
+    private void makePurchase(@RequestBody List<Item> items, @PathVariable String id){
+        customerService.previewPurchase(id, items);
     }
 
 }

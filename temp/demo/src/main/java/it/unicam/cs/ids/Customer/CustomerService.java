@@ -2,9 +2,12 @@ package it.unicam.cs.ids.Customer;
 
 import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Database.DBManager;
+import it.unicam.cs.ids.LoyalityPlatform.CashBackRule;
 import it.unicam.cs.ids.Model.Address;
+import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.Purchase;
 import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,8 +22,9 @@ import java.util.concurrent.ExecutionException;
 public class CustomerService {
 
     private final DBManager db;
-    public CustomerService() throws IOException {
-        this.db = new DBManager();
+    @Autowired
+    public CustomerService(DBManager db) throws IOException {
+        this.db = db;
     }
 
 
@@ -40,4 +44,11 @@ public class CustomerService {
             return new ArrayList<>();
         }
     }
+
+    public Purchase previewPurchase(String id ,List<Item> items ){
+        Purchase purchase = new Purchase(UUID.randomUUID().toString(),Timestamp.now(),id,items);
+
+        return purchase;
+    }
+
 }

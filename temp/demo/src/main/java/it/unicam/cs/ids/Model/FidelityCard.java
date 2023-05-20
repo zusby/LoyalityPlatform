@@ -7,12 +7,12 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 public class FidelityCard {
-    private UUID id;
-    private UUID cardOwner;
+    private String id,cardOwner;
+
     private Timestamp dataDiScadenza;
     private int punti;
 
-    public FidelityCard(UUID id, UUID cardOwner, Timestamp dataDiScadenza, int punti) {
+    public FidelityCard(String id, String cardOwner, Timestamp dataDiScadenza, int punti) {
         this.id = id;
         this.cardOwner = cardOwner;
         this.dataDiScadenza = dataDiScadenza;
@@ -22,19 +22,19 @@ public class FidelityCard {
 
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public UUID getCardOwner() {
+    public String getCardOwner() {
         return cardOwner;
     }
 
-    public void setCardOwner(UUID cardOwner) {
+    public void setCardOwner(String cardOwner) {
         this.cardOwner = cardOwner;
     }
 

@@ -1,13 +1,12 @@
-package it.unicam.cs.ids.Model;
+package it.unicam.cs.ids.LoyalityPlatform;
 
 import com.google.cloud.Timestamp;
-import com.google.cloud.firestore.Transaction;
-import it.unicam.cs.ids.Customer.Customer;
-import it.unicam.cs.ids.Database.DBManager;
+import it.unicam.cs.ids.LoyalityPlatform.FidelityProgram;
+import it.unicam.cs.ids.Model.Purchase;
 
 import java.util.GregorianCalendar;
 
-public class CashBackRule extends FidelityProgram{
+public class CashBackRule extends FidelityProgram {
     private double cashBackPercentage;
 
     public CashBackRule(double cashBackPercentage, Timestamp endingDate){
