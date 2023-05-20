@@ -38,8 +38,6 @@ public class AuthenticationController {
     }
 
 
-
-
     /**
      * This function creates a new user in Firebase Authentication without a password using their email and a randomly
      * generated UID.
@@ -59,7 +57,6 @@ public class AuthenticationController {
             e.printStackTrace();
         }
     }
-
 
 
     /**
@@ -100,7 +97,5 @@ public class AuthenticationController {
             return "";
         }
     }
-
-
 
 }

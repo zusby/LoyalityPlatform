@@ -80,6 +80,4 @@ public class Coupon {
             // Gestione dell'errore
         }
     }
-
-
 }

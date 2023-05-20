@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.Customer;
 
+import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +17,23 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @Autowired
-    private CustomerController(CustomerService service){
+    public CustomerController(CustomerService service){
         this.customerService = service;
     }
 
-
+    @GetMapping("/{id}/fidelityCard")
+    public FidelityCard getFidelityCard(@PathVariable String id){
+        return customerService.getFidelityCard(id);
+    }
     @GetMapping("/")
-    private List<Customer> getCustomers(){
+    public List<Customer> getCustomers(){
        return customerService.getCustomers();
     }
     @GetMapping("/{id}")
-    private List<Purchase> getPurchases(@PathVariable String id){
+    public List<Purchase> getPurchases(@PathVariable String id){
         return customerService.getPurchases(id);
     }
-
-
-    @PostMapping("{id}/getPurchase")
-    private void makePurchase(@RequestBody List<Item> items, @PathVariable String id){
-        customerService.previewPurchase(id, items);
-    }
+    @PostMapping("/purchases")
+    public void makePurchase(@RequestBody Item[] items) {  customerService.makePurchase(items);   }
 
 }

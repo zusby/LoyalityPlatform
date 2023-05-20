@@ -2,7 +2,6 @@ package it.unicam.cs.ids.ShopOwner;
 
 import it.unicam.cs.ids.Model.Address;
 
-import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

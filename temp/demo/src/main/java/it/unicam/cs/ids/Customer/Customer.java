@@ -93,7 +93,6 @@ public class Customer implements User {
         this.ID = ID;
     }
 
-
     @Override
     public String toString() {
         return "Customer{" +

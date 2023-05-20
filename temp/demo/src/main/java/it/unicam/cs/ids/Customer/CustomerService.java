@@ -1,30 +1,24 @@
 package it.unicam.cs.ids.Customer;
 
-import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Database.DBManager;
-import it.unicam.cs.ids.LoyalityPlatform.CashBackRule;
-import it.unicam.cs.ids.Model.Address;
+import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.Purchase;
-import org.checkerframework.checker.units.qual.A;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class CustomerService {
+public class CustomerService  {
 
     private final DBManager db;
-    @Autowired
-    public CustomerService(DBManager db) throws IOException {
-        this.db = db;
+
+    public CustomerService() throws IOException {
+        this.db = new DBManager();
     }
 
 
@@ -45,10 +39,29 @@ public class CustomerService {
         }
     }
 
-    public Purchase previewPurchase(String id ,List<Item> items ){
-        Purchase purchase = new Purchase(UUID.randomUUID().toString(),Timestamp.now(),id,items);
+    public FidelityCard getFidelityCard(String id) {
+        return db.getFidelityCardByUserID(id);
+    }
 
-        return purchase;
+    /*public void makePurchase(Item... items){
+        new Purchase(UUID.randomUUID(),Timestamp.from(Instant.now()),items);
+    }*/
+
+    public void makePurchase(Item[] purchase) {
+        try {
+            String customerId = purchase[0].getId().toString();
+            FidelityCard fidelityCard = db.getFidelityCardByUserID(customerId);
+
+            Date currentDate = new Date();
+            Timestamp purchaseDate = new Timestamp(currentDate.getTime());
+
+            // Creazione dell'oggetto Purchase
+            Purchase purchaseObj = new Purchase(UUID.randomUUID().toString(), purchaseDate, customerId, Arrays.asList(purchase));
+            fidelityCard.updateFidelityPoints(purchaseObj.getPrice());// Aggiorna i punti fedeltà sulla carta fedeltà
+            db.registerPurchase(purchaseObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

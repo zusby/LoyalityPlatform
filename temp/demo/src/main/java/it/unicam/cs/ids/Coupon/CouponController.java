@@ -15,17 +15,17 @@ public class CouponController {
     private final CouponService couponService;
 
     @Autowired
-    private CouponController(CouponService service){
+    public CouponController(CouponService service){
         this.couponService = service;
     }
 
     @GetMapping("/")
-    private List<Coupon> getCoupons() {
+    public List<Coupon> getCoupons() {
         return couponService.getCoupons();
     }
 
     @GetMapping("/{id}")
-    private Coupon getCouponById(@PathVariable String id) {
+    public Coupon getCouponById(@PathVariable String id) {
         return couponService.getCouponById(id);
     }
 

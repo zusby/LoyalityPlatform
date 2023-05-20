@@ -8,12 +8,13 @@ public class Item {
     private String characteristics;
     private final UUID id;
 
-    public Item(Long cost, String description, String characteristic, UUID id) {
+    public Item(Long cost, String description, String characteristics, UUID id) {
         this.cost = cost;
         this.description = description;
-        this.characteristics = characteristic;
+        this.characteristics = characteristics;
         this.id = id;
     }
+
 
     public Long getCost() {
         return cost;

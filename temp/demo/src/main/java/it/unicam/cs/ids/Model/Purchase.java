@@ -6,10 +6,8 @@
 
 package it.unicam.cs.ids.Model;
 
-import com.google.cloud.Timestamp;
+import java.sql.Timestamp;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
@@ -20,14 +18,15 @@ public class Purchase {
     private Double price;
     private String userID;
     private List<Item> items;
+    private Long discout;
 
 
     public Purchase(String id, Timestamp date, String user, List<Item> items){
         this.id=Objects.requireNonNull(id);
         this.items = Objects.requireNonNull(items);
         this.purchaseDate=Objects.requireNonNull(date);
-        this.price = calculateTotalPrice();
         this.userID = Objects.requireNonNull(user);
+        this.price = calculatePrice();
     }
 
 
@@ -35,8 +34,8 @@ public class Purchase {
         return id;
     }
 
-    public Date getPurchaseDate() {
-        return purchaseDate.toDate();
+    public Timestamp getPurchaseDate() {
+        return purchaseDate;
     }
 
     public Double getPrice() {
@@ -50,15 +49,15 @@ public class Purchase {
         return this.items;
     }
 
-    private Double calculateTotalPrice(){
-        return items.stream().mapToDouble(items->items.getCost()).sum();
+    private double calculatePrice() {
+        return items.stream().mapToDouble(Item::getCost).sum();
     }
 
     @Override
     public String toString() {
         return "Purchase{" +
                 "id='" + id + '\'' +
-                ", purchaseDate=" + purchaseDate.toDate() +
+                ", purchaseDate=" + purchaseDate +
                 ", price=" + price +
                 ", user='" + userID + '\'' +
                 ", item='" + items + '\'' +
