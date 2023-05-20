@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
+import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.Model.*;
 import it.unicam.cs.ids.Customer.*;
 import it.unicam.cs.ids.Employee.*;
@@ -271,6 +272,85 @@ public class DBManager extends FireBaseInitializer{
         }
     }
 
+
+    // Metodo per salvare un coupon nel database
+    public void saveCoupon(Coupon coupon) {
+        DocumentReference couponRef = db.collection("Coupons").document(coupon.getId());
+        couponRef.set(coupon);
+    }
+
+    // Metodo per aggiornare un coupon esistente nel database
+    public void updateCoupon(Coupon coupon) {
+        DocumentReference couponRef = db.collection("Coupons").document(coupon.getId());
+        couponRef.set(coupon);
+    }
+
+    // Metodo per eliminare un coupon dal database
+    public void deleteCoupon(String couponId) {
+        DocumentReference couponRef = db.collection("Coupons").document(couponId);
+        couponRef.delete();
+    }
+
+
+    // Metodo per ottenere tutti i coupon
+    public List<Coupon> getCoupons() throws ExecutionException, InterruptedException {
+        List<Coupon> coupons = new ArrayList<>();
+
+        Firestore db = FirestoreClient.getFirestore();  // Ottieni l'istanza del database Firestore
+
+        try {
+            ApiFuture<QuerySnapshot> future = db.collection("Coupons").get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            for (QueryDocumentSnapshot document : documents) {
+                Coupon coupon = document.toObject(Coupon.class);
+                coupons.add(coupon);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw e;
+        }
+
+        return coupons;
+    }
+
+
+    // Metodo per ottenere un coupon dato l'ID
+    public Coupon getCouponById(String couponId) throws InterruptedException, ExecutionException {
+        DocumentReference couponRef = db.collection("Coupons").document(couponId);
+        ApiFuture<DocumentSnapshot> future = couponRef.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                Coupon coupon = document.toObject(Coupon.class);
+                return coupon;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw e; // Rilancia le eccezioni al chiamante
+        }
+
+        return null;
+    }
+
+    public List<Coupon> getCouponsByUser(String userId) {
+        List<Coupon> userCoupons = new ArrayList<>();
+
+        CollectionReference couponsCollection = db.collection("Coupons");
+        Query query = couponsCollection.whereEqualTo("userId", userId);
+        ApiFuture<QuerySnapshot> future = query.get();
+
+        try {
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                Coupon coupon = document.toObject(Coupon.class);
+                userCoupons.add(coupon);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return userCoupons;
+    }
 
 
 }
