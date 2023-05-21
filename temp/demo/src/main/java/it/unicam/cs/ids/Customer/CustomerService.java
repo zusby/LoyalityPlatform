@@ -50,14 +50,14 @@ public class CustomerService  {
     public void makePurchase(Item[] purchase) {
         try {
             String customerId = purchase[0].getId().toString();
-            FidelityCard fidelityCard = db.getFidelityCardByUserID(customerId);
+            FidelityCard userFidelityCard = db.getFidelityCardByUserID(customerId);
 
             Date currentDate = new Date();
             Timestamp purchaseDate = new Timestamp(currentDate.getTime());
 
             // Creazione dell'oggetto Purchase
             Purchase purchaseObj = new Purchase(UUID.randomUUID().toString(), purchaseDate, customerId, Arrays.asList(purchase));
-            fidelityCard.updateFidelityPoints(purchaseObj.getPrice());// Aggiorna i punti fedeltà sulla carta fedeltà
+            userFidelityCard.updateFidelityPoints(purchaseObj.getPrice());// Aggiorna i punti fedeltà sulla carta fedeltà
             db.registerPurchase(purchaseObj);
         } catch (Exception e) {
             e.printStackTrace();

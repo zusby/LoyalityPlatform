@@ -71,4 +71,3 @@ public class FidelityCard {
         punti += newPoints; // Aggiungi i punti al saldo corrente
     }
 }
-

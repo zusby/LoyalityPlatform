@@ -17,7 +17,6 @@ public class Customer implements User {
     private String ID;
 
 
-
     public Customer(String name, String surname, Timestamp bdt, String telephoneNumber, String email, String id ,Address address) {
         this.address = address;
         this.birthDate= bdt;
@@ -29,7 +28,6 @@ public class Customer implements User {
     }
 
     public Customer(){
-
     }
 
     public void setName(String name) {
@@ -105,6 +103,5 @@ public class Customer implements User {
                 ", ID=" + ID +
                 '}';
     }
-
 
 }

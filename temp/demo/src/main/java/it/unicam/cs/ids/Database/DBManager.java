@@ -367,6 +367,17 @@ public class DBManager extends FireBaseInitializer{
         }
     }
 
+    public FidelityCard getFidelityCardByCardID(String id) {
+        ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("cardID", id).get();
+        try {
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            return  documents.get(0).toObject(FidelityCard.class);
+        }catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void registerFidelityCard(FidelityCard fidelityC){
         CollectionReference fidelityCard = db.collection("FidelityCard");
         List<ApiFuture<WriteResult>> futureFidelityCard = new ArrayList<>();
@@ -391,9 +402,13 @@ public class DBManager extends FireBaseInitializer{
      * @param pointsToAdd The number of points to add to the customer's current fidelity points.
      */
     public void updateFidelityPoints(String customerId, int pointsToAdd) {
-        DocumentReference customerRef = db.collection("Clients").document(customerId);
-        customerRef.update("fidelityPoints", FieldValue.increment(pointsToAdd));
+        DocumentReference customerRef = db.collection("FidelityCard").document(customerId);
+        customerRef.update("Points", FieldValue.increment(pointsToAdd));
     }
 
+    public void updateFidelityCardExpireDate(String customerId, Date newExpireDate){
+        DocumentReference customerRef = db.collection("FidelityCard").document(customerId);
+        customerRef.update("expireDate", new Timestamp(newExpireDate.getTime()));
+    }
 
 }
