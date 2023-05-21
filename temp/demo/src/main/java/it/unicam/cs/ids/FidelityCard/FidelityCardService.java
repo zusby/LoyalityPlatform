@@ -1,10 +1,13 @@
 package it.unicam.cs.ids.FidelityCard;
 
+import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Database.DBManager;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 @Service
@@ -16,20 +19,17 @@ public class FidelityCardService {
         this.dbManager = dbManager;
     }
 
-    public FidelityCard createFidelityCard(UUID cardOwner) {
-        FidelityCard fidelityCard = new FidelityCard();
-        fidelityCard.setId(UUID.randomUUID());
-        fidelityCard.setCardOwner(cardOwner);
-        fidelityCard.setDataDiScadenza(new Date());
-        fidelityCard.setPunti(0);
-
-        dbManager.registerFidelityCard(fidelityCard);
-
-        return fidelityCard;
+    public FidelityCard createFidelityCard(String cardOwnerId) {
+        FidelityCard card = new FidelityCard(
+                UUID.randomUUID().toString(),
+                cardOwnerId,
+                Timestamp.of(new GregorianCalendar().getTime()));
+        dbManager.registerFidelityCard(card);
+        return card;
     }
 
     public FidelityCard getFidelityCard(String cardId) {
-        return dbManager.getFidelityCardByUserID(cardId);
+        return dbManager.getFidelityCardByCardID(cardId);
     }
 
     public boolean updateExpireDate(String cardId, Date newExpireDate) {
@@ -39,10 +39,11 @@ public class FidelityCardService {
             dbManager.updateFidelityCardExpireDate(fidelityCard.getCardOwner().toString(), newExpireDate);
             return true;
         }
+        //TODO bisogna ritornare uno status, 200 con descrizione se è stato modifcato correttamente, 404 se non è stato trovato
         return false;
     }
 
-    public int getFidelityPoints(UUID cardId) {
+    public int getFidelityPoints(String cardId) {
         FidelityCard fidelityCard = dbManager.getFidelityCardByCardID(cardId.toString());
         if (fidelityCard != null) {
             return fidelityCard.getPunti();

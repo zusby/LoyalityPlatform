@@ -7,35 +7,35 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 public class FidelityCard {
-    private UUID id;
-    private UUID cardOwner;
+    private String id;
+    private String cardOwner;
     private Timestamp dataDiScadenza;
     private int punti;
 
-    public FidelityCard(UUID id, UUID cardOwner, Timestamp dataDiScadenza, int punti) {
+    public FidelityCard(String id, String cardOwner, Timestamp dataDiScadenza) {
         this.id = id;
         this.cardOwner = cardOwner;
         this.dataDiScadenza = dataDiScadenza;
-        this.punti = punti;
+        this.punti = 0;
     }
 
     public FidelityCard() {
 
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public UUID getCardOwner() {
+    public String getCardOwner() {
         return cardOwner;
     }
 
-    public void setCardOwner(UUID cardOwner) {
+    public void setCardOwner(String cardOwner) {
         this.cardOwner = cardOwner;
     }
 
@@ -68,6 +68,7 @@ public class FidelityCard {
 
     public void updateFidelityPoints(Double price) {
         int newPoints = (int) Math.floor(price); // Arrotonda il prezzo all'intero inferiore
+        //TODO Probabilmente, resonpsabilita' del service?
         punti += newPoints; // Aggiungi i punti al saldo corrente
     }
 }
