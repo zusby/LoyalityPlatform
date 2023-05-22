@@ -57,7 +57,7 @@ public class CustomerService  {
 
             // Creazione dell'oggetto Purchase
             Purchase purchaseObj = new Purchase(UUID.randomUUID().toString(), purchaseDate, customerId, Arrays.asList(purchase));
-            userFidelityCard.updateFidelityPoints(purchaseObj.getPrice());// Aggiorna i punti fedeltà sulla carta fedeltà
+           // userFidelityCard.updateFidelityPoints(purchaseObj.getPrice());// Aggiorna i punti fedeltà sulla carta fedeltà
             db.registerPurchase(purchaseObj);
         } catch (Exception e) {
             e.printStackTrace();

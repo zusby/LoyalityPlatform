@@ -3,24 +3,32 @@ package it.unicam.cs.ids.FidelityCard;
 import com.google.cloud.Timestamp;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.UUID;
 
 public class FidelityCard {
     private String id;
-    private String cardOwner;
-    private Timestamp dataDiScadenza;
-    private int punti;
+    private String cardOwnerId;
+    private Timestamp expireDate;
+    private int points;
 
-    public FidelityCard(String id, String cardOwner, Timestamp dataDiScadenza) {
+    private double balance;
+
+    public FidelityCard(String id, String cardOwner, Timestamp expireDate) {
         this.id = id;
-        this.cardOwner = cardOwner;
-        this.dataDiScadenza = dataDiScadenza;
-        this.punti = 0;
+        this.cardOwnerId = cardOwner;
+        this.expireDate = expireDate;
+        this.points = 0;
+        balance =0;
     }
 
     public FidelityCard() {
+    }
 
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public String getId() {
@@ -32,43 +40,34 @@ public class FidelityCard {
     }
 
     public String getCardOwner() {
-        return cardOwner;
+        return cardOwnerId;
     }
 
     public void setCardOwner(String cardOwner) {
-        this.cardOwner = cardOwner;
+        this.cardOwnerId = cardOwner;
     }
 
     public Date getExpireDate() {
-        return dataDiScadenza.toDate();
+        return expireDate.toDate();
     }
 
 
-    public void setDataDiScadenza(Date dataDiScadenza) {
-        this.dataDiScadenza = Timestamp.of(dataDiScadenza);
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = Timestamp.of(expireDate);
     }
 
-    public int getPunti() {
-        return punti;
+    public int getPoints() {
+        return points;
     }
 
-    public void setPunti(int punti) {
-        this.punti = punti;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
-    @Override
-    public String toString() {
-        return "FidelityCard{" +
-                "id=" + id +
-                ", cardOwner=" + cardOwner +
-                ", dataDiScadenza=" + dataDiScadenza +
-                ", punti=" + punti +
-                '}';
-    }
 
-    public void updateFidelityPoints(Double price) {
+
+    public void updateFidelityPoints(int price) {
         int newPoints = (int) Math.floor(price); // Arrotonda il prezzo all'intero inferiore
-        //TODO Probabilmente, resonpsabilita' del service?
-        punti += newPoints; // Aggiungi i punti al saldo corrente
+        points += newPoints; // Aggiungi i punti al saldo corrente
     }
 }

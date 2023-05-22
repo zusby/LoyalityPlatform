@@ -22,6 +22,8 @@ public class Coupon {
         this.expirationDate = expirationDate;
     }
 
+
+
     public String getId() {
         return id;
     }

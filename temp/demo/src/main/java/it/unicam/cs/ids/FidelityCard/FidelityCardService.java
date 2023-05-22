@@ -3,9 +3,11 @@ package it.unicam.cs.ids.FidelityCard;
 import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Database.DBManager;
 import org.springframework.cglib.core.Local;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
@@ -20,10 +22,12 @@ public class FidelityCardService {
     }
 
     public FidelityCard createFidelityCard(String cardOwnerId) {
+        GregorianCalendar expireDate = new GregorianCalendar();
+        expireDate.add(Calendar.YEAR,1);
         FidelityCard card = new FidelityCard(
                 UUID.randomUUID().toString(),
                 cardOwnerId,
-                Timestamp.of(new GregorianCalendar().getTime()));
+                Timestamp.of(expireDate.getTime()));
         dbManager.registerFidelityCard(card);
         return card;
     }
@@ -35,19 +39,37 @@ public class FidelityCardService {
     public boolean updateExpireDate(String cardId, Date newExpireDate) {
         FidelityCard fidelityCard = dbManager.getFidelityCardByCardID(cardId);
         if (fidelityCard != null) {
-            fidelityCard.setDataDiScadenza(newExpireDate);
-            dbManager.updateFidelityCardExpireDate(fidelityCard.getCardOwner().toString(), newExpireDate);
+            fidelityCard.setExpireDate(newExpireDate);
+            dbManager.updateFidelityCardExpireDate(fidelityCard.getCardOwner(), newExpireDate);
             return true;
         }
-        //TODO bisogna ritornare uno status, 200 con descrizione se è stato modifcato correttamente, 404 se non è stato trovato
         return false;
     }
 
+
+    /**
+     * This function retrieves the number of fidelity points associated with a given fidelity card ID.
+     *
+     * @param cardId The parameter `cardId` is a String representing the unique identifier of a fidelity card.
+     * @return The method is returning an integer value which represents the number of fidelity points associated with the
+     * fidelity card identified by the given cardId. If the fidelity card is found in the database, the method returns the
+     * number of points associated with it. If the fidelity card is not found, the method returns -1.
+     */
     public int getFidelityPoints(String cardId) {
         FidelityCard fidelityCard = dbManager.getFidelityCardByCardID(cardId.toString());
         if (fidelityCard != null) {
-            return fidelityCard.getPunti();
+            return fidelityCard.getPoints();
         }
-        return 0;
+        return -1;
+    }
+
+    public boolean updatePoints(String cardId, Integer points) {
+        FidelityCard fidelityCard = dbManager.getFidelityCardByCardID(cardId);
+        if (fidelityCard != null) {
+            fidelityCard.updateFidelityPoints(points);
+            dbManager.updateFidelityPointsFromCardId(cardId,points);
+            return true;
+        }
+        return false;
     }
 }

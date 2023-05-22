@@ -8,7 +8,6 @@ package it.unicam.cs.ids.Model;
 
 import java.sql.Timestamp;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +37,7 @@ public class Purchase {
         return purchaseDate;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 

@@ -25,7 +25,7 @@ public class CustomerController {
     public FidelityCard getFidelityCard(@PathVariable String id){
         return customerService.getFidelityCard(id);
     }
-    @GetMapping("/")
+    @GetMapping
     public List<Customer> getCustomers(){
        return customerService.getCustomers();
     }

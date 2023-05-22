@@ -1,6 +1,10 @@
 package it.unicam.cs.ids.FidelityCard;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +22,8 @@ public class FidelityCardController {
         this.fidelityCardService = fidelityCardService;
     }
 
-    @PostMapping
-    public ResponseEntity<FidelityCard> createFidelityCard(@RequestBody String cardOwnerId) {
+    @PostMapping("/{cardOwnerId}")
+    public ResponseEntity<FidelityCard> createFidelityCard(@PathVariable String cardOwnerId) {
         FidelityCard fidelityCard = fidelityCardService.createFidelityCard(cardOwnerId);
         return ResponseEntity.ok(fidelityCard);
     }
@@ -58,5 +62,21 @@ public class FidelityCardController {
     public ResponseEntity<Integer> getFidelityPoints(@PathVariable String cardId) {
         int points = fidelityCardService.getFidelityPoints(cardId);
         return ResponseEntity.ok(points);
+    }
+
+    @PutMapping("/{cardId}/update-points")
+    public ResponseEntity<Integer> updatePoints(@PathVariable String cardId, @RequestBody String points) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(points);
+        int punti = jsonNode.get("points").asInt();
+
+        boolean success = fidelityCardService.updatePoints(cardId,punti);
+
+        if (success) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

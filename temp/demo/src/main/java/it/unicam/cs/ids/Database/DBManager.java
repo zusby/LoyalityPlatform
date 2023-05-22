@@ -12,6 +12,7 @@ import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.*;
 import it.unicam.cs.ids.Customer.*;
 import it.unicam.cs.ids.Employee.*;
+import it.unicam.cs.ids.Shop.Shop;
 import it.unicam.cs.ids.ShopOwner.*;
 import it.unicam.cs.ids.Admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.time.Instant;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -61,18 +63,21 @@ public class DBManager extends FireBaseInitializer{
         return purchases;
     }
 
+    /**
+     * This function retrieves a list of customers from a Firestore database and returns them as a list of Customer
+     * objects.
+     *
+     * @return A list of Customer objects.
+     */
     public List<Customer> getCustomers() throws InterruptedException, ExecutionException {
         ApiFuture<QuerySnapshot> future = db.collection("Clients").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<Customer> shopOwners = new ArrayList<>();
-
+        List<Customer> customers = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
-            System.out.println(document.toString());
             Customer s = document.toObject(Customer.class);
-            System.out.println(s);
-            shopOwners.add(s);
+            customers.add(s);
         }
-        return shopOwners;
+        return customers;
     }
 
 
@@ -368,7 +373,7 @@ public class DBManager extends FireBaseInitializer{
     }
 
     public FidelityCard getFidelityCardByCardID(String id) {
-        ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("cardID", id).get();
+        ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("id", id).get();
         try {
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             return  documents.get(0).toObject(FidelityCard.class);
@@ -403,12 +408,50 @@ public class DBManager extends FireBaseInitializer{
      */
     public void updateFidelityPoints(String customerId, int pointsToAdd) {
         DocumentReference customerRef = db.collection("FidelityCard").document(customerId);
-        customerRef.update("Points", FieldValue.increment(pointsToAdd));
+        customerRef.update("points", FieldValue.increment(pointsToAdd));
     }
 
     public void updateFidelityCardExpireDate(String customerId, Date newExpireDate){
         DocumentReference customerRef = db.collection("FidelityCard").document(customerId);
         customerRef.update("expireDate", new Timestamp(newExpireDate.getTime()));
     }
+    public void updateFidelityPointsFromCardId(String cardId, int pointsToAdd) {
+        DocumentReference customerRef = db.collection("FidelityCard").document(cardId);
+        customerRef.update("points", FieldValue.increment(pointsToAdd));
+    }
+
+    public void updateFidelityCardExpireDateFromCardId(String cardId, Date newExpireDate){
+        DocumentReference customerRef = db.collection("FidelityCard").document(cardId);
+        customerRef.update("expireDate", new Timestamp(newExpireDate.getTime()));
+    }
+
+    public List<Shop> getShops() {
+        ApiFuture<QuerySnapshot> future = db.collection("Shops").get();
+        List<QueryDocumentSnapshot> documents = null;
+        try {
+            documents = future.get().getDocuments();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        List<Shop> shops = new ArrayList<>();
+        for (DocumentSnapshot document : documents) {
+            Shop shop = document.toObject(Shop.class);
+            shops.add(shop);
+        }
+        return shops;
+    }
+
+    public void deleteShop(String shopId) {
+        DocumentReference shopRef = db.collection("Shops").document(shopId);
+        shopRef.delete();
+    }
+
+    public void registerShop(Shop shop) {
+        DocumentReference shopRef = db.collection("Shop").document(shop.getId());
+        shopRef.set(shop);
+    }
+
+
 
 }
