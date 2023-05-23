@@ -550,5 +550,19 @@ public class DBManager extends FireBaseInitializer{
     }
 
 
+    public Shop getShop(String id) {
+        DocumentReference shopRef = db.collection("Shop").document(id);
+        ApiFuture<DocumentSnapshot> futureShop = shopRef.get();
 
+        try {
+            DocumentSnapshot document = futureShop.get();
+            if (document.exists()) {
+                return document.toObject(Shop.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
 }

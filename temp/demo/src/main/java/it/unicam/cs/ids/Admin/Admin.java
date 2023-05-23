@@ -2,7 +2,6 @@ package it.unicam.cs.ids.Admin;
 
 import com.google.cloud.Timestamp;
 
-import it.unicam.cs.ids.Model.AuthenticatedUser;
 import it.unicam.cs.ids.ShopOwner.ShopOwner;
 import it.unicam.cs.ids.Model.User;
 import it.unicam.cs.ids.Model.Address;

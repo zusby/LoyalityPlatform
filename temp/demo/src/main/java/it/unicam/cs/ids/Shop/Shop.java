@@ -5,7 +5,6 @@ import it.unicam.cs.ids.Model.FidelityProgram;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Shop {
 
@@ -17,7 +16,7 @@ public class Shop {
 
     private List<String> shopOwners;
 
-    private List<FidelityProgram> fidelityPrograms;
+    private List<FidelityProgram> fidelityPrograms = new ArrayList<>();
 
     public Shop(String id,Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
         this.id = id;
@@ -27,6 +26,9 @@ public class Shop {
         this.shopTelephoneNumber = shopTelephoneNumber;
         shopOwners = shopOwnerIDs;
     }
+    public Shop() {
+    }
+
 
     public String getId() {
         return id;
@@ -36,8 +38,6 @@ public class Shop {
         this.id = id;
     }
 
-    public Shop() {
-    }
 
     public List<String> getShopOwners() {
         return this.shopOwners;
@@ -70,6 +70,7 @@ public class Shop {
 
     public void setFidelityPrograms(List<FidelityProgram> fidelityPrograms) {
         this.fidelityPrograms = fidelityPrograms;
+
     }
 
 
