@@ -53,9 +53,8 @@ public class FidelityCardController {
         boolean success = fidelityCardService.updateExpireDate(cardId.toString(), newExpireDate);
         if (success) {
             return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{cardId}/points")
@@ -69,9 +68,9 @@ public class FidelityCardController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(points);
-        int punti = jsonNode.get("points").asInt();
+        int point = jsonNode.get("points").asInt();
 
-        boolean success = fidelityCardService.updatePoints(cardId,punti);
+        boolean success = fidelityCardService.updatePoints(cardId,point);
 
         if (success) {
             return ResponseEntity.noContent().build();

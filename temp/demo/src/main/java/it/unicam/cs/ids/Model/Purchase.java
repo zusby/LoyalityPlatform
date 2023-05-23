@@ -8,19 +8,20 @@ package it.unicam.cs.ids.Model;
 
 import java.sql.Timestamp;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class Purchase {
     private String id;
-    private Timestamp purchaseDate;
+    private com.google.cloud.Timestamp purchaseDate;
     private Double price;
     private String userID;
     private List<Item> items;
     private Long discout;
 
 
-    public Purchase(String id, Timestamp date, String user, List<Item> items){
+    public Purchase(String id, com.google.cloud.Timestamp date, String user, List<Item> items){
         this.id=Objects.requireNonNull(id);
         this.items = Objects.requireNonNull(items);
         this.purchaseDate=Objects.requireNonNull(date);
@@ -33,8 +34,8 @@ public class Purchase {
         return id;
     }
 
-    public Timestamp getPurchaseDate() {
-        return purchaseDate;
+    public Date getPurchaseDate() {
+        return purchaseDate.toDate();
     }
 
     public double getPrice() {

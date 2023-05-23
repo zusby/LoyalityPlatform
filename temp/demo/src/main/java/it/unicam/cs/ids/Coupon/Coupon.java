@@ -1,8 +1,6 @@
 package it.unicam.cs.ids.Coupon;
 
-import it.unicam.cs.ids.Database.DBManager;
 
-import java.io.IOException;
 import java.util.Date;
 
 public class Coupon {
@@ -18,6 +16,12 @@ public class Coupon {
     public Coupon(String id, String ownerId, double value, Date expirationDate) {
         this.id = id;
         this.ownerId = ownerId;
+        this.value = value;
+        this.expirationDate = expirationDate;
+    }
+
+    public Coupon(String id,  double value, Date expirationDate) {
+        this.id = id;
         this.value = value;
         this.expirationDate = expirationDate;
     }
@@ -56,30 +60,6 @@ public class Coupon {
         this.expirationDate = expirationDate;
     }
 
-    public void save() {
-        try {
-            DBManager dbManager = new DBManager();
-            dbManager.saveCoupon(this);
-        } catch (IOException e) {
-            // Gestione dell'errore
-        }
-    }
 
-    public void update() {
-        try {
-            DBManager dbManager = new DBManager();
-            dbManager.updateCoupon(this);
-        } catch (IOException e) {
-            // Gestione dell'errore
-        }
-    }
 
-    public void delete() {
-        try {
-            DBManager dbManager = new DBManager();
-            dbManager.deleteCoupon(this.getId());
-        } catch (IOException e) {
-            // Gestione dell'errore
-        }
-    }
 }

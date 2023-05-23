@@ -2,11 +2,10 @@ package it.unicam.cs.ids.Coupon;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,6 +18,8 @@ public class CouponController {
         this.couponService = service;
     }
 
+
+
     @GetMapping("/")
     public List<Coupon> getCoupons() {
         return couponService.getCoupons();
@@ -27,6 +28,28 @@ public class CouponController {
     @GetMapping("/{id}")
     public Coupon getCouponById(@PathVariable String id) {
         return couponService.getCouponById(id);
+    }
+
+
+    @PutMapping
+    public ResponseEntity<Coupon> addCoupon(@RequestBody Coupon coupon){
+       if(this.couponService.addCoupon(coupon)){
+           return ResponseEntity.ok().build();
+       }
+       return ResponseEntity.status(400).build();
+    }
+
+    @PostMapping("/remove/{id}")
+    public ResponseEntity<Coupon> removeCoupon(@PathVariable String id){
+        if(this.couponService.removeCoupon(id)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public void updateCoupon(@PathVariable String id, @RequestBody Date newExpireDate){
+        couponService.updateCoupon(id,newExpireDate);
     }
 
 }

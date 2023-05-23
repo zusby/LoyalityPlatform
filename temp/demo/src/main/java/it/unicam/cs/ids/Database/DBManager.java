@@ -53,7 +53,7 @@ public class DBManager extends FireBaseInitializer{
 
         for (DocumentSnapshot document : documents) {
             java.util.Date purchaseDate = document.getDate("purchaseDate");
-            Timestamp timestamp = Timestamp.from(purchaseDate.toInstant());
+            com.google.cloud.Timestamp timestamp = com.google.cloud.Timestamp.of(new Date());
             purchases.add(
                             new Purchase(document.getId(),
                             timestamp,
@@ -281,26 +281,49 @@ public class DBManager extends FireBaseInitializer{
     }
 
 
-    // Metodo per salvare un coupon nel database
-    public void saveCoupon(Coupon coupon) {
+    /**
+     * This function adds a coupon to a Firestore database.
+     *
+     * @param coupon The parameter "coupon" is an object of the class "Coupon" that contains information about a coupon,
+     * such as its ID, name, description, discount amount, and expiration date. The method "addCoupon" takes this object as
+     * input and adds it to a Firestore database collection called "Coupons
+     */
+    public void addCoupon(Coupon coupon) {
         DocumentReference couponRef = db.collection("Coupons").document(coupon.getId());
         couponRef.set(coupon);
     }
 
-    // Metodo per aggiornare un coupon esistente nel database
+    /**
+     * This function updates a coupon in a Firestore database.
+     *
+     * @param coupon The parameter "coupon" is an object of the class "Coupon" that contains the updated information for a
+     * specific coupon. The method "updateCoupon" updates the document in the "Coupons" collection in the Firestore
+     * database with the new information provided in the "coupon" object. The document to be
+     */
     public void updateCoupon(Coupon coupon) {
         DocumentReference couponRef = db.collection("Coupons").document(coupon.getId());
         couponRef.set(coupon);
     }
 
-    // Metodo per eliminare un coupon dal database
+
+    /**
+     * The function deletes a coupon document from a Firestore database using its ID.
+     *
+     * @param couponId The parameter `couponId` is a String that represents the unique identifier of the coupon that needs
+     * to be deleted from the "Coupons" collection in the Firestore database.
+     */
     public void deleteCoupon(String couponId) {
         DocumentReference couponRef = db.collection("Coupons").document(couponId);
         couponRef.delete();
     }
 
 
-    // Metodo per ottenere tutti i coupon
+
+    /**
+     * This Java function retrieves a list of coupons from a Firestore database.
+     *
+     * @return The method `getCoupons()` returns a list of `Coupon` objects.
+     */
     public List<Coupon> getCoupons() throws ExecutionException, InterruptedException {
         List<Coupon> coupons = new ArrayList<>();
 
@@ -315,14 +338,22 @@ public class DBManager extends FireBaseInitializer{
                 coupons.add(coupon);
             }
         } catch (InterruptedException | ExecutionException e) {
-            throw e;
+            throw new RuntimeException(e);
         }
 
         return coupons;
     }
 
 
-    // Metodo per ottenere un coupon dato l'ID
+
+    /**
+     * This Java function retrieves a coupon object from a Firestore database by its ID.
+     *
+     * @param couponId a String representing the ID of a coupon to be retrieved from a Firestore database.
+     * @return The method returns an object of type Coupon, which represents a coupon retrieved from a Firestore database
+     * based on the provided couponId. If the coupon with the given ID does not exist in the database, the method returns
+     * null.
+     */
     public Coupon getCouponById(String couponId) throws InterruptedException, ExecutionException {
         DocumentReference couponRef = db.collection("Coupons").document(couponId);
         ApiFuture<DocumentSnapshot> future = couponRef.get();
@@ -330,16 +361,22 @@ public class DBManager extends FireBaseInitializer{
         try {
             DocumentSnapshot document = future.get();
             if (document.exists()) {
-                Coupon coupon = document.toObject(Coupon.class);
-                return coupon;
+                return document.toObject(Coupon.class);
             }
         } catch (InterruptedException | ExecutionException e) {
-            throw e; // Rilancia le eccezioni al chiamante
+            throw new RuntimeException(e);
         }
 
         return null;
     }
 
+    /**
+     * This function retrieves a list of coupons associated with a specific user ID from a Firestore database.
+     *
+     * @param userId The parameter "userId" is a String that represents the unique identifier of a user for whom we want to
+     * retrieve the coupons.
+     * @return The method is returning a list of Coupon objects that belong to a specific user, identified by their userId.
+     */
     public List<Coupon> getCouponsByUser(String userId) {
         List<Coupon> userCoupons = new ArrayList<>();
 
@@ -361,6 +398,14 @@ public class DBManager extends FireBaseInitializer{
     }
 
 
+    /**
+     * This function retrieves a FidelityCard object from a Firestore database based on the user ID.
+     *
+     * @param id The parameter "id" is a String representing the user ID for which we want to retrieve the FidelityCard
+     * object. The method searches for the FidelityCard object in the "FidelityCard" collection in the Firestore database,
+     * where the "cardOwner" field matches the provided user ID.
+     * @return This method returns a FidelityCard object that belongs to a user with the specified ID.
+     */
     public FidelityCard getFidelityCardByUserID(String id) {
         ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("cardOwner", id).get();
         try {
@@ -372,6 +417,13 @@ public class DBManager extends FireBaseInitializer{
         }
     }
 
+    /**
+     * This function retrieves a FidelityCard object from a Firestore database based on its ID.
+     *
+     * @param id The parameter "id" is a String representing the unique identifier of a FidelityCard object. The method
+     * searches for a FidelityCard object in the Firestore database that matches the given id and returns it.
+     * @return This method returns a FidelityCard object that matches the given card ID.
+     */
     public FidelityCard getFidelityCardByCardID(String id) {
         ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("id", id).get();
         try {
@@ -383,6 +435,12 @@ public class DBManager extends FireBaseInitializer{
         }
     }
 
+    /**
+     * This function registers a FidelityCard object in a Firestore database.
+     *
+     * @param fidelityC fidelityC is an object of the class FidelityCard that contains the data of a customer's fidelity
+     * card. It is passed as a parameter to the method registerFidelityCard() to be stored in the Firestore database.
+     */
     public void registerFidelityCard(FidelityCard fidelityC){
         CollectionReference fidelityCard = db.collection("FidelityCard");
         List<ApiFuture<WriteResult>> futureFidelityCard = new ArrayList<>();
@@ -411,20 +469,45 @@ public class DBManager extends FireBaseInitializer{
         customerRef.update("points", FieldValue.increment(pointsToAdd));
     }
 
+    /**
+     * This function updates the expiration date of a customer's fidelity card in a Firestore database.
+     *
+     * @param customerId The ID of the customer whose fidelity card expire date needs to be updated.
+     * @param newExpireDate A Date object representing the new expiration date for the customer's fidelity card.
+     */
     public void updateFidelityCardExpireDate(String customerId, Date newExpireDate){
         DocumentReference customerRef = db.collection("FidelityCard").document(customerId);
         customerRef.update("expireDate", new Timestamp(newExpireDate.getTime()));
     }
+    /**
+     * This function updates the fidelity points of a customer with a given card ID by adding a specified number of points.
+     *
+     * @param cardId A string representing the unique identifier of a fidelity card in the "FidelityCard" collection in a
+     * Firestore database.
+     * @param pointsToAdd an integer value representing the number of points to add to the existing points of a customer's
+     * fidelity card.
+     */
     public void updateFidelityPointsFromCardId(String cardId, int pointsToAdd) {
         DocumentReference customerRef = db.collection("FidelityCard").document(cardId);
         customerRef.update("points", FieldValue.increment(pointsToAdd));
     }
 
+    /**
+     * This function updates the expiration date of a fidelity card in a Firestore database based on the card ID.
+     *
+     * @param cardId A string representing the unique identifier of a fidelity card in the database.
+     * @param newExpireDate A Date object representing the new expiration date for the fidelity card.
+     */
     public void updateFidelityCardExpireDateFromCardId(String cardId, Date newExpireDate){
         DocumentReference customerRef = db.collection("FidelityCard").document(cardId);
         customerRef.update("expireDate", new Timestamp(newExpireDate.getTime()));
     }
 
+    /**
+     * This function retrieves a list of Shop objects from a Firestore database.
+     *
+     * @return This method returns a list of Shop objects.
+     */
     public List<Shop> getShops() {
         ApiFuture<QuerySnapshot> future = db.collection("Shops").get();
         List<QueryDocumentSnapshot> documents = null;
@@ -442,11 +525,25 @@ public class DBManager extends FireBaseInitializer{
         return shops;
     }
 
+    /**
+     * The function deletes a shop document from a Firestore database using its ID.
+     *
+     * @param shopId The parameter shopId is a String that represents the unique identifier of a shop in a Firestore
+     * database. The method deleteShop() takes this parameter and uses it to create a reference to the specific shop
+     * document in the "Shops" collection. The shopRef.delete() method call then deletes the document from
+     */
     public void deleteShop(String shopId) {
         DocumentReference shopRef = db.collection("Shops").document(shopId);
         shopRef.delete();
     }
 
+    /**
+     * The function registers a shop by setting its document reference in a Firestore database.
+     *
+     * @param shop The parameter "shop" is an object of the class "Shop" that contains information about a shop. This
+     * method registers the shop by adding it to the "Shop" collection in the Firestore database. The shop object is added
+     * as a document with the document ID set to the shop's ID.
+     */
     public void registerShop(Shop shop) {
         DocumentReference shopRef = db.collection("Shop").document(shop.getId());
         shopRef.set(shop);

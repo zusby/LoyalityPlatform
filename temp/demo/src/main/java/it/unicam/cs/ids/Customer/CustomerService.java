@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.Customer;
 
+import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Database.DBManager;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.Item;
@@ -7,7 +8,6 @@ import it.unicam.cs.ids.Model.Purchase;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -53,10 +53,10 @@ public class CustomerService  {
             FidelityCard userFidelityCard = db.getFidelityCardByUserID(customerId);
 
             Date currentDate = new Date();
-            Timestamp purchaseDate = new Timestamp(currentDate.getTime());
+
 
             // Creazione dell'oggetto Purchase
-            Purchase purchaseObj = new Purchase(UUID.randomUUID().toString(), purchaseDate, customerId, Arrays.asList(purchase));
+            Purchase purchaseObj = new Purchase(UUID.randomUUID().toString(), Timestamp.of(new Date()), customerId, Arrays.asList(purchase));
            // userFidelityCard.updateFidelityPoints(purchaseObj.getPrice());// Aggiorna i punti fedeltà sulla carta fedeltà
             db.registerPurchase(purchaseObj);
         } catch (Exception e) {
