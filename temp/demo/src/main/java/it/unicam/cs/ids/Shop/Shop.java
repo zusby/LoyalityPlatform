@@ -2,6 +2,7 @@ package it.unicam.cs.ids.Shop;
 
 import it.unicam.cs.ids.Model.Address;
 import it.unicam.cs.ids.Model.FidelityProgram;
+import it.unicam.cs.ids.Model.PrizeAwards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,19 @@ public class Shop {
     private String vatNumber;
     private String name;
     private String shopTelephoneNumber;
-
     private List<String> shopOwners;
-
     private List<FidelityProgram> fidelityPrograms = new ArrayList<>();
+    private PrizeAwards prizes;
 
-    public Shop(String id,Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
+    public PrizeAwards getPrizes() {
+        return prizes;
+    }
+
+    public void setPrizes(PrizeAwards prizes) {
+        this.prizes = prizes;
+    }
+
+    public Shop(String id, Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
         this.id = id;
         this.shopAddress = shopAddress;
         this.vatNumber = vatNumber;

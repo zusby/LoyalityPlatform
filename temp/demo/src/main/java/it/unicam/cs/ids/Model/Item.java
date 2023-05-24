@@ -1,14 +1,15 @@
 package it.unicam.cs.ids.Model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Item {
-    private final Long cost;
+    private final double cost;
     private String description;
     private String characteristics;
-    private final UUID id;
+    private final String id;
 
-    public Item(Long cost, String description, String characteristics, UUID id) {
+    public Item(double cost, String description, String characteristics, String id) {
         this.cost = cost;
         this.description = description;
         this.characteristics = characteristics;
@@ -16,7 +17,7 @@ public class Item {
     }
 
 
-    public Long getCost() {
+    public double getCost() {
         return cost;
     }
 
@@ -36,8 +37,21 @@ public class Item {
         this.characteristics = characteristics;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return getId().equals(item.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override

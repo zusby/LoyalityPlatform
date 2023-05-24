@@ -46,8 +46,6 @@ public class Customer implements User {
         this.email = email;
     }
 
-
-
     public void setAddress(Address address) {
         this.address = address;
     }
@@ -55,6 +53,7 @@ public class Customer implements User {
     public void setBirthDate(Date birthDate) {
         this.birthDate = Timestamp.of(birthDate);
     }
+
     public void setSeconds(long seconds, int nanos){
         this.birthDate= Timestamp.ofTimeSecondsAndNanos(seconds,nanos);
     }
@@ -103,5 +102,4 @@ public class Customer implements User {
                 ", ID=" + ID +
                 '}';
     }
-
 }

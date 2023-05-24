@@ -22,11 +22,12 @@ public class FidelityCardController {
         this.fidelityCardService = fidelityCardService;
     }
 
-    @PostMapping("/{cardOwnerId}")
+    @PostMapping("/create/{cardOwnerId}")
     public ResponseEntity<FidelityCard> createFidelityCard(@PathVariable String cardOwnerId) {
         FidelityCard fidelityCard = fidelityCardService.createFidelityCard(cardOwnerId);
         return ResponseEntity.ok(fidelityCard);
     }
+
 
     @GetMapping("/{cardId}")
     public ResponseEntity<FidelityCard> getFidelityCard(@PathVariable String cardId) {
@@ -38,7 +39,7 @@ public class FidelityCardController {
         }
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<FidelityCard> getFidelityCardByUserId(@PathVariable String userId) {
         FidelityCard fidelityCard = fidelityCardService.getFidelityCard(userId);
         if (fidelityCard != null) {

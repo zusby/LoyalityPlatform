@@ -33,7 +33,10 @@ public class CustomerController {
     public List<Purchase> getPurchases(@PathVariable String id){
         return customerService.getPurchases(id);
     }
-    @PostMapping("/purchases")
-    public void makePurchase(@RequestBody Item[] items) {  customerService.makePurchase(items);   }
+
+    @PostMapping("/{shopId}/{customerId}/purchase")
+    public void makePurchase(@RequestBody List<Item> items, @PathVariable String customerId, @PathVariable String shopId) {
+        customerService.makePurchase(items, customerId, shopId);
+    }
 
 }

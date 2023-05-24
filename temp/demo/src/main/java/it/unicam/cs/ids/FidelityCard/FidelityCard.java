@@ -23,10 +23,7 @@ public class FidelityCard {
         this.expireDate = expireDate;
         this.points = 0;
         this.balance =0;
-
-
     }
-
 
     public FidelityCard() {
     }
@@ -100,9 +97,11 @@ public class FidelityCard {
         this.points = points;
     }
 
+    public void updateBalance(double balance){
+        this.balance += balance;
+    }
 
-
-    public void updateFidelityPoints(int points) {
+    public void updateFidelityPoints(double points) {
 
         this.points += points;
     }
@@ -110,4 +109,5 @@ public class FidelityCard {
     public void updateExp(int exp) {
         this.exp+=exp;
     }
+
 }

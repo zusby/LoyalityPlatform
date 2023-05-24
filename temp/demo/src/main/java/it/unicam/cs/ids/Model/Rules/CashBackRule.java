@@ -7,6 +7,7 @@ import it.unicam.cs.ids.Model.Purchase;
 import it.unicam.cs.ids.Model.RuleApplier;
 
 public class CashBackRule extends FidelityProgram implements RuleApplier {
+
     private double cashBackPercentage;
 
     public CashBackRule( Timestamp startingDate, Timestamp endingDate, double cashBackPercentage) {
@@ -15,7 +16,6 @@ public class CashBackRule extends FidelityProgram implements RuleApplier {
     }
 
     public CashBackRule() {
-
     }
 
     public double getCashBackPercentage() {
@@ -26,12 +26,10 @@ public class CashBackRule extends FidelityProgram implements RuleApplier {
         this.cashBackPercentage = cashBackPercentage;
     }
 
-
     @Override
     public void applyRule(FidelityCard card, Purchase purchase) {
-        card.updateFidelityPoints((int) (purchase.getPrice()*this.cashBackPercentage/100));
+        card.updateBalance(purchase.getPrice() * this.cashBackPercentage/100);
     }
-
 
     @Override
     public String toString() {
@@ -39,6 +37,4 @@ public class CashBackRule extends FidelityProgram implements RuleApplier {
                 "cashBackPercentage=" + cashBackPercentage +
                 "} " + super.toString();
     }
-
-
 }

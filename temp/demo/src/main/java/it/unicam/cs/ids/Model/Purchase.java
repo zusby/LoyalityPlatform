@@ -6,7 +6,7 @@
 
 package it.unicam.cs.ids.Model;
 
-import java.sql.Timestamp;
+import com.google.cloud.Timestamp;
 
 import java.util.Date;
 import java.util.List;
@@ -14,21 +14,34 @@ import java.util.Objects;
 
 public class Purchase {
     private String id;
-    private com.google.cloud.Timestamp purchaseDate;
+    private Timestamp purchaseDate;
     private Double price;
     private String userID;
     private List<Item> items;
-    private Long discout;
+    private double discount;
+    public String shopId;
 
 
-    public Purchase(String id, com.google.cloud.Timestamp date, String user, List<Item> items){
+    public Purchase(String id, Timestamp date, String user, List<Item> items, String shopId){
         this.id=Objects.requireNonNull(id);
         this.items = Objects.requireNonNull(items);
         this.purchaseDate=Objects.requireNonNull(date);
         this.userID = Objects.requireNonNull(user);
         this.price = calculatePrice();
+        this.shopId = shopId;
     }
 
+    public double getDiscountedPrice(){
+        return this.price - this.discount;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
 
     public String getID() {
         return id;
@@ -45,8 +58,45 @@ public class Purchase {
     public String getUserID() {
         return userID;
     }
+
     public List<Item> getItem(){
         return this.items;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPurchaseDate(Timestamp purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     private double calculatePrice() {

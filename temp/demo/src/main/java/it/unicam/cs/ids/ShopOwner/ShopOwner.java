@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Date;
 
 
-public class ShopOwner extends Employee implements User {
+public class ShopOwner extends Employee {
 
     private Role rank = Role.UNACCEPTED_SHOP_OWNER;
 

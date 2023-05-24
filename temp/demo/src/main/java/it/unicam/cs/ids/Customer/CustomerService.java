@@ -47,16 +47,13 @@ public class CustomerService  {
         new Purchase(UUID.randomUUID(),Timestamp.from(Instant.now()),items);
     }*/
 
-    public void makePurchase(Item[] purchase) {
+    public void makePurchase(List<Item> items, String customerId, String shopId) {
         try {
-            String customerId = purchase[0].getId().toString();
             FidelityCard userFidelityCard = db.getFidelityCardByUserID(customerId);
-
             Date currentDate = new Date();
-
-
             // Creazione dell'oggetto Purchase
-            Purchase purchaseObj = new Purchase(UUID.randomUUID().toString(), Timestamp.of(new Date()), customerId, Arrays.asList(purchase));
+            Purchase purchaseObj = new Purchase(UUID.randomUUID().toString(), Timestamp.of(new Date()), customerId, items, shopId);
+
            // userFidelityCard.updateFidelityPoints(purchaseObj.getPrice());// Aggiorna i punti fedeltà sulla carta fedeltà
             db.registerPurchase(purchaseObj);
         } catch (Exception e) {

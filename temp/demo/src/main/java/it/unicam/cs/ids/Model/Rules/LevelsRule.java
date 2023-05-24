@@ -8,15 +8,33 @@ import it.unicam.cs.ids.Model.Purchase;
 import it.unicam.cs.ids.Model.RuleApplier;
 
 public class LevelsRule extends FidelityProgram implements RuleApplier {
+
     private Level bronze = Level.BRONZE;
     private Level silver = Level.SILVER;
     private Level gold = Level.GOLD;
     private Level platinum = Level.PLATINUM;
     private double multiplier;
 
+    public LevelsRule() {
+
+    }
+
+    public LevelsRule(Timestamp startingDate, Timestamp endingDate, double multiplier) {
+        super("1", startingDate, endingDate);
+        this.multiplier = multiplier;
+    }
+
 
     public Level getBronze() {
         return bronze;
+    }
+
+    public Level getPlatinum() {
+        return platinum;
+    }
+
+    public void setPlatinum(Level platinum) {
+        this.platinum = platinum;
     }
 
     public void setBronze(Level bronze) {
@@ -60,18 +78,9 @@ public class LevelsRule extends FidelityProgram implements RuleApplier {
        this.platinum.setMinValue(minRange);
     }
 
+
     public Level getLevel(int exp){
         return Level.getLevelByValue(exp);
-    }
-
-
-    public LevelsRule(Timestamp startingDate, Timestamp endingDate, double multiplier) {
-        super("1", startingDate, endingDate);
-        this.multiplier = multiplier;
-    }
-
-    public LevelsRule() {
-
     }
 
     public double getMultiplier() {
@@ -84,7 +93,12 @@ public class LevelsRule extends FidelityProgram implements RuleApplier {
 
     @Override
     public void applyRule(FidelityCard card, Purchase purchase) {
-        card.updateExp((int)(purchase.getPrice()*multiplier));
+        card.updateExp((int)(purchase.getPrice() * multiplier));
+        updateRank(card);
+    }
+
+    private void updateRank(FidelityCard card) {
+        card.setRank(getLevel(card.getExp()));
     }
 
     @Override

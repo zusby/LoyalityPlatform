@@ -20,7 +20,7 @@ public class CouponController {
 
 
 
-    @GetMapping("/")
+    @GetMapping
     public List<Coupon> getCoupons() {
         return couponService.getCoupons();
     }

@@ -8,25 +8,51 @@ public class Coupon {
     private String ownerId;
     private double value;
     private Date expirationDate;
+    private boolean isUsed = false;
+
+    private double discountPercentage;
+    private int minimumPrice;
 
 
-    public Coupon() {
-    }
-
-    public Coupon(String id, String ownerId, double value, Date expirationDate) {
+    public Coupon(String id, String ownerId, double value, Date expirationDate, double discountPercentage, int minimumPrice) {
         this.id = id;
         this.ownerId = ownerId;
         this.value = value;
         this.expirationDate = expirationDate;
+        this.discountPercentage = discountPercentage;
+        this.minimumPrice = minimumPrice;
     }
 
-    public Coupon(String id,  double value, Date expirationDate) {
-        this.id = id;
-        this.value = value;
-        this.expirationDate = expirationDate;
+    public Coupon() {
     }
 
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
 
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public int getMinimumPrice() {
+        return minimumPrice;
+    }
+
+    public void setMinimumPrice(int minimumPrice) {
+        this.minimumPrice = minimumPrice;
+    }
+
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed() {
+        isUsed = true;
+    }
+
+    public void setUsed(boolean bool) {
+        isUsed = bool;
+    }
 
     public String getId() {
         return id;
@@ -59,7 +85,6 @@ public class Coupon {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-
 
 
 }

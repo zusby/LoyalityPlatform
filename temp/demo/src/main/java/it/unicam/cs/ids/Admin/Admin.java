@@ -8,7 +8,7 @@ import it.unicam.cs.ids.Model.Address;
 
 import java.util.Date;
 
-public class Admin extends ShopOwner implements User {
+public class Admin extends ShopOwner {
 
     public Admin() {
 
