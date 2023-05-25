@@ -11,8 +11,8 @@ A Java SpringBoot backend meant to:
 To initialize the FireStore Database and the FireStore Authentication service it is necessary to modify accordingly the followings classes: 
 - FireStoreInitializer.java 
 - AuthenticationController.java
-- 
--insert your own FireBase SDK Admin API credencials.
+- insert your own FireBase SDK Admin API credencials
+
 ## API Reference
 
 All the api references are available @Swagger_UI and or trough the java docs.
