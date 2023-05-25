@@ -20,7 +20,7 @@ All the api references are available @Swagger_UI and or trough the java docs.
 📦         └─ resources
             |  ├─ application.properties
             |  └─ google-services.json
-            |    it.unicam.cs.ids
+            └───it.unicam.cs.ids
             │              ├─ Admin
             │              │  ├─ Admin.java
             │              │  ├─ AdminController.java
