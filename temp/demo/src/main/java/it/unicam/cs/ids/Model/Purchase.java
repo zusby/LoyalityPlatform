@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Purchase {
-    private String id;
+    private String purchaseId;
     private Timestamp purchaseDate;
     private Double price;
     private String userID;
@@ -22,8 +22,8 @@ public class Purchase {
     public String shopId;
 
 
-    public Purchase(String id, Timestamp date, String user, List<Item> items, String shopId){
-        this.id=Objects.requireNonNull(id);
+    public Purchase(String purchaseId, Timestamp date, String user, List<Item> items, String shopId){
+        this.purchaseId =Objects.requireNonNull(purchaseId);
         this.items = Objects.requireNonNull(items);
         this.purchaseDate=Objects.requireNonNull(date);
         this.userID = Objects.requireNonNull(user);
@@ -44,7 +44,7 @@ public class Purchase {
     }
 
     public String getID() {
-        return id;
+        return purchaseId;
     }
 
     public Date getPurchaseDate() {
@@ -63,12 +63,12 @@ public class Purchase {
         return this.items;
     }
 
-    public String getId() {
-        return id;
+    public String getPurchaseId() {
+        return purchaseId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPurchaseId(String purchaseId) {
+        this.purchaseId = purchaseId;
     }
 
     public void setPurchaseDate(Timestamp purchaseDate) {
@@ -106,7 +106,7 @@ public class Purchase {
     @Override
     public String toString() {
         return "Purchase{" +
-                "id='" + id + '\'' +
+                "id='" + purchaseId + '\'' +
                 ", purchaseDate=" + purchaseDate +
                 ", price=" + price +
                 ", user='" + userID + '\'' +

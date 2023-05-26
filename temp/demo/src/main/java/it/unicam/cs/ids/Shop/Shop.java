@@ -32,8 +32,9 @@ public class Shop {
         this.vatNumber = vatNumber;
         this.name = name;
         this.shopTelephoneNumber = shopTelephoneNumber;
-        shopOwners = shopOwnerIDs;
+        this.shopOwners = shopOwnerIDs;
     }
+
     public Shop() {
     }
 
@@ -82,7 +83,6 @@ public class Shop {
     }
 
 
-
     public String getName() {
         return name;
     }
@@ -98,6 +98,7 @@ public class Shop {
     public void setShopTelephoneNumber(String shopTelephoneNumber) {
         this.shopTelephoneNumber = shopTelephoneNumber;
     }
+
     @Override
     public String toString() {
         return "Shop{" +

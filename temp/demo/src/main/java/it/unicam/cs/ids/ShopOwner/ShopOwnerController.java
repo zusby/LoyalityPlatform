@@ -18,4 +18,6 @@ public class ShopOwnerController {
     public void addEmployee(@RequestBody Employee employee){
        soService.addEmployee(employee);
     }
+
+
 }

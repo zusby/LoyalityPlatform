@@ -27,12 +27,29 @@ public class ShopController {
         return service.getShops();
     }
 
+    /**
+     * This Java function registers a shop by accepting a Shop object as a request body and passing it to a service method.
+     *
+     * @param shop The parameter "shop" is of type Shop and is annotated with @RequestBody. This means that the data for
+     * this parameter will be obtained from the request body of the HTTP POST request. The registerShop() method of the
+     * service object will be called with this parameter to register a new shop.
+     */
     @PostMapping
     public void registerShop(@RequestBody Shop shop){
         System.out.println(shop);
         service.registerShop(shop);
     }
 
+    /**
+     * This Java function adds a cashback rule to a program with a specified ID.
+     *
+     * @param program The program parameter is of type CashBackRule and is annotated with @RequestBody. This means that the
+     * parameter will be deserialized from the request body of the HTTP POST request. The CashBackRule object represents a
+     * cashback rule that will be added to the system.
+     * @param id The "id" parameter is a path variable that is used to identify a specific resource or object in the
+     * system. It is used in the URL of the API endpoint to specify which resource the request is targeting. In this case,
+     * it is used to identify the specific program to which the cashback rule
+     */
     @PostMapping("/{id}/cashback/add")
     public void addCashBackRule(@RequestBody CashBackRule program, @PathVariable String id){
        service.addCashBackRule(program, id);

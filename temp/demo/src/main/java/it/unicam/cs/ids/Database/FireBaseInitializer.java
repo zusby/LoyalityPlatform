@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 public abstract class FireBaseInitializer {
     private FileInputStream serviceAccount;
 
-
     public FireBaseInitializer() {
 
         try {

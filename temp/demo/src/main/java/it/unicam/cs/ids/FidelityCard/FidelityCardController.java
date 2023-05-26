@@ -22,9 +22,9 @@ public class FidelityCardController {
         this.fidelityCardService = fidelityCardService;
     }
 
-    @PostMapping("/create/{cardOwnerId}")
-    public ResponseEntity<FidelityCard> createFidelityCard(@PathVariable String cardOwnerId) {
-        FidelityCard fidelityCard = fidelityCardService.createFidelityCard(cardOwnerId);
+    @PostMapping("/create/{shopId}/{cardOwnerId}}")
+    public ResponseEntity<FidelityCard> createFidelityCard(@PathVariable String cardOwnerId, @PathVariable String shopId) {
+        FidelityCard fidelityCard = fidelityCardService.createFidelityCard(cardOwnerId, shopId);
         return ResponseEntity.ok(fidelityCard);
     }
 

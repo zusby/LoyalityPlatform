@@ -61,4 +61,15 @@ public class CustomerService  {
         }
     }
 
+    /**
+     * This function returns a customer object from a database based on the provided ID.
+     *
+     * @param id The parameter "id" is a String that represents the unique identifier of a customer. This method retrieves
+     * the customer object from the database based on the provided id.
+     * @return A `Customer` object is being returned. The `getCustomer` method takes a `String` parameter `id` and
+     * retrieves the corresponding `Customer` object from the database (`db`) and returns it.
+     */
+    public Customer getCustomer(String id) {
+        return db.getCustomer(id);
+    }
 }

@@ -21,13 +21,14 @@ public class FidelityCardService {
         this.dbManager = dbManager;
     }
 
-    public FidelityCard createFidelityCard(String cardOwnerId) {
+    public FidelityCard createFidelityCard(String cardOwnerId, String shopId) {
         GregorianCalendar expireDate = new GregorianCalendar();
         expireDate.add(Calendar.YEAR,1);
         FidelityCard card = new FidelityCard(
                 UUID.randomUUID().toString(),
                 cardOwnerId,
-                Timestamp.of(expireDate.getTime()));
+                Timestamp.of(expireDate.getTime()),
+                shopId);
         dbManager.registerFidelityCard(card);
         return card;
     }

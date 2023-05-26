@@ -560,4 +560,27 @@ public class DBManager extends FireBaseInitializer {
         return null;
     }
 
+    /**
+     * This Java function retrieves a customer object from a Firestore database using the customer's ID.
+     *
+     * @param id The parameter "id" is a String representing the unique identifier of a customer in the "Clients"
+     * collection in the database. The method retrieves the customer document with the specified id and returns a Customer
+     * object representing the data stored in the document.
+     * @return The method is returning a `Customer` object retrieved from the Firestore database based on the provided
+     * `id`. If the document with the provided `id` does not exist, the method returns `null`.
+     */
+    public Customer getCustomer(String id) {
+        DocumentReference shopRef = db.collection("Clients").document(id);
+        ApiFuture<DocumentSnapshot> futureCustomer = shopRef.get();
+
+        try {
+            DocumentSnapshot document = futureCustomer.get();
+            if (document.exists()) {
+                return document.toObject(Customer.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

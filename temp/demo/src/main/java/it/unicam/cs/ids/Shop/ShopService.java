@@ -29,6 +29,13 @@ public class ShopService {
         return db.getShops();
     }
 
+    /**
+     * This function registers a shop by calling the registerShop method on a database object with the given shop object as
+     * a parameter.
+     *
+     * @param shop The parameter "shop" is an object of the class "Shop". It is being passed as an argument to the method
+     * "registerShop". The method is responsible for registering the shop object in the database.
+     */
     public void registerShop(Shop shop) {
         db.registerShop(shop);
     }
