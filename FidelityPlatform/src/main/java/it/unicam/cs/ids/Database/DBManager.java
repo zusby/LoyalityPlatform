@@ -323,9 +323,6 @@ public class DBManager extends FireBaseInitializer {
      */
     public List<Coupon> getCoupons() throws ExecutionException, InterruptedException {
         List<Coupon> coupons = new ArrayList<>();
-
-        Firestore db = FirestoreClient.getFirestore();  // Ottieni l'istanza del database Firestore
-
         try {
             ApiFuture<QuerySnapshot> future = db.collection("Coupons").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
