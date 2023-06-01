@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.Shop;
 
 import it.unicam.cs.ids.Coupon.Coupon;
+import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelitySpace;
 import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.Rules.CashBackRule;
@@ -17,13 +18,11 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "api/v1/shop")
 public class ShopController {
-
     private final ShopService service;
     @Autowired
     public ShopController(ShopService service) {
         this.service = service;
     }
-
     @GetMapping
     public List<Shop> getShops(){
         return service.getShops();
@@ -95,4 +94,8 @@ public class ShopController {
         this.service.updateFidelitySpace(space,shopID);
     }
 
+    @GetMapping("/{shopID}/fidelitycards")
+    public List<FidelityCard> getFidelityCardByShopID(@PathVariable String shopID){
+        return this.service.getFidelityCardByShopID(shopID);
+    }
 }

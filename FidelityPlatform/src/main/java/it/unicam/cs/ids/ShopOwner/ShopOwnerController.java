@@ -1,8 +1,10 @@
 package it.unicam.cs.ids.ShopOwner;
 
+import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.Customer.Customer;
 import it.unicam.cs.ids.Employee.Employee;
 import it.unicam.cs.ids.Employee.EmployeeService;
+import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,7 @@ public class ShopOwnerController {
         this.soService = soService;
         this.emplService = emplService;
     }
-
-    @PostMapping
+    @PostMapping("/employees/add")
     public void addEmployee(@RequestBody Employee employee){
        soService.addEmployee(employee);
     }
@@ -29,11 +30,13 @@ public class ShopOwnerController {
         return this.soService.getEmployees(shopId);
     }
     //TODO add generateCoupon
-    @PostMapping
+    @PostMapping("/customers/add")
     public void registerCustomer(@RequestBody Customer customer){
         emplService.registerCustomer(customer);
     }
-
-
+    @PostMapping("/coupon/generate")
+    public void generateCoupon(@RequestBody Coupon coupon, String shopId){
+       soService.generateCoupon(coupon, shopId);
+    }
 
 }

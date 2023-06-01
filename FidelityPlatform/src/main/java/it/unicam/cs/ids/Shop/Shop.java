@@ -1,9 +1,6 @@
 package it.unicam.cs.ids.Shop;
 
-import it.unicam.cs.ids.Model.Address;
-import it.unicam.cs.ids.Model.FidelityProgram;
-import it.unicam.cs.ids.Model.FidelitySpace;
-import it.unicam.cs.ids.Model.PrizeAwards;
+import it.unicam.cs.ids.Model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,22 +8,13 @@ import java.util.List;
 public class Shop {
 
     private String id;
-
     private String vatNumber;
     private String name;
     private List<String> shopOwners;
     private List<FidelityProgram> fidelityPrograms = new ArrayList<>();
     private PrizeAwards prizes;
-
     private FidelitySpace space;
-
-    public PrizeAwards getPrizes() {
-        return prizes;
-    }
-
-    public void setPrizes(PrizeAwards prizes) {
-        this.prizes = prizes;
-    }
+    private Catalogue catalogue;
 
     public Shop(String id, Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
         this.id = id;
@@ -39,6 +27,15 @@ public class Shop {
     }
 
     public Shop() {
+    }
+
+
+    public PrizeAwards getPrizes() {
+        return prizes;
+    }
+
+    public void setPrizes(PrizeAwards prizes) {
+        this.prizes = prizes;
     }
 
     public FidelitySpace getSpace() {
@@ -84,17 +81,18 @@ public class Shop {
         this.fidelityPrograms = fidelityPrograms;
 
     }
-
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-
+    public Catalogue getCatalogue() {
+        return catalogue;
+    }
+    public void setCatalogue(Catalogue catalogue) {
+        this.catalogue = catalogue;
+    }
     @Override
     public String toString() {
         return "Shop{" +

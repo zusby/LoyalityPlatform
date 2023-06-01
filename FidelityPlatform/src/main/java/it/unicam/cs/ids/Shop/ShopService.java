@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.Shop;
 
 import it.unicam.cs.ids.Database.DBManager;
+import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelitySpace;
 import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.PrizeAwards;
@@ -111,16 +112,16 @@ public class ShopService {
         shop.setFidelityPrograms(list);
         db.registerShop(shop);
     }
-
     public List<Shop> getShopsByOwnerID(String shopOwnerID) {
         return db.getShopsByOwnerId(shopOwnerID);
     }
-
     public FidelitySpace getFidelitySpace(String shopID) {
         return db.getFidelitySpace(shopID);
     }
-
     public void updateFidelitySpace(FidelitySpace space, String shopID) {
         db.updateFidelitySpace(space,shopID);
+    }
+    public List<FidelityCard> getFidelityCardByShopID(String shopID) {
+        return db.getFidelityCardByShopID(shopID);
     }
 }

@@ -28,8 +28,6 @@ public class ShopOwner extends Employee {
     public void setRank(Role rank) {
         this.rank = rank;
     }
-
-
     @Override
     public String toString() {
         return "ShopOwner{" +

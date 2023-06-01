@@ -376,6 +376,7 @@ public class DBManager extends FireBaseInitializer {
      *               retrieve the coupons.
      * @return The method is returning a list of Coupon objects that belong to a specific user, identified by their userId.
      */
+    //TODO: implementazione da fare sui service e controllers
     public List<Coupon> getCouponsByUser(String userId) {
         List<Coupon> userCoupons = new ArrayList<>();
 
@@ -416,6 +417,25 @@ public class DBManager extends FireBaseInitializer {
         }
     }
 
+
+    //TODO: Implementazione da fare sui controller e services!
+    public List<FidelityCard> getFidelityCardByShopID(String id){
+        ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("shopId", id).get();
+        List<QueryDocumentSnapshot> documents = null;
+        try {
+            documents = future.get().getDocuments();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        List<FidelityCard> fidelityCards= new ArrayList<>();
+        for (DocumentSnapshot document : documents) {
+            FidelityCard fidelity = document.toObject(FidelityCard.class);
+            fidelityCards.add(fidelity);
+        }
+        return fidelityCards;
+    }
+
     /**
      * This function retrieves a FidelityCard object from a Firestore database based on its ID.
      *
@@ -444,7 +464,7 @@ public class DBManager extends FireBaseInitializer {
     public void registerFidelityCard(FidelityCard fidelityC) {
         CollectionReference fidelityCard = db.collection("FidelityCard");
         List<ApiFuture<WriteResult>> futureFidelityCard = new ArrayList<>();
-        futureFidelityCard.add(fidelityCard.document(fidelityC.getId().toString()).create(fidelityC));
+        futureFidelityCard.add(fidelityCard.document(fidelityC.getId()).create(fidelityC));
     }
 
     /**
