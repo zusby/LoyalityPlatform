@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.Shop;
 
 import it.unicam.cs.ids.Database.DBManager;
+import it.unicam.cs.ids.Model.FidelitySpace;
 import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.PrizeAwards;
 import it.unicam.cs.ids.Model.Rules.CashBackRule;
@@ -9,6 +10,7 @@ import it.unicam.cs.ids.Model.Rules.CouponRule;
 import it.unicam.cs.ids.Model.Rules.LevelsRule;
 import it.unicam.cs.ids.Model.Rules.PointsRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,17 +41,6 @@ public class ShopService {
     public void registerShop(Shop shop) {
         db.registerShop(shop);
     }
-
-    public void test(FidelityProgram program) {
-
-        if (program instanceof CashBackRule) {
-            CashBackRule program1 = (CashBackRule) program;
-            System.out.println(program1 + "is instance of Cashbackrule!");
-        }
-
-        System.out.println(program.toString());
-    }
-
 
     public Set<Item> getPrizes(String shopId) {
         return db.getShop(shopId).getPrizes().getAwards();
@@ -121,5 +112,15 @@ public class ShopService {
         db.registerShop(shop);
     }
 
+    public List<Shop> getShopsByOwnerID(String shopOwnerID) {
+        return db.getShopsByOwnerId(shopOwnerID);
+    }
 
+    public FidelitySpace getFidelitySpace(String shopID) {
+        return db.getFidelitySpace(shopID);
+    }
+
+    public void updateFidelitySpace(FidelitySpace space, String shopID) {
+        db.updateFidelitySpace(space,shopID);
+    }
 }

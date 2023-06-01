@@ -33,4 +33,8 @@ public class AdminController {
             return false;
         }
     }
+
+    public List<ShopOwner> getShopOwnerWaitingList(){
+        return this.adminService.getShopOwnerWaitingList();
+    }
 }

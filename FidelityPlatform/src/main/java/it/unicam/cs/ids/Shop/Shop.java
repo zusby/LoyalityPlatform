@@ -2,6 +2,7 @@ package it.unicam.cs.ids.Shop;
 
 import it.unicam.cs.ids.Model.Address;
 import it.unicam.cs.ids.Model.FidelityProgram;
+import it.unicam.cs.ids.Model.FidelitySpace;
 import it.unicam.cs.ids.Model.PrizeAwards;
 
 import java.util.ArrayList;
@@ -10,13 +11,14 @@ import java.util.List;
 public class Shop {
 
     private String id;
-    private Address shopAddress;
+
     private String vatNumber;
     private String name;
-    private String shopTelephoneNumber;
     private List<String> shopOwners;
     private List<FidelityProgram> fidelityPrograms = new ArrayList<>();
     private PrizeAwards prizes;
+
+    private FidelitySpace space;
 
     public PrizeAwards getPrizes() {
         return prizes;
@@ -28,16 +30,24 @@ public class Shop {
 
     public Shop(String id, Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
         this.id = id;
-        this.shopAddress = shopAddress;
         this.vatNumber = vatNumber;
         this.name = name;
-        this.shopTelephoneNumber = shopTelephoneNumber;
         this.shopOwners = shopOwnerIDs;
+        this.space= new FidelitySpace();
+        space.setShopAddress( shopAddress);
+        space.setShopTelephoneNumber(shopTelephoneNumber);
     }
 
     public Shop() {
     }
 
+    public FidelitySpace getSpace() {
+        return space;
+    }
+
+    public void setSpace(FidelitySpace space) {
+        this.space = space;
+    }
 
     public String getId() {
         return id;
@@ -57,13 +67,6 @@ public class Shop {
     }
 
 
-    public Address getShopAddress() {
-        return shopAddress;
-    }
-
-    public void setShopAddress(Address shopAddress) {
-        this.shopAddress = shopAddress;
-    }
 
     public String getVatNumber() {
         return vatNumber;
@@ -91,13 +94,6 @@ public class Shop {
         this.name = name;
     }
 
-    public String getShopTelephoneNumber() {
-        return shopTelephoneNumber;
-    }
-
-    public void setShopTelephoneNumber(String shopTelephoneNumber) {
-        this.shopTelephoneNumber = shopTelephoneNumber;
-    }
 
     @Override
     public String toString() {
@@ -105,9 +101,7 @@ public class Shop {
                 "fidelityPrograms=" + fidelityPrograms +
                 ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", shopAddress=" + shopAddress +
                 ", shopOwners=" + shopOwners +
-                ", shopTelephoneNumber='" + shopTelephoneNumber + '\'' +
                 ", vatNumber='" + vatNumber + '\'' +
                 '}';
     }

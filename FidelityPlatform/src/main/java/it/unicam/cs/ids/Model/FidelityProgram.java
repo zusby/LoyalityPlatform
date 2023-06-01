@@ -13,7 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.UUID;
 
-public class FidelityProgram{
+public abstract class FidelityProgram{
     private String programID;
 
     private Timestamp startingDate;

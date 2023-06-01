@@ -16,6 +16,7 @@ import it.unicam.cs.ids.Model.PrizeAwards;
 import it.unicam.cs.ids.Shop.Shop;
 import it.unicam.cs.ids.ShopOwner.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -126,7 +127,7 @@ public class DBManager extends FireBaseInitializer {
     public void registerEmployeeNoPassword(Employee employee) {
         CollectionReference employees = db.collection("Employees");
         List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
-        if(AuthenticationController.registerNoPassword(employee.getEmail(), employee.getID())){
+        if (AuthenticationController.registerNoPassword(employee.getEmail(), employee.getID())) {
             futureCustomers.add(employees.document(employee.getID()).create(employee));
         }
 
@@ -184,9 +185,14 @@ public class DBManager extends FireBaseInitializer {
      * @return A list of ShopOwner objects that are retrieved from the "ShopOwnerAcceptanceList" collection in the
      * database.
      */
-    public List<ShopOwner> getShopOwnerRegistrations() throws InterruptedException, ExecutionException {
+    public List<ShopOwner> getShopOwnerRegistrations(){
         ApiFuture<QuerySnapshot> future = db.collection("ShopOwnerAcceptanceList").get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<QueryDocumentSnapshot> documents = null;
+        try {
+            documents = future.get().getDocuments();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         List<ShopOwner> shopOwners = new ArrayList<>();
 
         for (DocumentSnapshot document : documents) {
@@ -347,7 +353,7 @@ public class DBManager extends FireBaseInitializer {
      * based on the provided couponId. If the coupon with the given ID does not exist in the database, the method returns
      * null.
      */
-    public Coupon getCouponById(String couponId){
+    public Coupon getCouponById(String couponId) {
         DocumentReference couponRef = db.collection("Coupons").document(couponId);
         ApiFuture<DocumentSnapshot> future = couponRef.get();
 
@@ -564,8 +570,8 @@ public class DBManager extends FireBaseInitializer {
      * This Java function retrieves a customer object from a Firestore database using the customer's ID.
      *
      * @param id The parameter "id" is a String representing the unique identifier of a customer in the "Clients"
-     * collection in the database. The method retrieves the customer document with the specified id and returns a Customer
-     * object representing the data stored in the document.
+     *           collection in the database. The method retrieves the customer document with the specified id and returns a Customer
+     *           object representing the data stored in the document.
      * @return The method is returning a `Customer` object retrieved from the Firestore database based on the provided
      * `id`. If the document with the provided `id` does not exist, the method returns `null`.
      */
@@ -584,8 +590,8 @@ public class DBManager extends FireBaseInitializer {
         return null;
     }
 
-    public List<Employee> getEmployees(String shopId){
-        ApiFuture<QuerySnapshot> future = db.collection("Employees").whereEqualTo("shopId",shopId).get();
+    public List<Employee> getEmployees(String shopId) {
+        ApiFuture<QuerySnapshot> future = db.collection("Employees").whereEqualTo("shopId", shopId).get();
         List<QueryDocumentSnapshot> documents = null;
         try {
             documents = future.get().getDocuments();
@@ -594,9 +600,49 @@ public class DBManager extends FireBaseInitializer {
         }
         List<Employee> employees = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
-            Employee s = document.toObject(Employee.class);
-            employees.add(s);
+            employees.add(document.toObject(Employee.class));
         }
         return employees;
+    }
+
+
+
+    public List<Shop> getShopsByOwnerId(String shopOwnerID) {
+        ApiFuture<QuerySnapshot> future = db.collection("Shop").whereArrayContains("shopOwners", shopOwnerID).get();
+        List<QueryDocumentSnapshot> documents = null;
+
+        try {
+            documents = future.get().getDocuments();
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<Shop> shops = new ArrayList<>();
+
+        for (DocumentSnapshot document : documents) {
+            shops.add(document.toObject(Shop.class));
+        }
+        return shops;
+
+    }
+
+    public FidelitySpace getFidelitySpace(String shopID) {
+        DocumentReference shopRef = db.collection("Shops").document(shopID);
+        ApiFuture<DocumentSnapshot> futureCustomer = shopRef.get();
+
+        try {
+            DocumentSnapshot document = futureCustomer.get();
+            if (document.exists()) {
+                return document.toObject(Shop.class).getSpace();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void updateFidelitySpace(FidelitySpace space, String shopID){
+        DocumentReference shopRef = db.collection("Shop").document(shopID);
+        shopRef.update("space", space);
+
     }
 }

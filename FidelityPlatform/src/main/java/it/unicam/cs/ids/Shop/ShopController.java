@@ -1,12 +1,14 @@
 package it.unicam.cs.ids.Shop;
 
 import it.unicam.cs.ids.Coupon.Coupon;
+import it.unicam.cs.ids.Model.FidelitySpace;
 import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.Rules.CashBackRule;
 import it.unicam.cs.ids.Model.Rules.CouponRule;
 import it.unicam.cs.ids.Model.Rules.LevelsRule;
 import it.unicam.cs.ids.Model.Rules.PointsRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -77,6 +79,20 @@ public class ShopController {
     @PostMapping("/{shopId}/prizes/add")
     public void addPrize(@PathVariable String shopId, @RequestBody Item item){
         this.service.addPrize(shopId,item);
+    }
+
+    @GetMapping("/{shopOwnerID}/shops")
+    public List<Shop> getShopsByOwnerID(@PathVariable String shopOwnerID){
+        return service.getShopsByOwnerID(shopOwnerID);
+    }
+    @GetMapping("/{shopID}/fidelity-space")
+    public FidelitySpace getFidelitySpace(@PathVariable String shopID){
+        return this.service.getFidelitySpace(shopID);
+    }
+
+    @PutMapping("/{shopID}/fidelity-space/update")
+    public void updateFidelitySpace(@RequestBody FidelitySpace space, @PathVariable String shopID){
+        this.service.updateFidelitySpace(space,shopID);
     }
 
 }
