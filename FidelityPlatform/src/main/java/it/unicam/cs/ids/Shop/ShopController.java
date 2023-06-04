@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.Shop;
 
-import it.unicam.cs.ids.Coupon.Coupon;
+
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelitySpace;
 import it.unicam.cs.ids.Model.Item;
@@ -9,7 +9,7 @@ import it.unicam.cs.ids.Model.Rules.CouponRule;
 import it.unicam.cs.ids.Model.Rules.LevelsRule;
 import it.unicam.cs.ids.Model.Rules.PointsRule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

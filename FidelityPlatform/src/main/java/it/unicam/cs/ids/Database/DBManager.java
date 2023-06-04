@@ -660,15 +660,10 @@ public class DBManager extends FireBaseInitializer {
         return null;
     }
 
-    public void updateFidelitySpace(FidelitySpace space, String shopID){
+    public void updateFidelitySpace(FidelitySpace space, String shopID) {
         DocumentReference shopRef = db.collection("Shop").document(shopID);
         shopRef.update("space", space);
 
-    }
-
-    public void addCustomerPurchase(Purchase purchase){
-        DocumentReference purchaseRef = db.collection("Purchases").document(purchase.getID());
-        purchaseRef.set(purchase);
     }
 
     public List<Points> getFidelityCardPointsHistory(String id) {

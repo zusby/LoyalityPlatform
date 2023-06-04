@@ -1,25 +1,14 @@
 package it.unicam.cs.ids.Customer;
 
 
-import io.swagger.annotations.*;
+
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
-import it.unicam.cs.ids.Model.Item;
 import it.unicam.cs.ids.Model.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration;
 
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/customer")
@@ -73,11 +62,4 @@ public class CustomerController {
     public void modifyCustomerProfile(@RequestBody Customer customer){
         customerService.updateProfile(customer);
     }
-
-    @PutMapping("/{id}/add-purchase")
-    public void addCustomerPurchase(@PathVariable String id, Purchase purchase){
-        customerService.addCustomerPurchase(purchase);
-    }
-
-
 }

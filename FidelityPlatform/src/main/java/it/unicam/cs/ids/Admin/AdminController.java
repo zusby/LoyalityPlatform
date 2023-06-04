@@ -1,18 +1,14 @@
 package it.unicam.cs.ids.Admin;
 
-import it.unicam.cs.ids.Customer.Customer;
-import it.unicam.cs.ids.Customer.CustomerService;
 import it.unicam.cs.ids.ShopOwner.ShopOwner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/admin/")
+@RequestMapping("api/v1/admin")
 public class AdminController {
     private final AdminService adminService;
 
@@ -21,12 +17,13 @@ public class AdminController {
         this.adminService = service;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Admin> getAdmins(){
         return adminService.getAdmins();
     }
 
-    public boolean registerShopOwner(ShopOwner waiting) {
+    @PutMapping("/waiting-list/accept")
+    public boolean registerShopOwner(@RequestBody ShopOwner waiting) {
         try {
             return adminService.registerShopOwner(waiting);
         } catch (IOException e) {
@@ -34,6 +31,7 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/waiting-list")
     public List<ShopOwner> getShopOwnerWaitingList(){
         return this.adminService.getShopOwnerWaitingList();
     }

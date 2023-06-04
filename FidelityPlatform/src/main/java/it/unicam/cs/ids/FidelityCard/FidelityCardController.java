@@ -5,13 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.cs.ids.Model.Points;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/fidelity-cards")
@@ -53,7 +52,7 @@ public class FidelityCardController {
 
     @PutMapping("/{cardId}/expire-date")
     public ResponseEntity<?> updateExpireDate(@PathVariable String cardId, @RequestBody Date newExpireDate) {
-        boolean success = fidelityCardService.updateExpireDate(cardId.toString(), newExpireDate);
+        boolean success = fidelityCardService.updateExpireDate(cardId, newExpireDate);
         if (success) {
             return ResponseEntity.noContent().build();
         }
@@ -82,8 +81,8 @@ public class FidelityCardController {
         }
     }
 
-    @GetMapping("/{cardId}/points-history")
-    public List<Points> getPointsHistory(String id){
+    @GetMapping("/{id}/points-history")
+    public List<Points> getPointsHistory(@PathVariable String id){
         return fidelityCardService.getPointsHistory(id);
     }
 }

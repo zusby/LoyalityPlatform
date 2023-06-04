@@ -107,8 +107,4 @@ public class CustomerService  {
         return db.getCustomer(id);
     }
 
-
-    public void addCustomerPurchase(Purchase purchase) {
-        db.addCustomerPurchase(purchase);
-    }
 }

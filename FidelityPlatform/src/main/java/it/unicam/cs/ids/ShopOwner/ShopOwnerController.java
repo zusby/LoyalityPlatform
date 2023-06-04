@@ -4,11 +4,10 @@ import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.Customer.Customer;
 import it.unicam.cs.ids.Employee.Employee;
 import it.unicam.cs.ids.Employee.EmployeeService;
-import it.unicam.cs.ids.FidelityCard.FidelityCard;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
