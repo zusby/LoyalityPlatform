@@ -1,9 +1,7 @@
 package it.unicam.cs.ids.Model;
 
-import com.google.common.base.MoreObjects;
 
 import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
  * Simple class to store an address

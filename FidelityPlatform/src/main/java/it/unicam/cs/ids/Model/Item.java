@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.Model;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class Item {
     private final double cost;

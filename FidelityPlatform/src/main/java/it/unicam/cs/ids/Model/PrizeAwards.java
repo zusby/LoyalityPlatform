@@ -1,8 +1,5 @@
 package it.unicam.cs.ids.Model;
 
-import it.unicam.cs.ids.Model.Item;
-
-import java.util.List;
 import java.util.Set;
 
 public class PrizeAwards {

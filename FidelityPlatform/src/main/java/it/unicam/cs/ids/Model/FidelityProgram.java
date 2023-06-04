@@ -1,17 +1,9 @@
 package it.unicam.cs.ids.Model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.cloud.Timestamp;
-import it.unicam.cs.ids.Customer.Customer;
-import it.unicam.cs.ids.FidelityCard.FidelityCard;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Objects;
-import java.util.UUID;
 
 public abstract class FidelityProgram{
     private String programID;

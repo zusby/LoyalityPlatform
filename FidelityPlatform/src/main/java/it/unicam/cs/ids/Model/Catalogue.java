@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.Model;
 
-import java.util.List;
 import java.util.Set;
 
 public class Catalogue {
