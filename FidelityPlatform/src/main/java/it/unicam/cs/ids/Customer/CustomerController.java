@@ -69,5 +69,15 @@ public class CustomerController {
         customerService.makePurchase(purchase);
     }
 
+    @PutMapping("/{id}/update")
+    public void modifyCustomerProfile(@RequestBody Customer customer){
+        customerService.updateProfile(customer);
+    }
+
+    @PutMapping("/{id}/add-purchase")
+    public void addCustomerPurchase(@PathVariable String id, Purchase purchase){
+        customerService.addCustomerPurchase(purchase);
+    }
+
 
 }

@@ -57,6 +57,10 @@ public class CouponService {
         db.updateCoupon(coupon);
     }
 
+    public List <Coupon> getCouponByUserId(String id) {
+        return db.getCouponsByUser(id);
+    }
+
 
     // Altri metodi per la logica di business dei coupon
 }

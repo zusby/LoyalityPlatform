@@ -29,6 +29,10 @@ public class CustomerService  {
         this.db = new DBManager();
     }
 
+    public  void updateProfile(Customer customer) {
+        db.updateCustomerProfile(customer);
+    }
+
 
     public List<Customer> getCustomers() {
         try {
@@ -104,4 +108,7 @@ public class CustomerService  {
     }
 
 
+    public void addCustomerPurchase(Purchase purchase) {
+        db.addCustomerPurchase(purchase);
+    }
 }

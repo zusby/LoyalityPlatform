@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.Coupon;
 
 
+import it.unicam.cs.ids.Customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,10 @@ public class CouponController {
     @PutMapping("/{id}")
     public void updateCoupon(@PathVariable String id, @RequestBody Date newExpireDate){
         couponService.updateCoupon(id,newExpireDate);
+    }
+
+    public List<Coupon> getCouponByUserId(String id){
+        return couponService.   getCouponByUserId(id);
     }
 
 }

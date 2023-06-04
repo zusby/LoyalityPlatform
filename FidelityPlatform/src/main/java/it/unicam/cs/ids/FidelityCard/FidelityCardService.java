@@ -2,15 +2,13 @@ package it.unicam.cs.ids.FidelityCard;
 
 import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Database.DBManager;
+import it.unicam.cs.ids.Model.Points;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class FidelityCardService {
@@ -76,5 +74,9 @@ public class FidelityCardService {
 
     public FidelityCard getFidelityCardByUserId(String userId) {
         return dbManager.getFidelityCardByUserID(userId);
+    }
+
+    public List<Points> getPointsHistory(String id) {
+        return dbManager.getFidelityCardPointsHistory(id);
     }
 }

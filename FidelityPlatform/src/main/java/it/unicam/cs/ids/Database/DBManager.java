@@ -12,7 +12,6 @@ import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.*;
 import it.unicam.cs.ids.Customer.*;
 import it.unicam.cs.ids.Employee.*;
-import it.unicam.cs.ids.Model.PrizeAwards;
 import it.unicam.cs.ids.Shop.Shop;
 import it.unicam.cs.ids.ShopOwner.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -268,6 +267,11 @@ public class DBManager extends FireBaseInitializer {
         }
     }
 
+    public void updateCustomerProfile(Customer customer){
+            DocumentReference couponRef = db.collection("Customers").document(customer.getID());
+            couponRef.set(customer);
+    }
+
     /**
      * This function removes a purchase from the Firestore collection.
      *
@@ -376,7 +380,6 @@ public class DBManager extends FireBaseInitializer {
      *               retrieve the coupons.
      * @return The method is returning a list of Coupon objects that belong to a specific user, identified by their userId.
      */
-    //TODO: implementazione da fare sui service e controllers
     public List<Coupon> getCouponsByUser(String userId) {
         List<Coupon> userCoupons = new ArrayList<>();
 
@@ -418,7 +421,6 @@ public class DBManager extends FireBaseInitializer {
     }
 
 
-    //TODO: Implementazione da fare sui controller e services!
     public List<FidelityCard> getFidelityCardByShopID(String id){
         ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("shopId", id).get();
         List<QueryDocumentSnapshot> documents = null;
@@ -625,8 +627,6 @@ public class DBManager extends FireBaseInitializer {
         return employees;
     }
 
-
-
     public List<Shop> getShopsByOwnerId(String shopOwnerID) {
         ApiFuture<QuerySnapshot> future = db.collection("Shop").whereArrayContains("shopOwners", shopOwnerID).get();
         List<QueryDocumentSnapshot> documents = null;
@@ -664,5 +664,14 @@ public class DBManager extends FireBaseInitializer {
         DocumentReference shopRef = db.collection("Shop").document(shopID);
         shopRef.update("space", space);
 
+    }
+
+    public void addCustomerPurchase(Purchase purchase){
+        DocumentReference purchaseRef = db.collection("Purchases").document(purchase.getID());
+        purchaseRef.set(purchase);
+    }
+
+    public List<Points> getFidelityCardPointsHistory(String id) {
+        return this.getFidelityCardByCardID(id).getPointsHistory();
     }
 }

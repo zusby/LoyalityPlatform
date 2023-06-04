@@ -3,12 +3,14 @@ package it.unicam.cs.ids.FidelityCard;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.unicam.cs.ids.Model.Points;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -78,5 +80,10 @@ public class FidelityCardController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{cardId}/points-history")
+    public List<Points> getPointsHistory(String id){
+        return fidelityCardService.getPointsHistory(id);
     }
 }
