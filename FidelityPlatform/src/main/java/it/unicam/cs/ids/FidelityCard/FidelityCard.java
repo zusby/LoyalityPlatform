@@ -120,8 +120,11 @@ public class FidelityCard {
         this.pointsHistory = pointsHistory;
     }
 
-    public void updateFidelityPoints(double points) {
+
+
+    public void updateFidelityPoints(int points) {
         this.points += points;
+        this.pointsHistory.add(new Points(points));
     }
 
     public void updateExp(int exp) {

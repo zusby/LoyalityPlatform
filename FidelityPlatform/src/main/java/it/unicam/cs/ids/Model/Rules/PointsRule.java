@@ -12,9 +12,12 @@ public class PointsRule extends FidelityProgram implements RuleApplier {
         super(programID, endingDate, startingDate);
         this.pointsMultiplier = pointsMultiplier;
     }
+    public PointsRule(){
+
+    }
 
     @Override
     public void applyRule(FidelityCard card, Purchase purchase) {
-        card.updateFidelityPoints(purchase.getPrice()*pointsMultiplier);
+        card.updateFidelityPoints((int) (purchase.getPrice()*pointsMultiplier));
     }
 }

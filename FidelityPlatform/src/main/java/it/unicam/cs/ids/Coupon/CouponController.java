@@ -52,9 +52,9 @@ public class CouponController {
         couponService.updateCoupon(id,newExpireDate);
     }
 
-    @GetMapping("/{id}/coupons")
-    public List<Coupon> getCouponsByUserId(@PathVariable String id){
-        return couponService.getCouponsByUserId(id);
+    @GetMapping("/{userId}/coupons")
+    public List<Coupon> getCouponsByUserId(@PathVariable String userId){
+        return couponService.getCouponsByUserId(userId);
     }
 
 }

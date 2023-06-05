@@ -9,10 +9,18 @@ import java.util.GregorianCalendar;
 public class Points {
     private int points;
     private Timestamp date;
-
+    private String description;
     public Points(int points) {
         this.points = points;
         this.date = Timestamp.of(new GregorianCalendar().getTime());
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getPoints() {

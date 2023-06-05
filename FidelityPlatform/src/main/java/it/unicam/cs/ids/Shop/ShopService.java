@@ -53,7 +53,22 @@ public class ShopService {
         prizes.addAward(item);
         shop.setPrizes(prizes);
         registerShop(shop);
+    }
 
+    public void updatePrize(String shopId, Item item) {
+        Shop shop = db.getShop(shopId);
+        PrizeAwards prizes = shop.getPrizes();
+        prizes.removeAward(item);
+        prizes.addAward(item);
+        shop.setPrizes(prizes);
+        registerShop(shop);
+    }
+    public void removePrize(String shopId, Item item) {
+        Shop shop = db.getShop(shopId);
+        PrizeAwards prizes = shop.getPrizes();
+        prizes.removeAward(item);
+        shop.setPrizes(prizes);
+        registerShop(shop);
     }
 
     public void addCashBackRule(CashBackRule program, String id) {
@@ -124,4 +139,6 @@ public class ShopService {
     public List<FidelityCard> getFidelityCardByShopID(String shopID) {
         return db.getFidelityCardByShopID(shopID);
     }
+
+
 }

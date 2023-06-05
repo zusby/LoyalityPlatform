@@ -80,6 +80,16 @@ public class ShopController {
         this.service.addPrize(shopId,item);
     }
 
+    @PutMapping("/{shopId}/prizes/modify")
+    public void updatePrize(@PathVariable String shopId, @RequestBody Item item){
+        this.service.updatePrize(shopId,item);
+    }
+    @DeleteMapping("/{shopId}/prizes/delete")
+    public void deletePrize(@PathVariable String shopId, @RequestBody Item item){
+        this.service.removePrize(shopId,item);
+    }
+
+
     @GetMapping("/{shopOwnerID}/shops")
     public List<Shop> getShopsByOwnerID(@PathVariable String shopOwnerID){
         return service.getShopsByOwnerID(shopOwnerID);
