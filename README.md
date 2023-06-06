@@ -16,7 +16,7 @@ To initialize the FireStore Database and the FireStore Authentication service it
 ## API Reference
 
 All the api references are available @Swagger_UI and or trough the java docs.
-
+```
 📦         └─ resources
             |  ├─ application.properties
             |  └─ google-services.json
@@ -71,7 +71,7 @@ All the api references are available @Swagger_UI and or trough the java docs.
             │                 ├─ ShopOwnerController.java
             │                 └─ ShopOwnerService.java
            
-
+```
 
 
 
