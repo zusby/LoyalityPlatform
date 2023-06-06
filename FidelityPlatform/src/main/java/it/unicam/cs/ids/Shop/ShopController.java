@@ -121,10 +121,13 @@ public class ShopController {
         this.service.updateFidelitySpace(space, shopID);
     }
 
-    @DeleteMapping("/{id}/delete")
-    @Operation(summary =  "Delete a shopOwner from an id")
-    public void deleteShopOwner(@PathVariable String id){
-        this.service.deleteShopOwner(id);
+
+    @DeleteMapping("/{shopID}/delete")
+    @Operation(summary = "Delete a shop from its ID")
+    public void deleteShop(@PathVariable String shopID) {
+        this.service.deleteShop(shopID);
     }
+
+
 
 }

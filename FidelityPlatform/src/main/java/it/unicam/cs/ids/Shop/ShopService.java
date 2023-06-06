@@ -141,4 +141,8 @@ public class ShopService {
     public void deleteShopOwner(String id) {
         db.deleteShopOwner(id);
     }
+
+    public void deleteShop(String shopID) {
+        db.deleteShop(shopID);
+    }
 }

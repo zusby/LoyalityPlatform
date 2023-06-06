@@ -1,14 +1,11 @@
 package it.unicam.cs.ids.Admin;
 
 import it.unicam.cs.ids.Database.DBManager;
-import it.unicam.cs.ids.Model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
-import it.unicam.cs.ids.ShopOwner.*;
 @Service
 public class AdminService {
 
@@ -21,5 +18,21 @@ public class AdminService {
 
     public List<Admin> getAdmins() {
         return null;
+    }
+
+    public void updateAdmin(Admin admin) {
+        this.db.updateAdmin(admin);
+    }
+
+    public void deleteAdmin(String id) {
+        this.db.deleteAdmin(id);
+    }
+
+    public Admin getAdmin(String id) {
+        return this.db.getAdmin(id);
+    }
+
+    public void addAdmin(Admin admin) {
+        this.db.registerAdmin(admin);
     }
 }

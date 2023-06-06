@@ -50,6 +50,4 @@ public class PurchaseController {
     public void removePurchase(@PathVariable String id) {
         service.removePurchase(id);
     }
-
-
 }
