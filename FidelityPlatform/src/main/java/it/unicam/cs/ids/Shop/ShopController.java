@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.Shop;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelitySpace;
 import it.unicam.cs.ids.Model.Item;
@@ -24,6 +26,7 @@ public class ShopController {
         this.service = service;
     }
     @GetMapping
+    @Operation(summary = "Get all the shops")
     public List<Shop> getShops(){
         return service.getShops();
     }
@@ -36,6 +39,7 @@ public class ShopController {
      * service object will be called with this parameter to register a new shop.
      */
     @PostMapping
+    @Operation(summary = "adds a new Shop")
     public void registerShop(@RequestBody Shop shop){
         System.out.println(shop);
         service.registerShop(shop);
@@ -51,61 +55,76 @@ public class ShopController {
      * system. It is used in the URL of the API endpoint to specify which resource the request is targeting. In this case,
      * it is used to identify the specific program to which the cashback rule
      */
-    @PostMapping("/{id}/cashback/add")
-    public void addCashBackRule(@RequestBody CashBackRule program, @PathVariable String id){
-       service.addCashBackRule(program, id);
+    @PostMapping("/{id}/cashback-rule/add")
+    @Operation(summary = "Add a cashback rule")
+    public void addCashBackRule(@RequestBody CashBackRule program, @PathVariable String id) {
+        service.addCashBackRule(program, id);
     }
 
-    @PostMapping("/{id}/coupon/add")
-    public void addCouponRule(@PathVariable String id, @RequestBody CouponRule program){
-        this.service.addCouponRule(program,id);
-    }
-    @PostMapping("/{id}/levels/add")
-    public void addLevelRule(@PathVariable String id, @RequestBody LevelsRule program){
-        this.service.addLevelRule(program,id);
+    @PostMapping("/{id}/coupon-rule/add")
+    @Operation(summary = "Add a coupon rule")
+    public void addCouponRule(@PathVariable String id, @RequestBody CouponRule program) {
+        this.service.addCouponRule(program, id);
     }
 
+    @PostMapping("/{id}/levels-rule/add")
+    @Operation(summary = "Add a levels rule")
+    public void addLevelRule(@PathVariable String id, @RequestBody LevelsRule program) {
+        this.service.addLevelRule(program, id);
+    }
 
-    @PostMapping("/{id}/points/add")
-    public void addPointsRule(@PathVariable String id, @RequestBody PointsRule program){
+    @PostMapping("/{id}/points-rule/add")
+    @Operation(summary = "Add a points rule")
+    public void addPointsRule(@PathVariable String id, @RequestBody PointsRule program) {
         this.service.addPointsRule(program, id);
     }
 
     @GetMapping("/{shopId}/prizes")
+    @Operation(summary = "Get prizes by shop ID")
     public Set<Item> getPrizes(@PathVariable String shopId) {
         return this.service.getPrizes(shopId);
     }
+
     @PostMapping("/{shopId}/prizes/add")
-    public void addPrize(@PathVariable String shopId, @RequestBody Item item){
-        this.service.addPrize(shopId,item);
+    @Operation(summary = "Add a prize")
+    public void addPrize(@PathVariable String shopId, @RequestBody Item item) {
+        this.service.addPrize(shopId, item);
     }
 
     @PutMapping("/{shopId}/prizes/modify")
-    public void updatePrize(@PathVariable String shopId, @RequestBody Item item){
-        this.service.updatePrize(shopId,item);
-    }
-    @DeleteMapping("/{shopId}/prizes/delete")
-    public void deletePrize(@PathVariable String shopId, @RequestBody Item item){
-        this.service.removePrize(shopId,item);
+    @Operation(summary = "Update a prize")
+    public void updatePrize(@PathVariable String shopId, @RequestBody Item item) {
+        this.service.updatePrize(shopId, item);
     }
 
+    @DeleteMapping("/{shopId}/prizes/delete")
+    @Operation(summary = "Delete a prize")
+    public void deletePrize(@PathVariable String shopId, @RequestBody Item item) {
+        this.service.removePrize(shopId, item);
+    }
 
     @GetMapping("/{shopOwnerID}/shops")
-    public List<Shop> getShopsByOwnerID(@PathVariable String shopOwnerID){
+    @Operation(summary = "Get shops by owner ID")
+    public List<Shop> getShopsByOwnerID(@PathVariable String shopOwnerID) {
         return service.getShopsByOwnerID(shopOwnerID);
     }
+
     @GetMapping("/{shopID}/fidelity-space")
-    public FidelitySpace getFidelitySpace(@PathVariable String shopID){
+    @Operation(summary = "Get the fidelity space of a shop")
+    public FidelitySpace getFidelitySpace(@PathVariable String shopID) {
         return this.service.getFidelitySpace(shopID);
     }
 
     @PutMapping("/{shopID}/fidelity-space/update")
-    public void updateFidelitySpace(@RequestBody FidelitySpace space, @PathVariable String shopID){
-        this.service.updateFidelitySpace(space,shopID);
+    @Operation(summary = "Update the fidelity space of a shop")
+    public void updateFidelitySpace(@RequestBody FidelitySpace space, @PathVariable String shopID) {
+        this.service.updateFidelitySpace(space, shopID);
     }
 
-    @GetMapping("/{shopID}/fidelitycards")
-    public List<FidelityCard> getFidelityCardByShopID(@PathVariable String shopID){
-        return this.service.getFidelityCardByShopID(shopID);
+    @DeleteMapping("/{id}/delete")
+    @Operation(summary =  "Delete a shopOwner from an id")
+    public void deleteShopOwner(@PathVariable String id){
+        this.service.deleteShopOwner(id);
     }
+
 }

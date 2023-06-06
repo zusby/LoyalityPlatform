@@ -3,7 +3,7 @@ package it.unicam.cs.ids.Model.Rules;
 import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelityProgram;
-import it.unicam.cs.ids.Model.Purchase;
+import it.unicam.cs.ids.Purchase.Purchase;
 
 public class PointsRule extends FidelityProgram implements RuleApplier {
     private double pointsMultiplier;

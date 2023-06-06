@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.Shop;
 
+import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.Database.DBManager;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelitySpace;
@@ -136,9 +137,8 @@ public class ShopService {
     public void updateFidelitySpace(FidelitySpace space, String shopID) {
         db.updateFidelitySpace(space,shopID);
     }
-    public List<FidelityCard> getFidelityCardByShopID(String shopID) {
-        return db.getFidelityCardByShopID(shopID);
+
+    public void deleteShopOwner(String id) {
+        db.deleteShopOwner(id);
     }
-
-
 }

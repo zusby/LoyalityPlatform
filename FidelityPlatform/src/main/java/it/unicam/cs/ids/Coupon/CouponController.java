@@ -18,9 +18,7 @@ public class CouponController {
         this.couponService = service;
     }
 
-
-
-    @GetMapping
+    @GetMapping("/all")
     public List<Coupon> getCoupons() {
         return couponService.getCoupons();
     }
@@ -30,8 +28,7 @@ public class CouponController {
         return couponService.getCouponById(id);
     }
 
-
-    @PutMapping
+    @PutMapping("/add")
     public ResponseEntity<Coupon> addCoupon(@RequestBody Coupon coupon){
        if(this.couponService.addCoupon(coupon)){
            return ResponseEntity.ok().build();
@@ -57,5 +54,16 @@ public class CouponController {
         return couponService.getCouponsByUserId(userId);
     }
 
+
+    /**
+     * Method that allows the ShopOwner to generate coupons for all over his fidelity clients
+     *
+     * @param coupon the new coupon
+     * @param shopId the id of the ShopOwner's  shop
+     */
+    @PostMapping("/coupon/generate")
+    public void generateCoupon(@RequestBody Coupon coupon, String shopId){
+        couponService.generateCoupon(coupon, shopId);
+    }
 }
 

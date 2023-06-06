@@ -1,41 +1,66 @@
 package it.unicam.cs.ids.ShopOwner;
 
-import it.unicam.cs.ids.Coupon.Coupon;
-import it.unicam.cs.ids.Customer.Customer;
-import it.unicam.cs.ids.Employee.Employee;
-import it.unicam.cs.ids.Employee.EmployeeService;
-
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path ="api/v1/shopOwner")
+@RequestMapping(path = "api/v1/shopOwner")
 public class ShopOwnerController {
     private final ShopOwnerService soService;
-    private final EmployeeService emplService;
+
     @Autowired
-    public ShopOwnerController(ShopOwnerService soService, EmployeeService emplService) {
+    public ShopOwnerController(ShopOwnerService soService) {
         this.soService = soService;
-        this.emplService = emplService;
     }
-    @PostMapping("/employees/add")
-    public void addEmployee(@RequestBody Employee employee){
-       soService.addEmployee(employee);
+
+    @Operation(summary = "Register a shop owner from the waiting list")
+    @PutMapping("/waiting-list/accept")
+    public boolean registerShopOwner(@RequestBody ShopOwner waiting) {
+        try {
+            return soService.registerShopOwner(waiting);
+        } catch (IOException e) {
+            return false;
+        }
     }
-    @GetMapping("/{shopId}/employees")
-    public List<Employee> getEmployees(@PathVariable String shopId){
-        return this.soService.getEmployees(shopId);
+
+    @Operation(summary = "Register a shop owner in the waiting list")
+    @PutMapping("/waiting-list/add")
+    public void registerShopOwnerWaitingList(@RequestBody ShopOwner shopOwner) {
+        this.soService.registerShopOwnerWaitingList(shopOwner);
     }
-    //TODO add generateCoupon
-    @PostMapping("/customers/add")
-    public void registerCustomer(@RequestBody Customer customer){
-        emplService.registerCustomer(customer);
+
+    @Operation(summary = "Get the list of shop owners in the waiting list")
+    @GetMapping("/waiting-list")
+    public List<ShopOwner> getShopOwnerWaitingList() {
+        return this.soService.getShopOwnerWaitingList();
     }
-    @PostMapping("/coupon/generate")
-    public void generateCoupon(@RequestBody Coupon coupon, String shopId){
-       soService.generateCoupon(coupon, shopId);
+
+    @Operation(summary = "Get a shop owner by their ID")
+    @GetMapping("/{id}")
+    public ShopOwner getShopOwner(@PathVariable String id) {
+        return soService.getShopOwner(id);
+    }
+
+    @Operation(summary = "Get all shop owners")
+    @GetMapping("/all")
+    public List<ShopOwner> getShopOwners() {
+        return soService.getShopOwners();
+    }
+
+    @Operation(summary = "Get shop owners by shop ID")
+    @GetMapping("/{shopId}/shop-owners")
+    public List<ShopOwner> getShopOwnersByShopId(@PathVariable String shopId) {
+        return soService.getShopOwnersByShopId(shopId);
+    }
+
+    @Operation(summary = "Delete a shop owner by their ID")
+    @DeleteMapping("/{id}/delete")
+    public void deleteShopOwner(@PathVariable String id) {
+        soService.deleteShopOwner(id);
     }
 
 }

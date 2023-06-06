@@ -22,17 +22,4 @@ public class AdminController {
         return adminService.getAdmins();
     }
 
-    @PutMapping("/waiting-list/accept")
-    public boolean registerShopOwner(@RequestBody ShopOwner waiting) {
-        try {
-            return adminService.registerShopOwner(waiting);
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    @GetMapping("/waiting-list")
-    public List<ShopOwner> getShopOwnerWaitingList(){
-        return this.adminService.getShopOwnerWaitingList();
-    }
 }

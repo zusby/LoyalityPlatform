@@ -83,13 +83,9 @@ public class FidelityCard {
         this.id = id;
     }
 
-    public String getCardOwner() {
-        return cardOwnerId;
-    }
 
-    public void setCardOwner(String cardOwner) {
-        this.cardOwnerId = cardOwner;
-    }
+
+
 
     public Date getExpireDate() {
         return expireDate.toDate();

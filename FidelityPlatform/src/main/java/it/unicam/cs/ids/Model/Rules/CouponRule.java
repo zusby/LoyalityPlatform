@@ -4,7 +4,7 @@ import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelityProgram;
-import it.unicam.cs.ids.Model.Purchase;
+import it.unicam.cs.ids.Purchase.Purchase;
 
 public class CouponRule extends FidelityProgram implements RuleApplier {
 

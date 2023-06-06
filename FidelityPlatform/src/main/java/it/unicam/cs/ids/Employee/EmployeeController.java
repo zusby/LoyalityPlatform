@@ -2,10 +2,11 @@ package it.unicam.cs.ids.Employee;
 
 import it.unicam.cs.ids.Customer.Customer;
 
-import it.unicam.cs.ids.Model.Purchase;
+import it.unicam.cs.ids.Purchase.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -16,14 +17,16 @@ public class EmployeeController {
     public EmployeeController(EmployeeService service){
         this.service = service;
     }
-
-    @PostMapping
-    public void registerCustomer(@RequestBody Customer customer){
-        service.registerCustomer(customer);
+    @PostMapping("/employees/add")
+    public void addEmployee(@RequestBody Employee employee){
+        service.addEmployee(employee);
     }
-
-    @PostMapping("/purchase/add")
-    public void registerPurchase(@RequestBody Purchase purchase){
-        service.registerPurchase(purchase);
+    @GetMapping("/{shopId}")
+    public List<Employee> getEmployees(@PathVariable String shopId){
+        return this.service.getEmployees(shopId);
+    }
+    @GetMapping("/{id}")
+    public Employee getEmployee(@PathVariable String id){
+       return  this.service.getEmployee(id);
     }
 }

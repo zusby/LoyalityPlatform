@@ -39,7 +39,7 @@ public class FidelityCardService {
         FidelityCard fidelityCard = dbManager.getFidelityCardByCardID(cardId);
         if (fidelityCard != null) {
             fidelityCard.setExpireDate(newExpireDate);
-            dbManager.updateFidelityCardExpireDate(fidelityCard.getCardOwner(), newExpireDate);
+            dbManager.updateFidelityCardExpireDate(fidelityCard.getCardOwnerId(), newExpireDate);
             return true;
         }
         return false;
@@ -79,4 +79,13 @@ public class FidelityCardService {
     public List<Points> getPointsHistory(String id) {
         return dbManager.getFidelityCardPointsHistory(id);
     }
+
+    public void deleteFidelityCard(String id) {
+        this.dbManager.deleteFidelityCard(id);
+    }
+
+    public List<FidelityCard> getFidelityCardByShopID(String shopID) {
+        return dbManager.getFidelityCardByShopID(shopID);
+    }
+
 }

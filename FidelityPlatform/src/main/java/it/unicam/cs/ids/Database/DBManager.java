@@ -12,10 +12,10 @@ import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.*;
 import it.unicam.cs.ids.Customer.*;
 import it.unicam.cs.ids.Employee.*;
+import it.unicam.cs.ids.Purchase.Purchase;
 import it.unicam.cs.ids.Shop.Shop;
 import it.unicam.cs.ids.ShopOwner.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -43,13 +43,28 @@ public class DBManager extends FireBaseInitializer {
      *                 retrieved from the "Purchases" collection in the Firestore database.
      * @return The method `getPurchases` returns a list of `Purchase` objects for a given `clientID`.
      */
-    public List<Purchase> getPurchases(String clientID) throws ExecutionException, InterruptedException {
+    public List<Purchase> getUserPurchases(String clientID) throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future = db.collection("Purchases").whereEqualTo("user", clientID).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<Purchase> purchases = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
             Purchase s = document.toObject(Purchase.class);
             purchases.add(s);
+        }
+        return purchases;
+    }
+
+    public List<Purchase> getPurchases() {
+        ApiFuture<QuerySnapshot> future = db.collection("Purchases").get();
+        List<Purchase> purchases = new ArrayList<>();
+        try {
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (DocumentSnapshot document : documents) {
+                Purchase s = document.toObject(Purchase.class);
+                purchases.add(s);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
         }
         return purchases;
     }
@@ -79,10 +94,17 @@ public class DBManager extends FireBaseInitializer {
      *                 purchase made by a customer. This information may include the purchase ID, the customer ID, the product ID, the
      *                 quantity purchased, the date of purchase, and the total cost of the purchase.
      */
+
     public void registerPurchase(Purchase purchase) {
         CollectionReference purchases = db.collection("Purchases");
-        List<ApiFuture<WriteResult>> futurePurchases = new ArrayList<>();
-        futurePurchases.add(purchases.document(purchase.getID()).create(purchase));
+        DocumentReference purchaseRef = purchases.document(purchase.getID());
+        ApiFuture<WriteResult> writeResult = purchaseRef.create(purchase);
+        try {
+            writeResult.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -94,10 +116,18 @@ public class DBManager extends FireBaseInitializer {
      *                 by creating a new document in the "Clients" collection in the Firestore database and adding the
      */
     public void registerCustomerNoPassword(Customer customer) {
-        CollectionReference customers = db.collection("Clients");
-        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
-        AuthenticationController.registerNoPassword(customer.getEmail(), customer.getID());
-        futureCustomers.add(customers.document(customer.getID()).create(customer));
+        CollectionReference purchases = db.collection("Clients");
+        DocumentReference purchaseRef = purchases.document(customer.getID());
+        if (AuthenticationController.registerNoPassword(customer.getEmail(), customer.getID())) {
+            ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
+            try {
+                writeResult.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     /**
@@ -110,10 +140,18 @@ public class DBManager extends FireBaseInitializer {
      *                 to their account.
      */
     public void registerCustomer(Customer customer, String password) {
-        CollectionReference customers = db.collection("Clients");
-        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
-        futureCustomers.add(customers.document(customer.getID().toString()).create(customer));
-        AuthenticationController.register(customer.getEmail(), password, customer.getID());
+        CollectionReference purchases = db.collection("Clients");
+        DocumentReference purchaseRef = purchases.document(customer.getID());
+        if (AuthenticationController.register(customer.getEmail(), customer.getID(), password)) {
+            ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
+            try {
+                writeResult.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     /**
@@ -124,11 +162,17 @@ public class DBManager extends FireBaseInitializer {
      *                 employee such as their name, email, ID, etc.
      */
     public void registerEmployeeNoPassword(Employee employee) {
-        CollectionReference employees = db.collection("Employees");
-        List<ApiFuture<WriteResult>> futureCustomers = new ArrayList<>();
+        CollectionReference purchases = db.collection("Employees");
+        DocumentReference purchaseRef = purchases.document(employee.getID());
         if (AuthenticationController.registerNoPassword(employee.getEmail(), employee.getID())) {
-            futureCustomers.add(employees.document(employee.getID()).create(employee));
+            ApiFuture<WriteResult> writeResult = purchaseRef.create(employee);
+            try {
+                writeResult.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
+
 
     }
 
@@ -142,10 +186,17 @@ public class DBManager extends FireBaseInitializer {
      *                 the employee's account.
      */
     public void registerEmployee(Employee employee, String password) {
-        CollectionReference employees = db.collection("Employee");
-        List<ApiFuture<WriteResult>> futureEmployees = new ArrayList<>();
-        futureEmployees.add(employees.document(employee.getID()).create(employee));
-        AuthenticationController.register(employee.getEmail(), password, employee.getID());
+        CollectionReference purchases = db.collection("Employee");
+        DocumentReference purchaseRef = purchases.document(employee.getID());
+        if (AuthenticationController.register(employee.getEmail(), employee.getID(), password)) {
+            ApiFuture<WriteResult> writeResult = purchaseRef.create(employee);
+            try {
+                writeResult.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
@@ -156,12 +207,30 @@ public class DBManager extends FireBaseInitializer {
      *              owner such as their ID, name, email, and password. This method is used to register a new shop owner by adding their
      *              information to the "ShopOwners" collection in the Firestore database.
      */
-    public void registerShopOwner(ShopOwner owner) {
-        CollectionReference shopOwners = db.collection("ShopOwners");
-        List<ApiFuture<WriteResult>> futureShopOwners = new ArrayList<>();
-        futureShopOwners.add(shopOwners.document(owner.getID()).create(owner));
-
+    public void registerShopOwnerNoPassword(ShopOwner owner) {
+        CollectionReference purchases = db.collection("ShopOwnerAcceptanceList");
+        DocumentReference purchaseRef = purchases.document(owner.getID());
+        if (AuthenticationController.registerNoPassword(owner.getEmail(), owner.getID())) {
+            ApiFuture<WriteResult> writeResult = purchaseRef.create(owner);
+            try {
+                writeResult.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+    public void acceptShopOwner(ShopOwner owner) {
+        CollectionReference purchases = db.collection("ShopOwners");
+        DocumentReference purchaseRef = purchases.document(owner.getID());
+        ApiFuture<WriteResult> writeResult = purchaseRef.create(owner);
+        try {
+            writeResult.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * This Java function retrieves a customer object from a Firestore database based on their email address.
@@ -171,10 +240,20 @@ public class DBManager extends FireBaseInitializer {
      * @return The method is returning a Customer object retrieved from the Firestore database based on the provided email
      * address.
      */
-    public Customer getUser(String email) throws FirebaseAuthException, ExecutionException, InterruptedException {
-        UserRecord dbUser = this.auth.getUserByEmail(email);
+    public Customer getUserByEmail(String email) {
+        UserRecord dbUser = null;
+        try {
+            dbUser = this.auth.getUserByEmail(email);
+        } catch (FirebaseAuthException e) {
+            throw new RuntimeException(e);
+        }
         ApiFuture<DocumentSnapshot> future = db.collection("Clients").document(dbUser.getUid()).get();
-        DocumentSnapshot document = future.get();
+        DocumentSnapshot document = null;
+        try {
+            document = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         return document.toObject(Customer.class);
     }
 
@@ -184,9 +263,9 @@ public class DBManager extends FireBaseInitializer {
      * @return A list of ShopOwner objects that are retrieved from the "ShopOwnerAcceptanceList" collection in the
      * database.
      */
-    public List<ShopOwner> getShopOwnerRegistrations(){
+    public List<ShopOwner> getShopOwnerRegistrations() {
         ApiFuture<QuerySnapshot> future = db.collection("ShopOwnerAcceptanceList").get();
-        List<QueryDocumentSnapshot> documents = null;
+        List<QueryDocumentSnapshot> documents;
         try {
             documents = future.get().getDocuments();
         } catch (InterruptedException | ExecutionException e) {
@@ -209,7 +288,7 @@ public class DBManager extends FireBaseInitializer {
      * @return A boolean value is being returned. If the deletion operation is successful, it returns true, otherwise it
      * returns false.
      */
-    public boolean removeShopOwnerFromRegistrationAcceptance(String id) {
+    public boolean deleteShopOwnerFromRegistrationAcceptance(String id) {
         ApiFuture<WriteResult> future = db.collection("ShopOwnerAcceptanceList").document(id).delete();
         try {
             future.get();
@@ -225,7 +304,7 @@ public class DBManager extends FireBaseInitializer {
      * @param id The ID of the shop owner to be removed.
      * @return A boolean value indicating whether the deletion operation was successful or not.
      */
-    public boolean removeShopOwner(String id) {
+    public boolean deleteShopOwner(String id) {
         ApiFuture<WriteResult> future = db.collection("ShopOwners").document(id).delete();
         try {
             future.get();
@@ -241,7 +320,7 @@ public class DBManager extends FireBaseInitializer {
      * @param id The ID of the employee to be removed.
      * @return A boolean value indicating whether the deletion operation was successful or not.
      */
-    public boolean removeEmployee(String id) {
+    public boolean deleteEmployee(String id) {
         ApiFuture<WriteResult> future = db.collection("Employees").document(id).delete();
         try {
             future.get();
@@ -257,8 +336,20 @@ public class DBManager extends FireBaseInitializer {
      * @param id The ID of the customer to be removed.
      * @return A boolean value indicating whether the deletion operation was successful or not.
      */
-    public boolean removeCustomer(String id) {
+    public boolean deleteCustomer(String id) {
         ApiFuture<WriteResult> future = db.collection("Clients").document(id).delete();
+        try {
+            future.get();
+            deleteFidelityCard(id);
+            auth.deleteUser(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean deleteFidelityCard(String id) {
+        ApiFuture<WriteResult> future = db.collection("Clients").document(this.getFidelityCardByUserID(id).getId()).delete();
         try {
             future.get();
             return true;
@@ -267,9 +358,9 @@ public class DBManager extends FireBaseInitializer {
         }
     }
 
-    public void updateCustomerProfile(Customer customer){
-            DocumentReference couponRef = db.collection("Customers").document(customer.getID());
-            couponRef.set(customer);
+    public void updateCustomerProfile(Customer customer) {
+        DocumentReference couponRef = db.collection("Customers").document(customer.getID());
+        couponRef.set(customer);
     }
 
     /**
@@ -421,16 +512,16 @@ public class DBManager extends FireBaseInitializer {
     }
 
 
-    public List<FidelityCard> getFidelityCardByShopID(String id){
+    public List<FidelityCard> getFidelityCardByShopID(String id) {
         ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("shopId", id).get();
-        List<QueryDocumentSnapshot> documents = null;
+        List<QueryDocumentSnapshot> documents;
         try {
             documents = future.get().getDocuments();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        List<FidelityCard> fidelityCards= new ArrayList<>();
+        List<FidelityCard> fidelityCards = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
             FidelityCard fidelity = document.toObject(FidelityCard.class);
             fidelityCards.add(fidelity);
@@ -464,9 +555,17 @@ public class DBManager extends FireBaseInitializer {
      *                  card. It is passed as a parameter to the method registerFidelityCard() to be stored in the Firestore database.
      */
     public void registerFidelityCard(FidelityCard fidelityC) {
-        CollectionReference fidelityCard = db.collection("FidelityCard");
-        List<ApiFuture<WriteResult>> futureFidelityCard = new ArrayList<>();
-        futureFidelityCard.add(fidelityCard.document(fidelityC.getId()).create(fidelityC));
+        CollectionReference purchases = db.collection("FidelityCard");
+        DocumentReference purchaseRef = purchases.document(fidelityC.getId());
+
+        ApiFuture<WriteResult> writeResult = purchaseRef.create(fidelityC);
+        try {
+            writeResult.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -652,7 +751,7 @@ public class DBManager extends FireBaseInitializer {
         try {
             DocumentSnapshot document = futureCustomer.get();
             if (document.exists()) {
-                return document.toObject(Shop.class).getSpace();
+                return Objects.requireNonNull(document.toObject(Shop.class)).getSpace();
             }
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
@@ -668,5 +767,72 @@ public class DBManager extends FireBaseInitializer {
 
     public List<Points> getFidelityCardPointsHistory(String id) {
         return this.getFidelityCardByCardID(id).getPointsHistory();
+    }
+
+
+    public ShopOwner getShopOwner(String id) {
+        ApiFuture<QuerySnapshot> future = db.collection("ShopOwners").whereEqualTo("id", id).get();
+        try {
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            return documents.get(0).toObject(ShopOwner.class);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<ShopOwner> getShopOwners() {
+        ApiFuture<QuerySnapshot> future = db.collection("ShopOwners").get();
+        List<ShopOwner> shopOwners = new ArrayList<>();
+
+        try {
+            for (DocumentSnapshot document : future.get().getDocuments()) {
+                shopOwners.add(document.toObject(ShopOwner.class));
+            }
+            return shopOwners;
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<ShopOwner> getShopOwnersByShopId(String shopId) {
+
+        List<Shop> shops = new ArrayList<>();
+        List<ShopOwner> shopOwners = new ArrayList<>();
+        ApiFuture<QuerySnapshot> future = db.collection("Shop").get();
+
+        try {
+            for (DocumentSnapshot document : future.get().getDocuments()) {
+                shops.add(document.toObject(Shop.class));
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Shop shop : shops) {
+            if (shop.getId().equals(shopId)) {
+                for (String shopOwnerID : shop.getShopOwners()) {
+                    shopOwners.add(this.getShopOwner(shopOwnerID));
+                }
+            }
+        }
+
+        return shopOwners;
+    }
+
+    public Employee getEmployee(String id) {
+        DocumentReference shopRef = db.collection("Employees").document(id);
+        ApiFuture<DocumentSnapshot> futureEmployee = shopRef.get();
+
+        try {
+            DocumentSnapshot document = futureEmployee.get();
+            if (document.exists()) {
+                return document.toObject(Employee.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

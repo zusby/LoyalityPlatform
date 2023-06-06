@@ -69,7 +69,7 @@ public class AuthenticationController {
      * @param password The password parameter is a String variable that represents the password that the user wants to set
      * for their account during registration.
      */
-    public static void register(String email, String password, String id){
+    public static boolean register(String email, String password, String id){
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
                 .setPassword(password)
@@ -78,9 +78,11 @@ public class AuthenticationController {
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
             System.out.println("Succesfully created new User "+ userRecord.getUid());
+            return true;
         }
         catch(Exception e){
             System.out.println("Failed to register user");
+            return false;
         }
     }
 

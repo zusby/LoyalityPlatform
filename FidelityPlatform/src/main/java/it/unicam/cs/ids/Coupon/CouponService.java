@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.Coupon;
 
 import it.unicam.cs.ids.Database.DBManager;
+import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class CouponService {
         return db.getCouponById(id);
     }
 
-    public boolean addCoupon(@NotNull Coupon coupon) {
+    public boolean addCoupon(Coupon coupon) {
 
         Coupon coupon1 = db.getCouponById(coupon.getId());
 
@@ -62,5 +63,13 @@ public class CouponService {
     }
 
 
+
+    public void generateCoupon(Coupon coupon, String shopId) {
+        List<FidelityCard> fidelityCards = db.getFidelityCardByShopID(shopId);
+        for (FidelityCard customer: fidelityCards ) {
+            coupon.setOwnerId(customer.getCardOwnerId());
+            db.addCoupon(coupon);
+        }
+    }
     // Altri metodi per la logica di business dei coupon
 }

@@ -1,20 +1,12 @@
 package it.unicam.cs.ids.ShopOwner;
 
-import it.unicam.cs.ids.Coupon.Coupon;
-import it.unicam.cs.ids.Customer.Customer;
 import it.unicam.cs.ids.Database.DBManager;
-import it.unicam.cs.ids.Employee.Employee;
-import it.unicam.cs.ids.FidelityCard.FidelityCard;
+import it.unicam.cs.ids.Model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ShopOwnerService {
@@ -25,19 +17,37 @@ public class ShopOwnerService {
         this.db = db;
     }
 
-    public void addEmployee(Employee employee){
-        db.registerEmployeeNoPassword(employee);
+    public boolean registerShopOwner(ShopOwner waiting) throws IOException {
+        String id = waiting.getID();
+        waiting.setRank(Role.SHOP_OWNER);
+        db.registerShopOwnerNoPassword(waiting);
+        return db.deleteShopOwnerFromRegistrationAcceptance(id);
     }
 
-    public List<Employee> getEmployees(String shopId) {
-       return  db.getEmployees(shopId);
+    public List<ShopOwner> getShopOwnerWaitingList() {
+        return this.db.getShopOwnerRegistrations();
     }
 
-    public void generateCoupon(Coupon coupon, String shopId) {
-        List<FidelityCard> fidelityCards = db.getFidelityCardByShopID(shopId);
-        for (FidelityCard customer: fidelityCards ) {
-            coupon.setOwnerId(customer.getCardOwnerId());
-            db.addCoupon(coupon);
-        }
+
+    public ShopOwner getShopOwner(String id) {
+
+        return db.getShopOwner(id);
+    }
+
+    public List<ShopOwner> getShopOwners() {
+        return db.getShopOwners();
+    }
+
+    public List<ShopOwner> getShopOwnersByShopId(String shopId) {
+        return db.getShopOwnersByShopId(shopId);
+    }
+
+    public void deleteShopOwner(String id) {
+        db.deleteShopOwner(id);
+    }
+
+    public void registerShopOwnerWaitingList(ShopOwner shopOwner) {
+        shopOwner.setRank(Role.UNACCEPTED_SHOP_OWNER);
+        db.registerShopOwnerNoPassword(shopOwner);
     }
 }

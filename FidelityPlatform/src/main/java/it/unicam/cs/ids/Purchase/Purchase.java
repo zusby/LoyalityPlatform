@@ -4,9 +4,10 @@
  * @Authors Kacper Henryk Osicki, Anthony Eleuteri, Yuri Orsili
  */
 
-package it.unicam.cs.ids.Model;
+package it.unicam.cs.ids.Purchase;
 
 import com.google.cloud.Timestamp;
+import it.unicam.cs.ids.Model.Item;
 
 import java.util.Date;
 import java.util.List;
@@ -24,17 +25,18 @@ public class Purchase {
 
 
 
-    public Purchase(String purchaseId, Timestamp date, String user, List<Item> items, String shopId){
-        this.purchaseId =Objects.requireNonNull(purchaseId);
+    public Purchase(String purchaseId, Timestamp date, String user, List<Item> items, String shopId) {
+        this.purchaseId = Objects.requireNonNull(purchaseId);
         this.items = Objects.requireNonNull(items);
-        this.purchaseDate=Objects.requireNonNull(date);
+        this.purchaseDate = Objects.requireNonNull(date);
         this.userID = Objects.requireNonNull(user);
         this.price = calculatePrice();
         this.shopId = shopId;
     }
 
+    public Purchase(){
 
-
+    }
     public double getDiscountedPrice(){
         return this.price - this.discount;
     }

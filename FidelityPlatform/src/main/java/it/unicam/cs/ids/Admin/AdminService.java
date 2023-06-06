@@ -22,16 +22,4 @@ public class AdminService {
     public List<Admin> getAdmins() {
         return null;
     }
-
-    public boolean registerShopOwner(ShopOwner waiting) throws IOException {
-        String id = waiting.getID();
-        waiting.setRank(Role.SHOP_OWNER);
-        db.registerShopOwner(waiting);
-        return db.removeShopOwnerFromRegistrationAcceptance(id);
-
-    }
-
-    public List<ShopOwner> getShopOwnerWaitingList() {
-        return this.db.getShopOwnerRegistrations();
-    }
 }
