@@ -6,14 +6,19 @@ import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelityProgram;
 import it.unicam.cs.ids.Purchase.Purchase;
 
+import java.util.Date;
+
 public class CouponRule extends FidelityProgram implements RuleApplier {
 
 
     private Coupon coupon;
 
-    public CouponRule(String programID, Timestamp endingDate, Timestamp startingDate, Coupon coupon) {
+    public CouponRule(String programID, Date endingDate, Date startingDate, Coupon coupon) {
         super(programID, endingDate, startingDate);
         this.coupon = coupon;
+    }
+    public CouponRule(){
+
     }
 
     public Coupon getCoupon() {
@@ -38,8 +43,6 @@ public class CouponRule extends FidelityProgram implements RuleApplier {
             throw new IllegalArgumentException();
         }
         purchase.setDiscount((purchase.getPrice() * coupon.getDiscountPercentage()) + coupon.getValue());
-
-
-
     }
+
 }

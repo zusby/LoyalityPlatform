@@ -15,11 +15,11 @@ import java.util.StringJoiner;
 
 public class Employee extends Customer {
 
-    private String shopId;
+
 
     public Employee(String name, String surname, Timestamp bdt, String telephoneNumber, String email, String id, Address address){
         super(name,surname,bdt,telephoneNumber,email,id,address);
-        this.shopId = shopId;
+
     }
     public Employee(){
     }

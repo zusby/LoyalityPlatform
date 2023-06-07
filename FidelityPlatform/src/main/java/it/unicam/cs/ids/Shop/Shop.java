@@ -1,9 +1,17 @@
 package it.unicam.cs.ids.Shop;
 
+import it.unicam.cs.ids.Employee.Employee;
 import it.unicam.cs.ids.Model.*;
+import it.unicam.cs.ids.Model.Rules.CashBackRule;
+import it.unicam.cs.ids.Model.Rules.CouponRule;
+import it.unicam.cs.ids.Model.Rules.LevelsRule;
+import it.unicam.cs.ids.Model.Rules.PointsRule;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Shop {
 
@@ -11,11 +19,17 @@ public class Shop {
     private String vatNumber;
     private String name;
     private List<String> shopOwners;
-    private List<FidelityProgram> fidelityPrograms = new ArrayList<>();
+    //private List<FidelityProgram> fidelityPrograms = new ArrayList<>();
+
+    private CashBackRule cashBackRule;
+    private CouponRule couponRule;
+    private LevelsRule levelsRule;
+    private PointsRule pointsRule;
+
     private PrizeAwards prizes;
     private FidelitySpace space;
     private Catalogue catalogue;
-
+    private List<String> employees = new ArrayList<>();
 
     public Shop(String id, Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
         this.id = id;
@@ -27,7 +41,16 @@ public class Shop {
         space.setShopTelephoneNumber(shopTelephoneNumber);
     }
 
-    public Shop() {
+    public Shop(){
+    }
+
+
+    public List<String> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<String> employees) {
+        this.employees = employees;
     }
 
     public PrizeAwards getPrizes() {
@@ -60,13 +83,8 @@ public class Shop {
     public void setVatNumber(String vatNumber) {
         this.vatNumber = vatNumber;
     }
-    public List<FidelityProgram> getFidelityPrograms() {
-        return fidelityPrograms;
-    }
-    public void setFidelityPrograms(List<FidelityProgram> fidelityPrograms) {
-        this.fidelityPrograms = fidelityPrograms;
 
-    }
+
     public String getName() {
         return name;
     }
@@ -79,13 +97,59 @@ public class Shop {
     public void setCatalogue(Catalogue catalogue) {
         this.catalogue = catalogue;
     }
+
+    public void addEmployee(String employee){
+        this.employees.add(employee);
+    }
+    public void removeEmployee(String employee){
+        this.employees.remove(employee);
+    }
+    public CashBackRule getCashBackRule() {
+        return cashBackRule;
+    }
+
+    public void setCashBackRule(CashBackRule cashBackRule) {
+        this.cashBackRule = cashBackRule;
+    }
+
+    public CouponRule getCouponRule() {
+        return couponRule;
+    }
+
+    public void setCouponRule(CouponRule couponRule) {
+        this.couponRule = couponRule;
+    }
+
+    public LevelsRule getLevelsRule() {
+        return levelsRule;
+    }
+
+    public void setLevelsRule(LevelsRule levelsRule) {
+        this.levelsRule = levelsRule;
+    }
+
+    public PointsRule getPointsRule() {
+        return pointsRule;
+    }
+
+    public void setPointsRule(PointsRule pointsRule) {
+        this.pointsRule = pointsRule;
+    }
+
     @Override
     public String toString() {
         return "Shop{" +
-                "fidelityPrograms=" + fidelityPrograms +
+                "cashBackRule=" + cashBackRule +
+                ", catalogue=" + catalogue +
+                ", couponRule=" + couponRule +
+                ", employees=" + employees +
                 ", id='" + id + '\'' +
+                ", levelsRule=" + levelsRule +
                 ", name='" + name + '\'' +
+                ", pointsRule=" + pointsRule +
+                ", prizes=" + prizes +
                 ", shopOwners=" + shopOwners +
+                ", space=" + space +
                 ", vatNumber='" + vatNumber + '\'' +
                 '}';
     }

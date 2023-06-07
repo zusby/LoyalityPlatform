@@ -27,7 +27,7 @@ public class PurchaseController {
         return this.service.getPurchases();
     }
 
-    @GetMapping("/{couponID}/ApplyCoupon")
+    @PostMapping("/{couponID}/ApplyCoupon")
     @Operation(summary = "Apply a coupon to a purchase")
     public Purchase applyCoupon(@RequestBody Purchase purchase, @PathVariable String couponID) {
         return service.ApplyCoupon(purchase, couponID);

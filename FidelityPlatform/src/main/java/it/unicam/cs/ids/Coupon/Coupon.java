@@ -2,9 +2,10 @@ package it.unicam.cs.ids.Coupon;
 
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Coupon {
-    private String id;
+    private String code;
     private String ownerId;
     private double value;
     private Date expirationDate;
@@ -12,15 +13,17 @@ public class Coupon {
 
     private double discountPercentage;
     private int minimumPrice;
+    private String couponId;
 
 
-    public Coupon(String id, String ownerId, double value, Date expirationDate, double discountPercentage, int minimumPrice) {
-        this.id = id;
+    public Coupon(String couponId,String code, String ownerId, double value, Date expirationDate, double discountPercentage, int minimumPrice) {
+        this.code = code;
         this.ownerId = ownerId;
         this.value = value;
         this.expirationDate = expirationDate;
         this.discountPercentage = discountPercentage;
         this.minimumPrice = minimumPrice;
+        this.couponId = couponId;
     }
 
     public Coupon() {
@@ -54,12 +57,21 @@ public class Coupon {
         isUsed = bool;
     }
 
-    public String getId() {
-        return id;
+
+    public String getCode() {
+        return code;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getCouponId() {
+        return couponId;
+    }
+
+    public void setCouponId(String couponId) {
+        this.couponId = couponId;
     }
 
     public String getOwnerId() {
@@ -86,5 +98,17 @@ public class Coupon {
         this.expirationDate = expirationDate;
     }
 
-
+    @Override
+    public String toString() {
+        return "Coupon{" +
+                "code='" + code + '\'' +
+                ", couponId='" + couponId + '\'' +
+                ", discountPercentage=" + discountPercentage +
+                ", expirationDate=" + expirationDate +
+                ", isUsed=" + isUsed +
+                ", minimumPrice=" + minimumPrice +
+                ", ownerId='" + ownerId + '\'' +
+                ", value=" + value +
+                '}';
+    }
 }

@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class Purchase {
     private String purchaseId;
-    private Timestamp purchaseDate;
+    private Date purchaseDate;
     private Double price;
     private String userID;
     private List<Item> items;
@@ -25,17 +25,15 @@ public class Purchase {
 
 
 
-    public Purchase(String purchaseId, Timestamp date, String user, List<Item> items, String shopId) {
+    public Purchase(String purchaseId, Date date, String user, List<Item> items, String shopId) {
         this.purchaseId = Objects.requireNonNull(purchaseId);
         this.items = Objects.requireNonNull(items);
         this.purchaseDate = Objects.requireNonNull(date);
         this.userID = Objects.requireNonNull(user);
-        this.price = calculatePrice();
         this.shopId = shopId;
     }
 
     public Purchase(){
-
     }
     public double getDiscountedPrice(){
         return this.price - this.discount;
@@ -54,10 +52,11 @@ public class Purchase {
     }
 
     public Date getPurchaseDate() {
-        return purchaseDate.toDate();
+        return purchaseDate;
     }
 
     public double getPrice() {
+        calculatePrice();
         return price;
     }
 
@@ -77,7 +76,7 @@ public class Purchase {
         this.purchaseId = purchaseId;
     }
 
-    public void setPurchaseDate(Timestamp purchaseDate) {
+    public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
@@ -105,8 +104,8 @@ public class Purchase {
         this.discount = discount;
     }
 
-    private double calculatePrice() {
-        return items.stream().mapToDouble(Item::getCost).sum();
+    public void calculatePrice() {
+        this.price= items.stream().mapToDouble(Item::getCost).sum();
     }
 
     @Override

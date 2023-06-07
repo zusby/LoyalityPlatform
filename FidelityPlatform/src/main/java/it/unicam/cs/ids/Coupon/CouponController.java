@@ -32,7 +32,7 @@ public class CouponController {
     }
 
     @Operation(summary = "Add a new coupon")
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<Coupon> addCoupon(@RequestBody Coupon coupon) {
         if (this.couponService.addCoupon(coupon)) {
             return ResponseEntity.ok().build();
@@ -41,7 +41,7 @@ public class CouponController {
     }
 
     @Operation(summary = "Remove a coupon by ID")
-    @PostMapping("/remove/{id}")
+    @DeleteMapping("/remove/{id}")
     public ResponseEntity<Coupon> removeCoupon(@PathVariable String id) {
         if (this.couponService.removeCoupon(id)) {
             return ResponseEntity.ok().build();
@@ -62,7 +62,7 @@ public class CouponController {
     }
 
     @Operation(summary = "Generate a coupon for all fidelity clients of a shop")
-    @PostMapping("/coupon/generate")
+    @PostMapping("/generate")
     public void generateCoupon(@RequestBody Coupon coupon, String shopId) {
         couponService.generateCoupon(coupon, shopId);
     }

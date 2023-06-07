@@ -8,11 +8,14 @@ import java.util.GregorianCalendar;
 
 public class Points {
     private int points;
-    private Timestamp date;
+    private Date date;
     private String description;
     public Points(int points) {
         this.points = points;
-        this.date = Timestamp.of(new GregorianCalendar().getTime());
+        this.date = new GregorianCalendar().getTime();
+    }
+    public Points(){
+
     }
 
     public String getDescription() {
@@ -32,10 +35,10 @@ public class Points {
     }
 
     public Date getDate() {
-        return date.toDate();
+        return date;
     }
 
     public void setDate(Date date) {
-        this.date = Timestamp.of(date);
+        this.date = date;
     }
 }

@@ -5,14 +5,14 @@ import com.google.cloud.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
-public abstract class FidelityProgram{
+public class FidelityProgram{
     private String programID;
 
-    private Timestamp startingDate;
-    private Timestamp endingDate;
+    private Date startingDate;
+    private Date endingDate;
 
 
-    public FidelityProgram(String programID, Timestamp endingDate, Timestamp startingDate) {
+    public FidelityProgram(String programID, Date endingDate, Date startingDate) {
         this.programID = programID;
         this.endingDate = endingDate;
         this.startingDate = startingDate;
@@ -32,19 +32,19 @@ public abstract class FidelityProgram{
     }
 
     public Date getStartingDate() {
-        return startingDate.toDate();
+        return startingDate;
     }
 
     public void setStartingDate(Date startingDate) {
-        this.startingDate = Timestamp.of(startingDate);
+        this.startingDate = startingDate;
     }
 
     public Date getEndingDate() {
-        return endingDate.toDate();
+        return endingDate;
     }
 
     public void setEndingDate(Date endingDate) {
-        this.endingDate = Timestamp.of(endingDate);
+        this.endingDate = endingDate;
     }
 
     @Override

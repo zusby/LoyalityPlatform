@@ -118,9 +118,9 @@ public class FidelityCard {
 
 
 
-    public void updateFidelityPoints(int points) {
-        this.points += points;
-        this.pointsHistory.add(new Points(points));
+    public void updateFidelityPoints(Points points) {
+        this.points += points.getPoints();
+        this.pointsHistory.add(points);
     }
 
     public void updateExp(int exp) {

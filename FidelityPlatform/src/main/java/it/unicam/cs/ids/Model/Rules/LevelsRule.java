@@ -1,10 +1,11 @@
 package it.unicam.cs.ids.Model.Rules;
 
-import com.google.cloud.Timestamp;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelityProgram;
 import it.unicam.cs.ids.Model.Level;
 import it.unicam.cs.ids.Purchase.Purchase;
+
+import java.util.Date;
 
 public class LevelsRule extends FidelityProgram implements RuleApplier {
 
@@ -18,7 +19,7 @@ public class LevelsRule extends FidelityProgram implements RuleApplier {
 
     }
 
-    public LevelsRule(Timestamp startingDate, Timestamp endingDate, double multiplier) {
+    public LevelsRule(Date startingDate, Date endingDate, double multiplier) {
         super("1", startingDate, endingDate);
         this.multiplier = multiplier;
     }

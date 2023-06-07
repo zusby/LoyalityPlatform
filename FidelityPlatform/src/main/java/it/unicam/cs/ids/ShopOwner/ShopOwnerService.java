@@ -20,7 +20,7 @@ public class ShopOwnerService {
     public boolean registerShopOwner(ShopOwner waiting) throws IOException {
         String id = waiting.getID();
         waiting.setRank(Role.SHOP_OWNER);
-        db.registerShopOwnerNoPassword(waiting);
+        db.acceptShopOwner(waiting);
         return db.deleteShopOwnerFromRegistrationAcceptance(id);
     }
 

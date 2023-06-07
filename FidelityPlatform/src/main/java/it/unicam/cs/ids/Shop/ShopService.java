@@ -75,57 +75,39 @@ public class ShopService {
     public void addCashBackRule(CashBackRule program, String id) {
 
         Shop shop = db.getShop(id);
-        List<FidelityProgram> list = shop.getFidelityPrograms();
-
-        for (FidelityProgram item : list) {
-            if (Objects.equals(item.getProgramID(), program.getProgramID())) {
-                throw new IllegalArgumentException("FidelityProgram already owned");
-            }
+        if(shop.getCashBackRule()!=null){
+            throw new IllegalArgumentException("FidelityProgram already owned");
         }
-        list.add(program);
-        shop.setFidelityPrograms(list);
+        shop.setCashBackRule(program);
         db.registerShop(shop);
     }
 
     public void addCouponRule(CouponRule program, String id) {
-        Shop shop = db.getShop(id);
-        List<FidelityProgram> list = shop.getFidelityPrograms();
 
-        for (FidelityProgram item : list) {
-            if (Objects.equals(item.getProgramID(), program.getProgramID())) {
-                throw new IllegalArgumentException("FidelityProgram already owned");
-            }
+        Shop shop = db.getShop(id);
+        if(shop.getCouponRule()!=null){
+            throw new IllegalArgumentException("FidelityProgram already owned");
         }
-        list.add(program);
-        shop.setFidelityPrograms(list);
+        shop.setCouponRule(program);
         db.registerShop(shop);
     }
 
     public void addPointsRule(PointsRule program, String id) {
         Shop shop = db.getShop(id);
-        List<FidelityProgram> list = shop.getFidelityPrograms();
-
-        for (FidelityProgram item : list) {
-            if (Objects.equals(item.getProgramID(), program.getProgramID())) {
-                throw new IllegalArgumentException("FidelityProgram already owned");
-            }
+        if(shop.getPointsRule()!=null){
+            throw new IllegalArgumentException("FidelityProgram already owned");
         }
-        list.add(program);
-        shop.setFidelityPrograms(list);
+        shop.setPointsRule(program);
         db.registerShop(shop);
     }
 
     public void addLevelRule(LevelsRule program, String id){
-        Shop shop = db.getShop(id);
-        List<FidelityProgram> list = shop.getFidelityPrograms();
 
-        for (FidelityProgram item : list) {
-            if (Objects.equals(item.getProgramID(), program.getProgramID())) {
-                throw new IllegalArgumentException("FidelityProgram already owned");
-            }
+        Shop shop = db.getShop(id);
+        if(shop.getLevelsRule()!=null){
+            throw new IllegalArgumentException("FidelityProgram already owned");
         }
-        list.add(program);
-        shop.setFidelityPrograms(list);
+        shop.setLevelsRule(program);
         db.registerShop(shop);
     }
     public List<Shop> getShopsByOwnerID(String shopOwnerID) {
@@ -145,4 +127,5 @@ public class ShopService {
     public void deleteShop(String shopID) {
         db.deleteShop(shopID);
     }
+
 }

@@ -77,7 +77,7 @@ public class DBManager extends FireBaseInitializer {
      * @return A list of Customer objects.
      */
     public List<Customer> getCustomers() throws InterruptedException, ExecutionException {
-        ApiFuture<QuerySnapshot> future = db.collection("Clients").get();
+        ApiFuture<QuerySnapshot> future = db.collection("Customers").get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<Customer> customers = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
@@ -117,7 +117,7 @@ public class DBManager extends FireBaseInitializer {
      *                 by creating a new document in the "Clients" collection in the Firestore database and adding the
      */
     public void registerCustomerNoPassword(Customer customer) {
-        CollectionReference purchases = db.collection("Clients");
+        CollectionReference purchases = db.collection("Customers");
         DocumentReference purchaseRef = purchases.document(customer.getID());
         if (AuthenticationController.registerNoPassword(customer.getEmail(), customer.getID())) {
             ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
@@ -141,7 +141,7 @@ public class DBManager extends FireBaseInitializer {
      *                 to their account.
      */
     public void registerCustomer(Customer customer, String password) {
-        CollectionReference purchases = db.collection("Clients");
+        CollectionReference purchases = db.collection("Customers");
         DocumentReference purchaseRef = purchases.document(customer.getID());
         if (AuthenticationController.register(customer.getEmail(), customer.getID(), password)) {
             ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
@@ -248,7 +248,7 @@ public class DBManager extends FireBaseInitializer {
         } catch (FirebaseAuthException e) {
             throw new RuntimeException(e);
         }
-        ApiFuture<DocumentSnapshot> future = db.collection("Clients").document(dbUser.getUid()).get();
+        ApiFuture<DocumentSnapshot> future = db.collection("Customers").document(dbUser.getUid()).get();
         DocumentSnapshot document;
         try {
             document = future.get();
@@ -338,7 +338,7 @@ public class DBManager extends FireBaseInitializer {
      * @return A boolean value indicating whether the deletion operation was successful or not.
      */
     public boolean deleteCustomer(String id) {
-        ApiFuture<WriteResult> future = db.collection("Clients").document(id).delete();
+        ApiFuture<WriteResult> future = db.collection("Customers").document(id).delete();
         try {
             future.get();
             deleteFidelityCard(id);
@@ -350,7 +350,7 @@ public class DBManager extends FireBaseInitializer {
     }
 
     public boolean deleteFidelityCard(String id) {
-        ApiFuture<WriteResult> future = db.collection("Clients").document(this.getFidelityCardByUserID(id).getId()).delete();
+        ApiFuture<WriteResult> future = db.collection("Customers").document(this.getFidelityCardByUserID(id).getId()).delete();
         try {
             future.get();
             return true;
@@ -389,7 +389,8 @@ public class DBManager extends FireBaseInitializer {
      *               input and adds it to a Firestore database collection called "Coupons
      */
     public void addCoupon(Coupon coupon) {
-        DocumentReference couponRef = db.collection("Coupons").document(coupon.getId());
+
+        DocumentReference couponRef = db.collection("Coupons").document(UUID.randomUUID().toString());
         couponRef.set(coupon);
     }
 
@@ -401,7 +402,7 @@ public class DBManager extends FireBaseInitializer {
      *               database with the new information provided in the "coupon" object. The document to be
      */
     public void updateCoupon(Coupon coupon) {
-        DocumentReference couponRef = db.collection("Coupons").document(coupon.getId());
+        DocumentReference couponRef = db.collection("Coupons").document(coupon.getCouponId());
         couponRef.set(coupon);
     }
 
@@ -450,19 +451,17 @@ public class DBManager extends FireBaseInitializer {
      * null.
      */
     public Coupon getCouponById(String couponId) {
-        DocumentReference couponRef = db.collection("Coupons").document(couponId);
-        ApiFuture<DocumentSnapshot> future = couponRef.get();
+
+        DocumentReference shopRef = db.collection("Coupons").document(couponId);
+        ApiFuture<DocumentSnapshot> futureCoupon = shopRef.get();
 
         try {
-            DocumentSnapshot document = future.get();
-            if (document.exists()) {
-                return document.toObject(Coupon.class);
-            }
+            DocumentSnapshot document = futureCoupon.get();
+           return document.toObject(Coupon.class);
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     /**
@@ -476,7 +475,7 @@ public class DBManager extends FireBaseInitializer {
         List<Coupon> userCoupons = new ArrayList<>();
 
         CollectionReference couponsCollection = db.collection("Coupons");
-        Query query = couponsCollection.whereEqualTo("userId", userId);
+        Query query = couponsCollection.whereEqualTo("ownerId", userId);
         ApiFuture<QuerySnapshot> future = query.get();
 
         try {
@@ -502,7 +501,7 @@ public class DBManager extends FireBaseInitializer {
      * @return This method returns a FidelityCard object that belongs to a user with the specified ID.
      */
     public FidelityCard getFidelityCardByUserID(String id) {
-        ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("cardOwner", id).get();
+        ApiFuture<QuerySnapshot> future = db.collection("FidelityCards").whereEqualTo("cardOwnerId", id).get();
         try {
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             return documents.get(0).toObject(FidelityCard.class);
@@ -514,7 +513,7 @@ public class DBManager extends FireBaseInitializer {
 
 
     public List<FidelityCard> getFidelityCardByShopID(String id) {
-        ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("shopId", id).get();
+        ApiFuture<QuerySnapshot> future = db.collection("FidelityCards").whereEqualTo("shopId", id).get();
         List<QueryDocumentSnapshot> documents;
         try {
             documents = future.get().getDocuments();
@@ -538,7 +537,7 @@ public class DBManager extends FireBaseInitializer {
      * @return This method returns a FidelityCard object that matches the given card ID.
      */
     public FidelityCard getFidelityCardByCardID(String id) {
-        ApiFuture<QuerySnapshot> future = db.collection("FidelityCard").whereEqualTo("id", id).get();
+        ApiFuture<QuerySnapshot> future = db.collection("FidelityCards").whereEqualTo("id", id).get();
         try {
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             return documents.get(0).toObject(FidelityCard.class);
@@ -555,7 +554,7 @@ public class DBManager extends FireBaseInitializer {
      *                  card. It is passed as a parameter to the method registerFidelityCard() to be stored in the Firestore database.
      */
     public void registerFidelityCard(FidelityCard fidelityC) {
-        CollectionReference purchases = db.collection("FidelityCard");
+        CollectionReference purchases = db.collection("FidelityCards");
         DocumentReference purchaseRef = purchases.document(fidelityC.getId());
 
         ApiFuture<WriteResult> writeResult = purchaseRef.create(fidelityC);
@@ -577,9 +576,11 @@ public class DBManager extends FireBaseInitializer {
      * @param newExpireDate A Date object representing the new expiration date for the customer's fidelity card.
      */
     public void updateFidelityCardExpireDate(String customerId, Date newExpireDate) {
-        DocumentReference customerRef = db.collection("FidelityCard").document(customerId);
+        DocumentReference customerRef = db.collection("FidelityCards").document(customerId);
         customerRef.update("expireDate", Timestamp.of(newExpireDate));
     }
+
+
 
     /**
      * This function updates the fidelity points of a customer with a given card ID by adding a specified number of points.
@@ -589,9 +590,10 @@ public class DBManager extends FireBaseInitializer {
      * @param pointsToAdd an integer value representing the number of points to add to the existing points of a customer's
      *                    fidelity card.
      */
-    public void updateFidelityPointsFromCardId(String cardId, int pointsToAdd) {
-        DocumentReference customerRef = db.collection("FidelityCard").document(cardId);
+    public void updateFidelityPointsFromCardId(String cardId, int pointsToAdd, List<Points> history) {
+        DocumentReference customerRef = db.collection("FidelityCards").document(cardId);
         customerRef.update("points", FieldValue.increment(pointsToAdd));
+        customerRef.update("pointsHistory", history);
     }
 
 
@@ -601,7 +603,7 @@ public class DBManager extends FireBaseInitializer {
      * @return This method returns a list of Shop objects.
      */
     public List<Shop> getShops() {
-        ApiFuture<QuerySnapshot> future = db.collection("Shop").get();
+        ApiFuture<QuerySnapshot> future = db.collection("Shops").get();
         List<QueryDocumentSnapshot> documents;
         try {
             documents = future.get().getDocuments();
@@ -613,6 +615,7 @@ public class DBManager extends FireBaseInitializer {
         for (DocumentSnapshot document : documents) {
 
             Shop shop = document.toObject(Shop.class);
+
             shops.add(shop);
         }
         return shops;
@@ -638,13 +641,13 @@ public class DBManager extends FireBaseInitializer {
      *             as a document with the document ID set to the shop's ID.
      */
     public void registerShop(Shop shop) {
-        DocumentReference shopRef = db.collection("Shop").document(shop.getId());
+        DocumentReference shopRef = db.collection("Shops").document(shop.getId());
         shopRef.set(shop);
     }
 
 
     public Shop getShop(String id) {
-        DocumentReference shopRef = db.collection("Shop").document(id);
+        DocumentReference shopRef = db.collection("Shops").document(id);
         ApiFuture<DocumentSnapshot> futureShop = shopRef.get();
 
         try {
@@ -668,7 +671,7 @@ public class DBManager extends FireBaseInitializer {
      * `id`. If the document with the provided `id` does not exist, the method returns `null`.
      */
     public Customer getCustomer(String id) {
-        DocumentReference shopRef = db.collection("Clients").document(id);
+        DocumentReference shopRef = db.collection("Customers").document(id);
         ApiFuture<DocumentSnapshot> futureCustomer = shopRef.get();
 
         try {
@@ -698,7 +701,7 @@ public class DBManager extends FireBaseInitializer {
     }
 
     public List<Shop> getShopsByOwnerId(String shopOwnerID) {
-        ApiFuture<QuerySnapshot> future = db.collection("Shop").whereArrayContains("shopOwners", shopOwnerID).get();
+        ApiFuture<QuerySnapshot> future = db.collection("Shops").whereArrayContains("shopOwners", shopOwnerID).get();
         List<QueryDocumentSnapshot> documents;
 
         try {
@@ -731,7 +734,7 @@ public class DBManager extends FireBaseInitializer {
     }
 
     public void updateFidelitySpace(FidelitySpace space, String shopID) {
-        DocumentReference shopRef = db.collection("Shop").document(shopID);
+        DocumentReference shopRef = db.collection("Shops").document(shopID);
         shopRef.update("space", space);
 
     }
@@ -771,7 +774,7 @@ public class DBManager extends FireBaseInitializer {
 
         List<Shop> shops = new ArrayList<>();
         List<ShopOwner> shopOwners = new ArrayList<>();
-        ApiFuture<QuerySnapshot> future = db.collection("Shop").get();
+        ApiFuture<QuerySnapshot> future = db.collection("Shops").get();
 
         try {
             for (DocumentSnapshot document : future.get().getDocuments()) {

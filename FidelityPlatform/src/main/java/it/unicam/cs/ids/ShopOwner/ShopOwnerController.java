@@ -18,7 +18,7 @@ public class ShopOwnerController {
     }
 
     @Operation(summary = "Register a shop owner from the waiting list")
-    @PutMapping("/waiting-list/accept")
+    @PostMapping("/waiting-list/accept")
     public boolean registerShopOwner(@RequestBody ShopOwner waiting) {
         try {
             return soService.registerShopOwner(waiting);
@@ -28,7 +28,7 @@ public class ShopOwnerController {
     }
 
     @Operation(summary = "Register a shop owner in the waiting list")
-    @PutMapping("/waiting-list/add")
+    @PostMapping("/waiting-list/add")
     public void registerShopOwnerWaitingList(@RequestBody ShopOwner shopOwner) {
         this.soService.registerShopOwnerWaitingList(shopOwner);
     }

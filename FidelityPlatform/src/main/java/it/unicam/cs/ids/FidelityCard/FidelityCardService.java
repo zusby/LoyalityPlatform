@@ -62,11 +62,12 @@ public class FidelityCardService {
         return -1;
     }
 
-    public boolean updatePoints(String cardId, Integer points) {
+    public boolean updatePoints(String cardId, Points points) {
         FidelityCard fidelityCard = dbManager.getFidelityCardByCardID(cardId);
         if (fidelityCard != null) {
             fidelityCard.updateFidelityPoints(points);
-            dbManager.updateFidelityPointsFromCardId(cardId,points);
+
+            dbManager.updateFidelityPointsFromCardId(cardId,points.getPoints(), fidelityCard.getPointsHistory());
             return true;
         }
         return false;

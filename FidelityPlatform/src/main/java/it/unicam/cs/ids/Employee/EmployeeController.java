@@ -18,10 +18,10 @@ public class EmployeeController {
     public EmployeeController(EmployeeService service){
         this.service = service;
     }
-    @PostMapping("/employees/add")
+    @PostMapping("/{shopId}/add")
     @Operation(summary = "registers a new Employee")
-    public void addEmployee(@RequestBody Employee employee){
-        service.addEmployee(employee);
+    public void addEmployee(@RequestBody Employee employee, @PathVariable String shopId){
+        service.addEmployee(employee, shopId);
     }
     @GetMapping("/{shopId}")
     @Operation(summary = "get all Employees")

@@ -3,10 +3,10 @@ package it.unicam.cs.ids.Model;
 import java.util.Objects;
 
 public class Item {
-    private final double cost;
+    private double cost;
     private String description;
     private String characteristics;
-    private final String id;
+    private String id;
 
     public Item(double cost, String description, String characteristics, String id) {
         this.cost = cost;
@@ -14,10 +14,20 @@ public class Item {
         this.characteristics = characteristics;
         this.id = id;
     }
+    public Item(){
 
+    }
 
     public double getCost() {
         return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {

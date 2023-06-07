@@ -4,6 +4,7 @@ import it.unicam.cs.ids.Customer.Customer;
 import it.unicam.cs.ids.Database.DBManager;
 import it.unicam.cs.ids.Model.Role;
 import it.unicam.cs.ids.Purchase.Purchase;
+import it.unicam.cs.ids.Shop.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,11 @@ public class EmployeeService {
         this.db = db;
     }
 
-    public void addEmployee(Employee employee){
+    public void addEmployee(Employee employee, String shopId){
         db.registerEmployeeNoPassword(employee);
+        Shop shop = db.getShop(shopId);
+        shop.addEmployee(employee.getID());
+        db.registerShop(shop);
     }
 
     public List<Employee> getEmployees(String shopId) {

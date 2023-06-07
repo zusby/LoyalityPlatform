@@ -35,7 +35,7 @@ public class CouponService {
 
     public boolean addCoupon(Coupon coupon) {
 
-        Coupon coupon1 = db.getCouponById(coupon.getId());
+        Coupon coupon1 = db.getCouponById(coupon.getCouponId());
 
         if (coupon1 == null) {
             db.addCoupon(coupon);

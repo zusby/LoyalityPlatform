@@ -25,7 +25,7 @@ public class ShopController {
     public ShopController(ShopService service) {
         this.service = service;
     }
-    @GetMapping
+    @GetMapping("/all")
     @Operation(summary = "Get all the shops")
     public List<Shop> getShops(){
         return service.getShops();
@@ -38,7 +38,7 @@ public class ShopController {
      * this parameter will be obtained from the request body of the HTTP POST request. The registerShop() method of the
      * service object will be called with this parameter to register a new shop.
      */
-    @PostMapping
+    @PostMapping("/add")
     @Operation(summary = "adds a new Shop")
     public void registerShop(@RequestBody Shop shop){
         System.out.println(shop);
@@ -120,6 +120,7 @@ public class ShopController {
     public void updateFidelitySpace(@RequestBody FidelitySpace space, @PathVariable String shopID) {
         this.service.updateFidelitySpace(space, shopID);
     }
+
 
 
     @DeleteMapping("/{shopID}/delete")

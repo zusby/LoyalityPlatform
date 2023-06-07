@@ -5,11 +5,13 @@ import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.FidelityProgram;
 import it.unicam.cs.ids.Purchase.Purchase;
 
+import java.util.Date;
+
 public class CashBackRule extends FidelityProgram implements RuleApplier {
 
     private double cashBackPercentage;
 
-    public CashBackRule( Timestamp startingDate, Timestamp endingDate, double cashBackPercentage) {
+    public CashBackRule(Date startingDate, Date endingDate, double cashBackPercentage) {
         super("1", startingDate, endingDate);
         this.cashBackPercentage = cashBackPercentage;
     }

@@ -26,7 +26,7 @@ public class PurchaseService {
         this.db = db;
     }
 
-    public List<Purchase> getUserPurchases(String id){
+    public List<Purchase> getUserPurchases(String id) {
         try {
             return db.getUserPurchases(id);
         } catch (InterruptedException | ExecutionException e) {
@@ -36,20 +36,33 @@ public class PurchaseService {
     }
 
 
-    public Purchase ApplyCoupon(Purchase purchase, String couponID) {
+    public Purchase ApplyCoupon(Purchase purchase, String couponCode) {
         FidelityCard userFidelityCard = db.getFidelityCardByUserID(purchase.getUserID());
-        Coupon coupon = db.getCouponById(couponID);
-        for (FidelityProgram program : db.getShop(purchase.getShopId()).getFidelityPrograms()) {
-            if (program instanceof CouponRule) {
-                ((CouponRule) program).setCoupon(coupon);
-                ((CouponRule) program).applyRule(userFidelityCard, purchase);
+
+        List<Coupon> couponsByUser =db.getCouponsByUser(purchase.getUserID());
+
+
+        for(Coupon coupon: couponsByUser){
+            if(coupon.getCode().equals(couponCode)){
+                Shop shop = db.getShop(purchase.getShopId());
+                if (shop.getCouponRule() != null) {
+                    shop.getCouponRule().setCoupon(coupon);
+                    if(coupon.isUsed()){
+                        throw new IllegalArgumentException();
+                    }
+                    shop.getCouponRule().applyRule(userFidelityCard, purchase);
+                    coupon.setUsed(true);
+                    db.updateCoupon(coupon);
+                }
             }
         }
+        System.out.println(purchase);
         return purchase;
     }
 
     public Purchase applyCashBack(Purchase purchase, double multiplier) {
         FidelityCard userFidelityCard = db.getFidelityCardByUserID(purchase.getUserID());
+        System.out.println(purchase);
         double discount = userFidelityCard.getBalance() * multiplier;
         purchase.setDiscount(purchase.getDiscount() + discount);
         return purchase;
@@ -60,16 +73,16 @@ public class PurchaseService {
             FidelityCard userFidelityCard = db.getFidelityCardByUserID(purchaseObj.getUserID());
             Shop shop = db.getShop(purchaseObj.getShopId());
 
-            for (FidelityProgram program : shop.getFidelityPrograms()) {
-                if (program instanceof CashBackRule) {
-                    ((CashBackRule) program).applyRule(userFidelityCard, purchaseObj);
-                } else if (program instanceof LevelsRule) {
-                    ((LevelsRule) program).applyRule(userFidelityCard, purchaseObj);
-                } else if (program instanceof PointsRule) {
-                    ((PointsRule) program).applyRule(userFidelityCard, purchaseObj);
-                }
+            if (shop.getCashBackRule() != null) {
+                shop.getCashBackRule().applyRule(userFidelityCard, purchaseObj);
             }
-            //TODO Dobbiamo implementare la generazione dei Coupon
+            if (shop.getLevelsRule() != null) {
+                shop.getLevelsRule().applyRule(userFidelityCard, purchaseObj);
+            }
+            if (shop.getPointsRule() != null) {
+                shop.getPointsRule().applyRule(userFidelityCard, purchaseObj);
+            }
+            purchaseObj.calculatePrice();
             db.registerPurchase(purchaseObj);
         } catch (Exception e) {
             e.printStackTrace();

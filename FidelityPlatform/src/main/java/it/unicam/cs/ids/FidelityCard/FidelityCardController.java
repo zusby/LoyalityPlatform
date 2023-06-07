@@ -71,12 +71,10 @@ public class FidelityCardController {
 
     @PutMapping("/{cardId}/update-points")
     @Operation(summary = "Update the fidelity points of a fidelity card")
-    public ResponseEntity<Integer> updatePoints(@PathVariable String cardId, @RequestBody String points) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(points);
-        int point = jsonNode.get("points").asInt();
+    public ResponseEntity<Integer> updatePoints(@PathVariable String cardId, @RequestBody Points points) throws JsonProcessingException {
 
-        boolean success = fidelityCardService.updatePoints(cardId, point);
+
+        boolean success = fidelityCardService.updatePoints(cardId, points);
 
         if (success) {
             return ResponseEntity.noContent().build();
