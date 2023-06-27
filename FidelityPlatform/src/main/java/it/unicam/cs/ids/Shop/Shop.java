@@ -30,7 +30,6 @@ public class Shop {
     private FidelitySpace space;
     private Catalogue catalogue;
     private List<String> employees = new ArrayList<>();
-
     public Shop(String id, Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
         this.id = id;
         this.vatNumber = vatNumber;

@@ -118,8 +118,19 @@ public class DBManager extends FireBaseInitializer {
      */
     public void registerCustomerNoPassword(Customer customer) {
         CollectionReference purchases = db.collection("Customers");
-        DocumentReference purchaseRef = purchases.document(customer.getID());
-        if (AuthenticationController.registerNoPassword(customer.getEmail(), customer.getID())) {
+
+
+        if (customer.getID() == null) {
+            customer.setID(UUID.randomUUID().toString());
+            DocumentReference purchaseRef = purchases.document(customer.getID());
+            ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
+            try {
+                writeResult.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else if (AuthenticationController.registerNoPassword(customer.getEmail(), customer.getID())) {
+            DocumentReference purchaseRef = purchases.document(customer.getID());
             ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
             try {
                 writeResult.get();
