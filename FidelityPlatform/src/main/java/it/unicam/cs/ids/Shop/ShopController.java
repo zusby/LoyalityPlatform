@@ -109,6 +109,12 @@ public class ShopController {
         return service.getShopsByOwnerID(shopOwnerID);
     }
 
+    @GetMapping("/{shopId}")
+    @Operation(summary = "Get a shop by its ID")
+    public Shop getShopByID(@PathVariable String shopId) {
+        return service.getShopByID(shopId);
+    }
+
     @GetMapping("/{shopID}/fidelity-space")
     @Operation(summary = "Get the fidelity space of a shop")
     public FidelitySpace getFidelitySpace(@PathVariable String shopID) {

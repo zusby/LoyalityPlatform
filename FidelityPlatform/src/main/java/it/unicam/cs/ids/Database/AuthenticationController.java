@@ -20,11 +20,14 @@ public class AuthenticationController {
 
     private final FirebaseAuth mAuth;
 
+
     public AuthenticationController() throws IOException {
         initialize();
         mAuth = FirebaseAuth.getInstance();
 
     }
+
+
     /**
      * This function initializes a Firebase app with a service account key and a database URL.
      */
@@ -45,6 +48,7 @@ public class AuthenticationController {
      * @param email The email address of the user being registered.
      */
     public static boolean registerNoPassword(String email, String id){
+
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
                 .setPhotoUrl("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
@@ -59,6 +63,12 @@ public class AuthenticationController {
             return false;
         }
     }
+
+    public String getUserAuthIDByEmail(String email) throws FirebaseAuthException {
+        return mAuth.getUserByEmail(email).getUid();
+
+    }
+
 
 
     /**

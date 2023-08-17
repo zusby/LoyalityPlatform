@@ -117,26 +117,25 @@ public class DBManager extends FireBaseInitializer {
      *                 by creating a new document in the "Clients" collection in the Firestore database and adding the
      */
     public void registerCustomerNoPassword(Customer customer) {
-        CollectionReference purchases = db.collection("Customers");
-
-
-        if (customer.getID() == null) {
-            customer.setID(UUID.randomUUID().toString());
-            DocumentReference purchaseRef = purchases.document(customer.getID());
-            ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
-            try {
+        CollectionReference customers = db.collection("Customers");
+        try {
+            if (auth.getUserByEmail(customer.getEmail()) != null) {
+                customer.setID(auth.getUserByEmail(customer.getEmail()).getUid());
+                DocumentReference customerRef = customers.document(customer.getID());
+                ApiFuture<WriteResult> writeResult = customerRef.create(customer);
                 writeResult.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
             }
-        } else if (AuthenticationController.registerNoPassword(customer.getEmail(), customer.getID())) {
-            DocumentReference purchaseRef = purchases.document(customer.getID());
-            ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
-            try {
-                writeResult.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+            else if (AuthenticationController.registerNoPassword(customer.getEmail(), UUID.randomUUID().toString())) {
+                DocumentReference purchaseRef = customers.document(customer.getID());
+                ApiFuture<WriteResult> writeResult = purchaseRef.create(customer);
+                try {
+                    writeResult.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (FirebaseAuthException | ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -468,7 +467,7 @@ public class DBManager extends FireBaseInitializer {
 
         try {
             DocumentSnapshot document = futureCoupon.get();
-           return document.toObject(Coupon.class);
+            return document.toObject(Coupon.class);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return null;
@@ -579,7 +578,6 @@ public class DBManager extends FireBaseInitializer {
     }
 
 
-    
     /**
      * This function updates the expiration date of a customer's fidelity card in a Firestore database.
      *
@@ -590,7 +588,6 @@ public class DBManager extends FireBaseInitializer {
         DocumentReference customerRef = db.collection("FidelityCards").document(customerId);
         customerRef.update("expireDate", Timestamp.of(newExpireDate));
     }
-
 
 
     /**

@@ -128,4 +128,7 @@ public class ShopService {
         db.deleteShop(shopID);
     }
 
+    public Shop getShopByID(String shopId) {
+        return db.getShop(shopId);
+    }
 }
