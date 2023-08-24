@@ -81,7 +81,7 @@ public class ShopController {
 
     @GetMapping("/{shopId}/prizes")
     @Operation(summary = "Get prizes by shop ID")
-    public Set<Item> getPrizes(@PathVariable String shopId) {
+    public List<Item> getPrizes(@PathVariable String shopId) {
         return this.service.getPrizes(shopId);
     }
 

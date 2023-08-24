@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -41,10 +42,14 @@ public class ShopService {
      * "registerShop". The method is responsible for registering the shop object in the database.
      */
     public void registerShop(Shop shop) {
+        if(shop.getId() == null || shop.getId().isEmpty()){
+            shop.setId(UUID.randomUUID().toString());
+        }
+        System.out.println(shop);
         db.registerShop(shop);
     }
 
-    public Set<Item> getPrizes(String shopId) {
+    public List<Item> getPrizes(String shopId) {
         return db.getShop(shopId).getPrizes().getAwards();
     }
 

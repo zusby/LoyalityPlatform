@@ -1,23 +1,27 @@
 package it.unicam.cs.ids.Model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PrizeAwards {
 
-    private Set<Item> awards;
+    private List<Item> awards;
 
-    public PrizeAwards(Set<Item> awards){
+    public PrizeAwards(List<Item> awards){
         this.awards = awards;
     }
 
     public PrizeAwards(){
+        this.awards = new ArrayList<>();
     }
 
-    public Set<Item> getAwards() {
+    public List<Item> getAwards() {
         return awards;
     }
 
-    public void setAwards(Set<Item> awards) {
+    public void setAwards(List<Item> awards) {
         this.awards = awards;
     }
 

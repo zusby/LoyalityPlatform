@@ -53,7 +53,7 @@ public class Shop {
     }
 
     public PrizeAwards getPrizes() {
-        return prizes;
+        return prizes != null ? prizes : new PrizeAwards();
     }
     public void setPrizes(PrizeAwards prizes) {
         this.prizes = prizes;
@@ -91,7 +91,7 @@ public class Shop {
         this.name = name;
     }
     public Catalogue getCatalogue() {
-        return catalogue;
+        return catalogue != null ? catalogue : new Catalogue();
     }
     public void setCatalogue(Catalogue catalogue) {
         this.catalogue = catalogue;
