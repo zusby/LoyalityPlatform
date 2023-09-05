@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
 import it.unicam.cs.ids.Admin.Admin;
+import it.unicam.cs.ids.BillBoard.BillBoard;
 import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.*;
@@ -863,5 +864,48 @@ public class DBManager extends FireBaseInitializer {
                 e.printStackTrace();
             }
         }
+    }
+
+    public BillBoard getBillBoardFromID(String id) {
+        DocumentReference billBoard = db.collection("BillBoards").document(id);
+        ApiFuture<DocumentSnapshot> futureEmployee = billBoard.get();
+
+        try {
+            DocumentSnapshot document = futureEmployee.get();
+            if (document.exists()) {
+                return document.toObject(BillBoard.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
+
+    public void registerBillBoard(BillBoard billBoard) {
+        DocumentReference shopRef = db.collection("BillBoards").document(billBoard.getID());
+        shopRef.set(billBoard);
+    }
+    public List<BillBoard> getShopBillBoards(String shopID) throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> future = db.collection("BillBoards").whereEqualTo("storeID", shopID).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<BillBoard> purchases = new ArrayList<>();
+        for (DocumentSnapshot document : documents) {
+            BillBoard billBoard = document.toObject(BillBoard.class);
+            purchases.add(billBoard);
+        }
+        return purchases;
+    }
+
+
+    public void deleteBillBoard(String id) {
+            ApiFuture<WriteResult> future = db.collection("BillBoard").document(id).delete();
+            try {
+                future.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
     }
 }
