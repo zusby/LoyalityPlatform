@@ -44,7 +44,10 @@ public class BillBoardService {
         }
     }
 
-    public void deleteBillBoard(String id) {
-        this.db.deleteBillBoard(id);
+    public void deleteBillBoard(String id, String shopID) {
+        BillBoard billboard = this.db.getBillBoardFromID(id);
+        if(billboard!=null && billboard.getStoreID().equals(shopID)) {
+            this.db.deleteBillBoard(id);
+        }
     }
 }

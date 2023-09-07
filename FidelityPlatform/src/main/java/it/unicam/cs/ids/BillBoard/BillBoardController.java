@@ -34,8 +34,9 @@ public class BillBoardController {
     public List<BillBoard> getShopBillBoards(@PathVariable String shopID){
         return this.service.getBillBoardsFromShopID(shopID);
     }
-    @DeleteMapping("/{id}/delete")
-    public void deleteBillBoard(@PathVariable String id){
-        this.service.deleteBillBoard(id);
+    @DeleteMapping("/{shopID}/{id}/delete")
+    public void deleteBillBoard(@PathVariable String id, @PathVariable String shopID){
+
+        this.service.deleteBillBoard(id, shopID);
     }
 }

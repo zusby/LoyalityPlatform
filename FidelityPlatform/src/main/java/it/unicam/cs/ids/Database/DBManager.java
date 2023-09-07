@@ -9,6 +9,7 @@ import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
 import it.unicam.cs.ids.Admin.Admin;
 import it.unicam.cs.ids.BillBoard.BillBoard;
+import it.unicam.cs.ids.Categories.Category;
 import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Model.*;
@@ -855,9 +856,9 @@ public class DBManager extends FireBaseInitializer {
 
     public void registerAdmin(Admin admin) {
         CollectionReference purchases = db.collection("Admins");
-        DocumentReference purchaseRef = purchases.document(admin.getID());
+        DocumentReference adminRef = purchases.document(admin.getID());
         if (AuthenticationController.registerNoPassword(admin.getEmail(), admin.getID())) {
-            ApiFuture<WriteResult> writeResult = purchaseRef.create(admin);
+            ApiFuture<WriteResult> writeResult = adminRef.create(admin);
             try {
                 writeResult.get();
             } catch (InterruptedException | ExecutionException e) {
@@ -868,10 +869,10 @@ public class DBManager extends FireBaseInitializer {
 
     public BillBoard getBillBoardFromID(String id) {
         DocumentReference billBoard = db.collection("BillBoards").document(id);
-        ApiFuture<DocumentSnapshot> futureEmployee = billBoard.get();
+        ApiFuture<DocumentSnapshot> future = billBoard.get();
 
         try {
-            DocumentSnapshot document = futureEmployee.get();
+            DocumentSnapshot document = future.get();
             if (document.exists()) {
                 return document.toObject(BillBoard.class);
             }
@@ -900,12 +901,51 @@ public class DBManager extends FireBaseInitializer {
 
 
     public void deleteBillBoard(String id) {
-            ApiFuture<WriteResult> future = db.collection("BillBoard").document(id).delete();
+            ApiFuture<WriteResult> future = db.collection("BillBoards").document(id).delete();
             try {
                 future.get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+    }
+
+    public List<Category> getStoreCategories(String shopID) throws ExecutionException, InterruptedException {
+        ApiFuture<QuerySnapshot> future = db.collection("Categories").whereEqualTo("storeID", shopID).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<Category> purchases = new ArrayList<>();
+        for (DocumentSnapshot document : documents) {
+            purchases.add(document.toObject(Category.class));
+        }
+        return purchases;
+    }
+
+    public Category getCategory(String id) {
+
+            DocumentReference category = db.collection("Categories").document(id);
+            ApiFuture<DocumentSnapshot> future = category.get();
+            try {
+                DocumentSnapshot document = future.get();
+                if (document.exists()) {
+                    return document.toObject(Category.class);
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
+
+    public void deleteCategory(String id) {
+        ApiFuture<WriteResult> future = db.collection("Categories").document(id).delete();
+        try {
+            future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void registerCategory(Category category) {
+        DocumentReference shopRef = db.collection("Categories").document(category.getId());
+        shopRef.set(category);
     }
 }
