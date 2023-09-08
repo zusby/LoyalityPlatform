@@ -2,7 +2,6 @@ package it.unicam.cs.ids.BillBoard;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +17,12 @@ public class BillBoardController {
 
     @Operation(summary = "Get a BillBoard from its ID")
     @GetMapping("/{id}")
-    public BillBoard getBillBoardFromID(@PathVariable String id){
+    public Billboard getBillBoardFromID(@PathVariable String id){
 
         return this.service.getBillBoardFromID(id);
     }
     @PostMapping("/add")
-    public void registerBillBoard(@RequestBody BillBoard billBoard){
+    public void registerBillBoard(@RequestBody Billboard billBoard){
         this.service.addBillBoard(billBoard);
     }
 
@@ -31,7 +30,7 @@ public class BillBoardController {
 
 
     @GetMapping("/{shopID}/all")
-    public List<BillBoard> getShopBillBoards(@PathVariable String shopID){
+    public List<Billboard> getShopBillBoards(@PathVariable String shopID){
         return this.service.getBillBoardsFromShopID(shopID);
     }
     @DeleteMapping("/{shopID}/{id}/delete")

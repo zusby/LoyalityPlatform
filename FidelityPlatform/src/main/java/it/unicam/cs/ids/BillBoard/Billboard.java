@@ -2,7 +2,7 @@ package it.unicam.cs.ids.BillBoard;
 
 import java.util.Date;
 
-public class BillBoard{
+public class Billboard {
     private String ID;
     private String storeID;
     private String label;
@@ -10,7 +10,7 @@ public class BillBoard{
     private Date createdAt;
     private Date updatedAt;
 
-    public BillBoard(String ID, String storeID, String label, String imageUrl, Date createdAt, Date updatedAt) {
+    public Billboard(String ID, String storeID, String label, String imageUrl, Date createdAt, Date updatedAt) {
         this.ID = ID;
         this.storeID = storeID;
         this.label = label;
@@ -18,7 +18,7 @@ public class BillBoard{
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    public BillBoard(){
+    public Billboard(){
 
     }
 

@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
 import it.unicam.cs.ids.Admin.Admin;
-import it.unicam.cs.ids.BillBoard.BillBoard;
+import it.unicam.cs.ids.BillBoard.Billboard;
 import it.unicam.cs.ids.Categories.Category;
 import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
@@ -867,14 +867,14 @@ public class DBManager extends FireBaseInitializer {
         }
     }
 
-    public BillBoard getBillBoardFromID(String id) {
+    public Billboard getBillBoardFromID(String id) {
         DocumentReference billBoard = db.collection("BillBoards").document(id);
         ApiFuture<DocumentSnapshot> future = billBoard.get();
 
         try {
             DocumentSnapshot document = future.get();
             if (document.exists()) {
-                return document.toObject(BillBoard.class);
+                return document.toObject(Billboard.class);
             }
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
@@ -884,16 +884,16 @@ public class DBManager extends FireBaseInitializer {
 
 
 
-    public void registerBillBoard(BillBoard billBoard) {
+    public void registerBillBoard(Billboard billBoard) {
         DocumentReference shopRef = db.collection("BillBoards").document(billBoard.getID());
         shopRef.set(billBoard);
     }
-    public List<BillBoard> getShopBillBoards(String shopID) throws ExecutionException, InterruptedException {
+    public List<Billboard> getShopBillBoards(String shopID) throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future = db.collection("BillBoards").whereEqualTo("storeID", shopID).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<BillBoard> purchases = new ArrayList<>();
+        List<Billboard> purchases = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
-            BillBoard billBoard = document.toObject(BillBoard.class);
+            Billboard billBoard = document.toObject(Billboard.class);
             purchases.add(billBoard);
         }
         return purchases;

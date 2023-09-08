@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.Categories;
 
-import it.unicam.cs.ids.BillBoard.BillBoard;
+import it.unicam.cs.ids.BillBoard.Billboard;
 
 import java.util.Date;
 
@@ -10,15 +10,15 @@ public class Category {
     private Date updatedAt;
     private Date createdAt;
     private String name;
-    private BillBoard billBoard;
+    private Billboard billboard;
 
-    public Category(String id, String storeID, Date updatedAt, Date createdAt, String name, BillBoard billBoardID) {
+    public Category(String id, String storeID, Date updatedAt, Date createdAt, String name, Billboard billboard) {
         this.id = id;
         this.storeID = storeID;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.name = name;
-        this.billBoard = billBoardID;
+        this.billboard = billboard;
     }
     public Category(){}
 
@@ -62,12 +62,12 @@ public class Category {
         this.name = name;
     }
 
-    public BillBoard getBillBoard() {
-        return billBoard;
+    public Billboard getBillboard() {
+        return billboard;
     }
 
-    public void setBillBoard(BillBoard billBoard) {
-        this.billBoard = billBoard;
+    public void setBillboard(Billboard billboard) {
+        this.billboard = billboard;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Category {
                 ", updatedAt=" + updatedAt +
                 ", createdAt=" + createdAt +
                 ", name='" + name + '\'' +
-                ", billBoard=" + billBoard +
+                ", billBoard=" + billboard +
                 '}';
     }
 }

@@ -2,7 +2,6 @@ package it.unicam.cs.ids.BillBoard;
 
 import it.unicam.cs.ids.Database.DBManager;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.util.Date;
@@ -18,12 +17,12 @@ public class BillBoardService {
         this.db = new DBManager();
     }
 
-    public BillBoard getBillBoardFromID(String id) {
+    public Billboard getBillBoardFromID(String id) {
        return  this.db.getBillBoardFromID(id);
 
     }
 
-    public void addBillBoard(BillBoard billBoard){
+    public void addBillBoard(Billboard billBoard){
         if(billBoard.getID()==null){
             billBoard.setID(UUID.randomUUID().toString());
         }
@@ -36,7 +35,7 @@ public class BillBoardService {
 
     }
 
-    public List<BillBoard> getBillBoardsFromShopID(String shopID) {
+    public List<Billboard> getBillBoardsFromShopID(String shopID) {
         try {
             return db.getShopBillBoards(shopID);
         } catch (ExecutionException | InterruptedException e) {
@@ -45,7 +44,7 @@ public class BillBoardService {
     }
 
     public void deleteBillBoard(String id, String shopID) {
-        BillBoard billboard = this.db.getBillBoardFromID(id);
+        Billboard billboard = this.db.getBillBoardFromID(id);
         if(billboard!=null && billboard.getStoreID().equals(shopID)) {
             this.db.deleteBillBoard(id);
         }

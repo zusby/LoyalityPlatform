@@ -40,6 +40,7 @@ public class CategoryService {
     }
 
     public void registerCategory(Category category) {
+        System.out.println(category);
         if(category.getId()==null){
             category.setId(UUID.randomUUID().toString());
         }
@@ -48,7 +49,7 @@ public class CategoryService {
         }else{
             category.setUpdatedAt(new Date());
         }
-        System.out.println(category);
+
         db.registerCategory(category);
     }
 }
