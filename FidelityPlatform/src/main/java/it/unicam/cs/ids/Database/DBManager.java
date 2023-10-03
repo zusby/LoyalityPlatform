@@ -10,14 +10,18 @@ import com.google.firebase.cloud.FirestoreClient;
 import it.unicam.cs.ids.Admin.Admin;
 import it.unicam.cs.ids.BillBoard.Billboard;
 import it.unicam.cs.ids.Categories.Category;
+import it.unicam.cs.ids.Colors.Color;
 import it.unicam.cs.ids.Coupon.Coupon;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
+import it.unicam.cs.ids.Images.Image;
 import it.unicam.cs.ids.Model.*;
 import it.unicam.cs.ids.Customer.*;
 import it.unicam.cs.ids.Employee.*;
+import it.unicam.cs.ids.Products.Product;
 import it.unicam.cs.ids.Purchase.Purchase;
 import it.unicam.cs.ids.Shop.Shop;
 import it.unicam.cs.ids.ShopOwner.*;
+import it.unicam.cs.ids.Sizes.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +37,7 @@ public class DBManager extends FireBaseInitializer {
     private final Firestore db;
     private final FirebaseAuth auth;
 
-    @Autowired
+
     public DBManager() throws IOException {
         this.auth = FirebaseAuth.getInstance();
         this.db = FirestoreClient.getFirestore();
@@ -947,5 +951,201 @@ public class DBManager extends FireBaseInitializer {
     public void registerCategory(Category category) {
         DocumentReference shopRef = db.collection("Categories").document(category.getId());
         shopRef.set(category);
+    }
+
+    public Size getSizeFromID(String id) {
+        DocumentReference sizeRef = db.collection("Sizes").document(id);
+        ApiFuture<DocumentSnapshot> future = sizeRef.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                return document.toObject(Size.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void registerSize(Size size) {
+        DocumentReference sizeRef = db.collection("Sizes").document(size.getId());
+        sizeRef.set(size);
+    }
+
+    public List<Size> getShopSizes(String shopID) throws ExecutionException, InterruptedException {
+        Query query = db.collection("Sizes").whereEqualTo("storeID", shopID);
+        QuerySnapshot querySnapshot = query.get().get();
+        List<Size> sizes = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Size size = document.toObject(Size.class);
+            sizes.add(size);
+        }
+        return sizes;
+    }
+
+    public void deleteSize(String id) {
+        ApiFuture<WriteResult> future = db.collection("Sizes").document(id).delete();
+        try {
+            future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public Color getColorFromID(String id) {
+        DocumentReference colorRef = db.collection("Colors").document(id);
+        ApiFuture<DocumentSnapshot> future = colorRef.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                return document.toObject(Color.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void registerColor(Color color) {
+        DocumentReference colorRef = db.collection("Colors").document(color.getId());
+        colorRef.set(color);
+    }
+
+    public List<Color> getShopColors(String shopID) throws ExecutionException, InterruptedException {
+        Query query = db.collection("Colors").whereEqualTo("storeID", shopID);
+        QuerySnapshot querySnapshot = query.get().get();
+        List<Color> colors = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Color color = document.toObject(Color.class);
+            colors.add(color);
+        }
+        return colors;
+    }
+
+    public void deleteColor(String id) {
+        ApiFuture<WriteResult> future = db.collection("Colors").document(id).delete();
+        try {
+            future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Image getImageFromID(String id) {
+        Objects.requireNonNull(id);
+        DocumentReference imageRef = db.collection("Images").document(id);
+        ApiFuture<DocumentSnapshot> future = imageRef.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                return document.toObject(Image.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void registerImage(Image image) {
+        DocumentReference imageRef = db.collection("Images").document(image.getId());
+        imageRef.set(image);
+    }
+
+    public List<Image> getImagesByProductID(String productID) throws ExecutionException, InterruptedException {
+        Query query = db.collection("Images").whereEqualTo("productID", productID);
+        QuerySnapshot querySnapshot = query.get().get();
+        List<Image> images = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Image image = document.toObject(Image.class);
+            images.add(image);
+        }
+        return images;
+    }
+    public Image getImageFromURL(String imageURL) {
+        try {
+            Query query = db.collection("Images").whereEqualTo("url", imageURL).limit(1);
+            QuerySnapshot querySnapshot = query.get().get();
+            for (QueryDocumentSnapshot document : querySnapshot) {
+                return document.toObject(Image.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteImage(String id) {
+        ApiFuture<WriteResult> future = db.collection("Images").document(id).delete();
+        try {
+            future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Product getProductFromID(String id) {
+        DocumentReference productRef = db.collection("Products").document(id);
+        ApiFuture<DocumentSnapshot> future = productRef.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                return document.toObject(Product.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void registerProduct(Product product) {
+        DocumentReference productRef = db.collection("Products").document(product.getId());
+        productRef.set(product);
+    }
+
+    public List<Product> getProductsByStoreID(String storeID){
+        Query query = db.collection("Products").whereEqualTo("storeID", storeID);
+        QuerySnapshot querySnapshot = null;
+        try {
+            querySnapshot = query.get().get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        List<Product> products = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Product product = document.toObject(Product.class);
+            products.add(product);
+        }
+        return products;
+    }
+
+
+
+    public void deleteProduct(String id) {
+        ApiFuture<WriteResult> future = db.collection("Products").document(id).delete();
+        try {
+            future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public List<Product> getProductsFromCategory(String categoryID) {
+        Query query = db.collection("Products").whereEqualTo("categoryID", categoryID);
+        QuerySnapshot querySnapshot = null;
+        try {
+            querySnapshot = query.get().get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        List<Product> products = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Product product = document.toObject(Product.class);
+            products.add(product);
+        }
+        return products;
     }
 }

@@ -28,7 +28,6 @@ public class Shop {
 
     private PrizeAwards prizes;
     private FidelitySpace space;
-    private Catalogue catalogue;
     private List<String> employees = new ArrayList<>();
     public Shop(String id, Address shopAddress, String vatNumber, String name, String shopTelephoneNumber, List<String> shopOwnerIDs) {
         this.id = id;
@@ -90,13 +89,6 @@ public class Shop {
     public void setName(String name) {
         this.name = name;
     }
-    public Catalogue getCatalogue() {
-        return catalogue != null ? catalogue : new Catalogue();
-    }
-    public void setCatalogue(Catalogue catalogue) {
-        this.catalogue = catalogue;
-    }
-
     public void addEmployee(String employee){
         this.employees.add(employee);
     }
@@ -139,7 +131,6 @@ public class Shop {
     public String toString() {
         return "Shop{" +
                 "cashBackRule=" + cashBackRule +
-                ", catalogue=" + catalogue +
                 ", couponRule=" + couponRule +
                 ", employees=" + employees +
                 ", id='" + id + '\'' +
