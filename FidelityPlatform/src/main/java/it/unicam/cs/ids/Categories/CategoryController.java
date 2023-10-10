@@ -29,6 +29,11 @@ public class CategoryController {
         this.service.deleteCategory(id, shopID);
     }
 
+    @GetMapping("/{billboardID}/billboards")
+    public List<Category> getCategoryFromBillboard(@PathVariable String billboardID){
+        return this.service.getCategoryFromBillboard(billboardID);
+    }
+
     @PostMapping("/add")
     public void registerCategory(@RequestBody Category category){
         this.service.registerCategory(category);

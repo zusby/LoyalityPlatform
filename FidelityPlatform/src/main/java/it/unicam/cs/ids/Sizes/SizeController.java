@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@RequestMapping("/api/v1/size")
 @RestController
-@RequestMapping("api/v1/size")
 public class SizeController {
     private final SizeService service;
 
@@ -22,7 +23,7 @@ public class SizeController {
         return this.service.getSizeFromID(id);
     }
 
-    @PostMapping("/add?")
+    @PostMapping("/add")
     public void registerSize(@RequestBody Size size){
         System.out.println(size);
         this.service.addSize(size);

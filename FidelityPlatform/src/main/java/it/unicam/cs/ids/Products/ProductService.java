@@ -33,12 +33,15 @@ public class ProductService {
         db.registerProduct(product);
     }
 
-    public List<Product> getProductsByStoreID(String storeID) {
+    public List<Product> getFeaturedProductsByStoreID(String storeID) {
 
             List<Product> products= db.getProductsByStoreID(storeID);
         products.removeIf(product -> !product.getIsFeatured());
             return products;
 
+    }
+    public List<Product> getProductsByStoreID(String storeID){
+        return this.db.getProductsByStoreID(storeID);
     }
 
     public void deleteProduct(String id, String storeID) {
@@ -50,5 +53,22 @@ public class ProductService {
 
     public List<Product> getProductsFromCategory(String categoryID) {
         return this.db.getProductsFromCategory(categoryID);
+    }
+
+    public List<Product> getAvailableProducts(String storeID) {
+        List<Product>  featured= getProductsByStoreID(storeID);
+
+        featured.removeIf(Product::getIsArchived);
+        return featured;
+    }
+
+    public List<Product> getArchivedProducts(String storeID) {
+        List<Product> archived = getProductsByStoreID(storeID);
+        archived.removeIf(product -> !product.getIsArchived());
+        return archived;
+    }
+
+    public List<Product> getPaidProducts(String storeID) {
+        return null;
     }
 }

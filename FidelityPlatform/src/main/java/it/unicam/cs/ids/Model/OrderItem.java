@@ -5,10 +5,13 @@ public class OrderItem {
     private String id;
     private String orderID;
     private String productID;
+    public OrderItem(){
+
+    }
 
 
 
-    public String getId() {
+    public String getID() {
         return id;
     }
 
@@ -30,5 +33,14 @@ public class OrderItem {
 
     public void setProductID(String productID) {
         this.productID = productID;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id='" + id + '\'' +
+                ", orderID='" + orderID + '\'' +
+                ", productID='" + productID + '\'' +
+                '}';
     }
 }

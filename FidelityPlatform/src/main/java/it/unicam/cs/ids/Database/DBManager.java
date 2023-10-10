@@ -12,19 +12,20 @@ import it.unicam.cs.ids.BillBoard.Billboard;
 import it.unicam.cs.ids.Categories.Category;
 import it.unicam.cs.ids.Colors.Color;
 import it.unicam.cs.ids.Coupon.Coupon;
+import it.unicam.cs.ids.Customer.Customer;
+import it.unicam.cs.ids.Employee.Employee;
 import it.unicam.cs.ids.FidelityCard.FidelityCard;
 import it.unicam.cs.ids.Images.Image;
-import it.unicam.cs.ids.Model.*;
-import it.unicam.cs.ids.Customer.*;
-import it.unicam.cs.ids.Employee.*;
+import it.unicam.cs.ids.Model.FidelitySpace;
+import it.unicam.cs.ids.Model.OrderItem;
+import it.unicam.cs.ids.Model.Points;
+import it.unicam.cs.ids.Order.Order;
 import it.unicam.cs.ids.Products.Product;
 import it.unicam.cs.ids.Purchase.Purchase;
 import it.unicam.cs.ids.Shop.Shop;
-import it.unicam.cs.ids.ShopOwner.*;
+import it.unicam.cs.ids.ShopOwner.ShopOwner;
 import it.unicam.cs.ids.Sizes.Size;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.io.IOException;
 import java.util.*;
@@ -1148,4 +1149,88 @@ public class DBManager extends FireBaseInitializer {
         }
         return products;
     }
+
+
+
+    public List<Category> getCategoriesByBillboard(String billboardID) {
+        Query query = db.collection("Categories").whereEqualTo("billboard.id", billboardID);
+        QuerySnapshot querySnapshot;
+        try {
+            querySnapshot = query.get().get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        List<Category> categories = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Category category = document.toObject(Category.class);
+            categories.add(category);
+        }
+        return categories;
+    }
+
+    public void registerOrder(Order order) {
+
+        DocumentReference shopRef = db.collection("Orders").document(order.getId());
+        shopRef.set(order);
+    }
+
+    public List<Order> getOrders(String storeID) {
+        Query query = db.collection("Orders").whereEqualTo("storeID", storeID);
+        QuerySnapshot querySnapshot;
+        try {
+            querySnapshot = query.get().get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        List<Order> orders = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Order order = document.toObject(Order.class);
+            orders.add(order);
+        }
+        return orders;
+    }
+
+    public Order getOrder(String orderID) {
+        DocumentReference productRef = db.collection("Orders").document(orderID);
+        ApiFuture<DocumentSnapshot> future = productRef.get();
+
+        try {
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                return document.toObject(Order.class);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+    public List<Order> getPaidOrders(String storeID) {
+        Query query = db.collection("Orders").whereEqualTo("storeID", storeID).whereEqualTo("isPaid",true);
+        QuerySnapshot querySnapshot;
+        try {
+            querySnapshot = query.get().get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        List<Order> orders = new ArrayList<>();
+        for (QueryDocumentSnapshot document : querySnapshot) {
+            Order order = document.toObject(Order.class);
+            orders.add(order);
+        }
+        return orders;
+    }
+
+    public void registerOrderItem(OrderItem item) {
+        CollectionReference orders = db.collection("OrderItems");
+        DocumentReference orderRef = orders.document(item.getID());
+        ApiFuture<WriteResult> writeResult = orderRef.create(item);
+        try {
+            writeResult.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

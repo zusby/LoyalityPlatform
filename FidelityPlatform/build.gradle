@@ -17,7 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.jetbrains:annotations:24.0.1'
 	implementation 'org.testng:testng:7.7.0'
-
+	implementation "com.stripe:stripe-java:23.8.0"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.google.firebase:firebase-admin:9.1.1'
 
@@ -28,7 +28,7 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger-ui:2.7.0'
 
 
-
+	implementation 'com.google.code.gson:gson:2.10.1'
 }
 tasks.named('test') {
 	useJUnitPlatform()

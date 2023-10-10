@@ -45,7 +45,7 @@ public class ShopService {
         if(shop.getId() == null || shop.getId().isEmpty()){
             shop.setId(UUID.randomUUID().toString());
         }
-        System.out.println(shop);
+
         db.registerShop(shop);
     }
 

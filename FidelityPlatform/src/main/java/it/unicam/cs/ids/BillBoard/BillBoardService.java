@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.BillBoard;
 
+import it.unicam.cs.ids.Categories.Category;
 import it.unicam.cs.ids.Database.DBManager;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class BillBoardService {
-    private DBManager db;
+    private final DBManager db;
 
     public BillBoardService() throws IOException {
         this.db = new DBManager();
@@ -31,8 +32,13 @@ public class BillBoardService {
         }else{
             billBoard.setUpdatedAt(new Date());
         }
+        System.out.println(billBoard.getID());
+        List<Category> categories = db.getCategoriesByBillboard(billBoard.getID());
+        for(Category category : categories) {
+            category.setBillboard(billBoard);
+            db.registerCategory(category);
+        }
         db.registerBillBoard(billBoard);
-
     }
 
     public List<Billboard> getBillBoardsFromShopID(String shopID) {

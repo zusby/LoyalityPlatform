@@ -35,11 +35,16 @@ public class ProductController {
     }
     @GetMapping("/{storeID}/featured/all")
     public List<Product> getStoreFeaturedProducts(@PathVariable String storeID){
-        return this.service.getProductsByStoreID(storeID);
+        return this.service.getFeaturedProductsByStoreID(storeID);
     }
     @GetMapping("/category/{categoryID}/all")
     public List<Product> getProductsFromCategory(@PathVariable String categoryID){
         return this.service.getProductsFromCategory(categoryID);
+    }
+
+    @GetMapping("/{storeID}/available/all")
+    public List<Product> getAvailableProducts(@PathVariable String storeID){
+        return this.service.getAvailableProducts(storeID);
     }
 
 
@@ -47,4 +52,17 @@ public class ProductController {
     public void deleteProduct(@PathVariable String id, @PathVariable String storeID){
         this.service.deleteProduct(id, storeID);
     }
+
+    @GetMapping("/{storeID}/archived/all")
+    public List<Product> getArchivedProducts(@PathVariable String storeID){
+        return this.service.getArchivedProducts(storeID);
+    }
+
+    @GetMapping("/{storeID}/paid/all")
+    public List<Product> getPaidProducts(@PathVariable String storeID){
+        return this.service.getPaidProducts(storeID);
+    }
+
+
+
 }

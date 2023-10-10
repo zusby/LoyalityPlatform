@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class CategoryService {
     private DBManager db;
-    @Autowired
+
     public CategoryService() throws IOException {
         this.db= new DBManager();
     }
@@ -51,5 +51,9 @@ public class CategoryService {
         }
 
         db.registerCategory(category);
+    }
+
+    public List<Category> getCategoryFromBillboard(String billboardID) {
+        return this.db.getCategoriesByBillboard(billboardID);
     }
 }
