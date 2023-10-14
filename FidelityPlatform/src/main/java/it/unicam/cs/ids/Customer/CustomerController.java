@@ -1,10 +1,7 @@
 package it.unicam.cs.ids.Customer;
 
 
-
 import io.swagger.v3.oas.annotations.Operation;
-import it.unicam.cs.ids.FidelityCard.FidelityCard;
-import it.unicam.cs.ids.Purchase.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +32,7 @@ public class CustomerController {
     @PutMapping("/{id}/update")
     @Operation(summary = "Modify customer profile", description = "Update the profile of a customer")
     public void modifyCustomerProfile(@RequestBody Customer customer) {
+        System.out.println(customer);
         customerService.updateProfile(customer);
     }
 
@@ -48,6 +46,7 @@ public class CustomerController {
     @Operation(summary = "Register a new customer", description = "Register a new customer")
     public void registerCustomer(@RequestBody Customer customer) {
         customerService.registerCustomer(customer);
+
     }
 
 

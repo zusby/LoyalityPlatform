@@ -65,6 +65,7 @@ public class StripeController {
             }
         }
         return ResponseEntity.notFound().build();
+
     }
 
     @PostMapping("/webhook")
