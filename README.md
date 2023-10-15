@@ -13,6 +13,7 @@ To initialize the FireStore Database and the FireStore Authentication service it
 - AuthenticationController.java
 - insert your own FireBase SDK Admin API credencials
 - insert your Stripe API key in the Stripe class
+- Setup Stripe's webhook trough [Stripe CLI](https://stripe.com/docs/stripe-cli/overview?locale=it-IT)
 
 ## API Reference
 
