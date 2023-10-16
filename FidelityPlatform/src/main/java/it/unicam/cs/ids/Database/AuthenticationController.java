@@ -1,20 +1,14 @@
 package it.unicam.cs.ids.Database;
 
-import com.google.api.gax.rpc.NotFoundException;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.ErrorCode;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import it.unicam.cs.ids.Database.DBManager;
-import it.unicam.cs.ids.Customer.Customer;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.UUID;
 
 public class AuthenticationController {
 
@@ -63,10 +57,9 @@ public class AuthenticationController {
             return false;
         }
     }
-
+    @Deprecated
     public String getUserAuthIDByEmail(String email) throws FirebaseAuthException {
         return mAuth.getUserByEmail(email).getUid();
-
     }
 
 
@@ -78,7 +71,9 @@ public class AuthenticationController {
      * @param email The email address of the user being registered.
      * @param password The password parameter is a String variable that represents the password that the user wants to set
      * for their account during registration.
+     * @deprecated use the firebase auth web instead
      */
+    @Deprecated
     public static boolean register(String email, String password, String id){
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
@@ -95,21 +90,4 @@ public class AuthenticationController {
             return false;
         }
     }
-
-
-    /**
-     * This function generates a password reset link for a user with the given email address, and prints an error message
-     * if the user doesn't exist.
-     *
-     * @param email The email of the user for whom the password reset link needs to be generated.
-     */
-    public String resetPassword(String email){
-        try{
-            return mAuth.generatePasswordResetLink(email);
-        }catch (FirebaseAuthException e){
-            System.out.println("User doesn't exist, error:"+e);
-            return "";
-        }
-    }
-
 }

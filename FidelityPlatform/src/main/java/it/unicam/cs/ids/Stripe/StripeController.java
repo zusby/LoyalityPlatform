@@ -8,6 +8,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import it.unicam.cs.ids.Order.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,17 +24,19 @@ import java.util.UUID;
 public class StripeController {
 
     private final StripeService service;
-
+    @Value("${stripe-api-key}")
+    private  String apiKey;
     @Autowired
     public StripeController(StripeService service){
         this.service = service;
     }
 
 
+
     @PostMapping("/create-checkout-session")
     public ResponseEntity<String> createCheckoutSession(@RequestBody Order order) {
 
-        Stripe.apiKey = "sk_test_51NyFRiFkKBdrEOuyFBPg4u9cqMhSrMWdwwMQZTFvpSdvaKWMMSXs4vwGBDUyaXg315McTgO0DoXlQXRnUKtDC5nt00jlE0BnKH";
+        Stripe.apiKey = apiKey;
 
         if(order.getId()==null){
             order.setId(UUID.randomUUID().toString());
