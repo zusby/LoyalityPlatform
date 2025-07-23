@@ -8,7 +8,7 @@ A Java SpringBoot backend meant to:
 - Instantly deploy and manage multiple Stores and E-commerces
 - Ideal for small to medium Stores
 
-A front end for the services is available at [Back Office Front End](https://github.com/zusby/FidelityPlatformFE) and [Front Office Front End](https://github.com/zusby/FidelityPlatformFEClient), both of them are reactive minimalistic and lightweight, see their rispective [README] for more info.
+A front end for the services is available at [Back Office Front End](https://github.com/zusby/FidelityPlatformFE) and [Front Office Front End](https://github.com/zusby/FidelityPlatformFEClient), both of them are reactive minimalistic and lightweight, see their rispective README for more info.
  
 ## Prerequisites
 
