@@ -1,12 +1,11 @@
 # Fidelity Platform KA
 
-A Java SpringBoot backend meant to:
+A Java SpringBoot backend ideal for small to medium Stores meant to:
 
 - Retain the current customers
 - Increase income
 - Gain new Customers
 - Instantly deploy and manage multiple Stores and E-commerces
-- Ideal for small to medium Stores
 
 A front end for the services is available at [Back Office Front End](https://github.com/zusby/FidelityPlatformFE) and [Front Office Front End](https://github.com/zusby/FidelityPlatformFEClient), both of them are reactive minimalistic and lightweight, see their rispective README for more info.
  
